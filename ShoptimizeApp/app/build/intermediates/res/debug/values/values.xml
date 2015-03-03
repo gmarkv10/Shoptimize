@@ -168,8 +168,10 @@
     <eat-comment/>
     <string name="action_settings">Settings</string>
     <string name="app_name">ShoptimizeApp</string>
+    <string name="button_txt">Add Item</string>
     <string name="hello_world">Shoptimize!</string>
-    <string name="store">Store Name</string>
+    <string name="hint">Type the name of an item you want to add</string>
+    <string name="store">Trader Brun\'s</string>
     <!-- From: file:/C:/Users/Gabe%20Markarian/School/Shoptimize/ShoptimizeApp/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
