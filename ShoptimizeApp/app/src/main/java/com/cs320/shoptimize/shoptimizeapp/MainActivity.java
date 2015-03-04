@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -24,9 +25,15 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import java.util.ArrayList;
 import java.util.List;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.support.v4.view.GestureDetectorCompat;
 
 
-public class MainActivity extends ActionBarActivity {
+
+public class MainActivity extends ActionBarActivity implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener{
+
+    private GestureDetectorCompat gestureDetector;
 
     List<Item> items = new ArrayList<Item>();
     EditText addField;
@@ -72,6 +79,10 @@ public class MainActivity extends ActionBarActivity {
         adapter = new ItemListAdapter(this, R.layout.listview_item, items );
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(selectItem);
+
+        this.gestureDetector = new GestureDetectorCompat(this, this);
+        gestureDetector.setOnDoubleTapListener(this);
+
     }
 
 
@@ -178,5 +189,56 @@ public class MainActivity extends ActionBarActivity {
 
 
 
+
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+        return;
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        return false;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        this.gestureDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTap(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTapEvent(MotionEvent e) {
+        return false;
+    }
 
 }
