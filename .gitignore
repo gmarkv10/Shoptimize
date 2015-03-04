@@ -1,8 +1,0 @@
-.gradle
-ShoptimizeApp/local.properties
-ShoptimizeApp/.idea/workspace.xml
-ShoptimizeApp/.idea/libraries
-.DS_Store
-ShoptimizeApp/build
-ShoptimizeApp/gradlew
-ShoptimizeApp/gradlew.*
