@@ -8,6 +8,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Item "
+        android:focusable="false"
         android:id="@+id/list_item" />
 
     <CheckBox
@@ -17,7 +18,8 @@
         android:id="@+id/couponCheck"
         android:layout_gravity="right"
         android:singleLine="false"
-        android:checked="false" />
+        android:checked="false"
+        android:focusable="false"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,6 +27,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Coupon "
         android:id="@+id/coupon"
-        android:layout_gravity="right" />
+        android:layout_gravity="right"
+        android:focusable="false"/>
 
 </LinearLayout>

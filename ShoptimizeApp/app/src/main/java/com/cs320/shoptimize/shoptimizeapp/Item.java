@@ -16,6 +16,11 @@ public class Item {
         this.coupon = coupon;
     }
 
+    public boolean toggleCoupon(){
+        this.coupon = !coupon;
+        return coupon;
+    }
+
     public String getName(){
         return name;
     }

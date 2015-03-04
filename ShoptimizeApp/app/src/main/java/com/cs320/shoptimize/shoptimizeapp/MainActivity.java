@@ -1,15 +1,19 @@
 package com.cs320.shoptimize.shoptimizeapp;
 
+import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -17,7 +21,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.widget.AdapterView.OnItemClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +32,7 @@ public class MainActivity extends ActionBarActivity {
     EditText addField;
 
     ListView lv;
+    ArrayAdapter<Item> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +69,9 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        ArrayAdapter<Item> adapter = new ItemListAdapter(this, R.layout.listview_item, items );
+        adapter = new ItemListAdapter(this, R.layout.listview_item, items );
         lv.setAdapter(adapter);
+        lv.setOnItemClickListener(selectItem);
     }
 
 
@@ -90,8 +96,22 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private OnItemClickListener selectItem = new OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View v, int i, long l) {
+
+            CheckBox coupCheck = (CheckBox) v.findViewById(R.id.couponCheck);
+            coupCheck.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.v("CLICK", "PRESSED");
+                }
+            });
+        }
+    };
     private void populateSL(){
-        addItem("Peanuts", true);
+        addItem("Peanuts", false);
         addItem("Butter", false);
         addItem("Salt", false);
         addItem("Sardines", false);
@@ -101,7 +121,7 @@ public class MainActivity extends ActionBarActivity {
         items.add(new Item(name, coupon));
     }
 
-    public class ItemListAdapter extends ArrayAdapter<Item> {
+    class ItemListAdapter extends ArrayAdapter<Item> {
 
 
         public ItemListAdapter(Context context, int viewResource, List<Item> list){
@@ -112,21 +132,49 @@ public class MainActivity extends ActionBarActivity {
         public View getView(int position, View view, ViewGroup parent){
             LayoutInflater inflater = MainActivity.this.getLayoutInflater();
             View row = inflater.inflate(R.layout.listview_item, parent, false);
-            /*if(view == null)
-                view = getLayoutInflater().inflate(R.layout.listview_item, parent , false);*/
 
-            Item currItem = items.get(position);
+            final Item currItem = items.get(position);
             TextView name = (TextView) row.findViewById(R.id.list_item);
             name.setText(currItem.getName());
-            TextView coupText = (TextView) row.findViewById(R.id.coupon);
+            final TextView coupText = (TextView) row.findViewById(R.id.coupon);
             coupText.setText(currItem.getCouponAsStr());
-            CheckBox coupCheck = (CheckBox) row.findViewById(R.id.couponCheck);
+            final CheckBox coupCheck = (CheckBox) row.findViewById(R.id.couponCheck);
             coupCheck.setChecked(currItem.getCoupon());
+            coupCheck.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.v("CLICK", "PRESSED");
+                    currItem.toggleCoupon();
+                    coupText.setText(currItem.getCouponAsStr());
+
+                }
+            });
 
             return row;
         }
 
     }
+
+/*    public class ItemListActivity extends ListActivity{
+        @Override
+        protected void onCreate(Bundle bundle){
+            super.onCreate(bundle);
+
+            ItemListAdapter ila = new ItemListAdapter(this, R.layout.listview_item, items);
+
+            setListAdapter(ila);
+
+        }
+
+        @Override
+        protected void onListItemClick(ListView l, View v, int position, long id ){
+            String item = (String) getListAdapter().getItem(position);
+            Toast.makeText(this, item + " selected", Toast.LENGTH_SHORT).show();
+
+        }
+
+
+    }*/
 
 
 
