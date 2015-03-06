@@ -1315,12 +1315,14 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f09002e;
         public static final int action_mode_bar_stub=0x7f09002d;
         public static final int action_mode_close_button=0x7f090020;
-        public static final int action_settings=0x7f090047;
+        public static final int action_settings=0x7f09004a;
         public static final int activity_chooser_view_content=0x7f090021;
         public static final int add_item_button=0x7f090043;
         public static final int add_item_field=0x7f090042;
         public static final int always=0x7f090016;
         public static final int beginning=0x7f090013;
+        public static final int button_list=0x7f090048;
+        public static final int button_man=0x7f090049;
         public static final int checkbox=0x7f090029;
         public static final int collapseActionView=0x7f090017;
         public static final int coupon=0x7f090046;
@@ -1350,6 +1352,7 @@ containing a value of this type.
         public static final int progress_circular=0x7f090005;
         public static final int progress_horizontal=0x7f090006;
         public static final int radio=0x7f09002b;
+        public static final int screen_title=0x7f090047;
         public static final int search_badge=0x7f090035;
         public static final int search_bar=0x7f090034;
         public static final int search_button=0x7f090036;
@@ -1404,7 +1407,8 @@ containing a value of this type.
         public static final int abc_simple_dropdown_hint=0x7f040016;
         public static final int activity_main=0x7f040017;
         public static final int listview_item=0x7f040018;
-        public static final int support_simple_spinner_dropdown_item=0x7f040019;
+        public static final int menu_screen=0x7f040019;
+        public static final int support_simple_spinner_dropdown_item=0x7f04001a;
     }
     public static final class menu {
         public static final int menu_main=0x7f0d0000;
@@ -1432,10 +1436,12 @@ containing a value of this type.
         public static final int abc_toolbar_collapse_description=0x7f0b0010;
         public static final int action_settings=0x7f0b0011;
         public static final int app_name=0x7f0b0012;
-        public static final int button_txt=0x7f0b0013;
-        public static final int hello_world=0x7f0b0014;
-        public static final int hint=0x7f0b0015;
-        public static final int store=0x7f0b0016;
+        public static final int button_lists=0x7f0b0013;
+        public static final int button_man=0x7f0b0014;
+        public static final int button_txt=0x7f0b0015;
+        public static final int hello_world=0x7f0b0016;
+        public static final int hint=0x7f0b0017;
+        public static final int store=0x7f0b0018;
     }
     public static final class style {
         /**  Customize your theme here. 
