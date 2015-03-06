@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ShoptimizeApp</string>
 
+    <!--SHOPPING LIST STRINGS -->
     <string name="hello_world">Shoptimize!</string>
     <string name="action_settings">Settings</string>
     <string name="SL">Shopping List</string>
@@ -8,5 +9,8 @@
     <string name="hint">Type the name of an item you want to add</string>
     <string name="button_txt">Add Item</string>
 
+    <!-- MENU SCREEN STRINGS -->
+    <string name="button_lists">Shopping Lists</string>
+    <string name="button_man">Maunual</string>
 
 </resources>
