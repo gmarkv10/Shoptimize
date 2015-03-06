@@ -2,6 +2,7 @@ package com.cs320.shoptimize.shoptimizeapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,6 +36,14 @@ public class MenuActivity extends Activity {
                 startActivity(listScreen);
             }
 
+        });
+
+        man.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view){
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://about.me/shoptimize"));
+                startActivity(browserIntent);
+
+            }
         });
 
     }
