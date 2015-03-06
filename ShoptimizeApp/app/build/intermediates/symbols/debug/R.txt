@@ -347,7 +347,7 @@ int id action_menu_presenter 0x7f090003
 int id action_mode_bar 0x7f09002e
 int id action_mode_bar_stub 0x7f09002d
 int id action_mode_close_button 0x7f090020
-int id action_settings 0x7f09004a
+int id action_settings 0x7f09004c
 int id activity_chooser_view_content 0x7f090021
 int id add_item_button 0x7f090043
 int id add_item_field 0x7f090042
@@ -375,6 +375,7 @@ int id ifRoom 0x7f090018
 int id image 0x7f090023
 int id listMode 0x7f090009
 int id listView 0x7f090044
+int id listView2 0x7f09004b
 int id list_item 0x7f090025
 int id main_relative_layout 0x7f09003f
 int id middle 0x7f090015
@@ -404,6 +405,7 @@ int id submit_area 0x7f09003c
 int id tabMode 0x7f09000b
 int id textView 0x7f090040
 int id textView2 0x7f090041
+int id textView3 0x7f09004a
 int id title 0x7f090027
 int id up 0x7f090008
 int id useLogo 0x7f090012
@@ -436,7 +438,8 @@ int layout abc_simple_dropdown_hint 0x7f040016
 int layout activity_main 0x7f040017
 int layout listview_item 0x7f040018
 int layout menu_screen 0x7f040019
-int layout support_simple_spinner_dropdown_item 0x7f04001a
+int layout shop_list 0x7f04001a
+int layout support_simple_spinner_dropdown_item 0x7f04001b
 int menu menu_main 0x7f0d0000
 int mipmap ic_launcher 0x7f030000
 int string SL 0x7f0b0000

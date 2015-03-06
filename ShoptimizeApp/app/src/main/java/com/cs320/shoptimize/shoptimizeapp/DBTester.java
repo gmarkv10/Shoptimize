@@ -1,0 +1,54 @@
+import java.util.HashMap;
+import java.util.Map;
+
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
+import com.amazonaws.services.dynamodbv2.model.Condition;
+import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
+import com.amazonaws.services.dynamodbv2.model.DescribeTableRequest;
+import com.amazonaws.services.dynamodbv2.model.KeySchemaElement;
+import com.amazonaws.services.dynamodbv2.model.KeyType;
+import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
+import com.amazonaws.services.dynamodbv2.model.PutItemRequest;
+import com.amazonaws.services.dynamodbv2.model.PutItemResult;
+import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
+import com.amazonaws.services.dynamodbv2.model.ScanRequest;
+import com.amazonaws.services.dynamodbv2.model.ScanResult;
+import com.amazonaws.services.dynamodbv2.model.TableDescription;
+import com.amazonaws.services.dynamodbv2.util.Tables;
+
+public class DBTester {
+
+	public static void main(String[] args) {
+		
+		ShoptimizeDB tester = new ShoptimizeDB();
+		
+		try {
+			tester.init();
+			
+			tester.addStoreItem("TraderBruns", "TraderBruns_InventoryList", "TraderBruns_FloorPlan");
+			
+			tester.addInventoryListItem("TraderBruns_InventoryList", "Peanuts", "Aisle 12", "NO", "This is a test");
+			tester.addInventoryListItem("TraderBruns_InventoryList","Peanut Butter", "Aisle 6", "NO", "This is also a test");
+			tester.addInventoryListItem("TraderBruns_InventoryList","Butter", "Dairy Aisle", "YES", "This is also a test");
+			
+			tester.getInventoryListItem("TraderBruns_InventoryList", "Peanut");
+			tester.getInventoryListItem("TraderBruns_InventoryList", "Butter");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+
+	}
+
+}
