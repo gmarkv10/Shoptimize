@@ -11,6 +11,6 @@
 
     <!-- MENU SCREEN STRINGS -->
     <string name="button_lists">Shopping Lists</string>
-    <string name="button_man">Maunual</string>
+    <string name="button_man">Manual</string>
 
 </resources>

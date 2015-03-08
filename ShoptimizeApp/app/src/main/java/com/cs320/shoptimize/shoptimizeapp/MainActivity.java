@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -40,6 +41,7 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
 
     ListView lv;
     ArrayAdapter<Item> adapter;
+    TabHost tabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,18 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
         addField = (EditText) findViewById(R.id.add_item_field);
         final Button addBtn = (Button) findViewById(R.id.add_item_button);
         lv = (ListView) findViewById(R.id.listView);
+/*        tabs = (TabHost) findViewById(R.id.tabHost);
+        tabs.setup();
+        TabHost.TabSpec tabSpec = tabs.newTabSpec("shoppinglist");
+        tabSpec.setContent(R.id.tab_list);
+        tabSpec.setIndicator("SHOPPINGLIST");
+        tabs.addTab(tabSpec);
+
+        tabSpec = tabs.newTabSpec("floorplan");
+        tabSpec.setContent(R.id.tab_list);
+        tabSpec.setIndicator("FLOORPLAN");
+        tabs.addTab(tabSpec);*/
+
         populateSL();
 
         addBtn.setOnClickListener(new View.OnClickListener(){
@@ -78,7 +92,7 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
 
         adapter = new ItemListAdapter(this, R.layout.listview_item, items );
         lv.setAdapter(adapter);
-        lv.setOnItemClickListener(selectItem);
+
 
         this.gestureDetector = new GestureDetectorCompat(this, this);
         gestureDetector.setOnDoubleTapListener(this);
@@ -108,19 +122,7 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
         return super.onOptionsItemSelected(item);
     }
 
-    private OnItemClickListener selectItem = new OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View v, int i, long l) {
 
-            CheckBox coupCheck = (CheckBox) v.findViewById(R.id.couponCheck);
-            coupCheck.setOnClickListener( new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.v("CLICK", "PRESSED");
-                }
-            });
-        }
-    };
     private void populateSL(){
         addItem("Peanuts", false);
         addItem("Butter", false);
@@ -154,12 +156,13 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
             coupCheck.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.v("CLICK", "PRESSED");
                     currItem.toggleCoupon();
                     coupText.setText(currItem.getCouponAsStr());
 
                 }
             });
+            TextView loc =  (TextView) row.findViewById(R.id.location);
+            loc.setText("Location: " + currItem.getLocation());
 
             return row;
         }

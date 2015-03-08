@@ -31,9 +31,9 @@ public class MenuActivity extends Activity {
         list.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                Intent listScreen = new Intent(getApplicationContext(), MainActivity.class);
-                Log.v("TEST2", "WORKING");
-                startActivity(listScreen);
+                //Intent listScreen = new Intent(getApplicationContext(), MainActivity.class);
+                Intent storeScreen = new Intent(getApplicationContext(), StoreListActivity.class);
+                startActivity(storeScreen);
             }
 
         });
