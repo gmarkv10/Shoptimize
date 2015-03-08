@@ -48,10 +48,7 @@ public class StoreListActivity extends Activity {
     };
 
     private void populateStoreList(){
-        addStore("Target",0001);
-        addStore("BigY",0002);
-        addStore("Dick's Sporting Goods",0003);
-        addStore("Walmart",0004);
+        addStore("Trader Brun's",0001);
     }
 
     private void addStore(String name, int store_ID){

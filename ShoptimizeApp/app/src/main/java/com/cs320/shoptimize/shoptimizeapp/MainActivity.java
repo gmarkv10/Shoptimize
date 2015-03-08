@@ -51,6 +51,7 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
 
         addField = (EditText) findViewById(R.id.add_item_field);
         final Button addBtn = (Button) findViewById(R.id.add_item_button);
+        final Button locBtn = (Button) findViewById(R.id.button_addLocs);
         lv = (ListView) findViewById(R.id.listView);
 /*        tabs = (TabHost) findViewById(R.id.tabHost);
         tabs.setup();
@@ -73,6 +74,16 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
                 addField.setText("");
             }
         });
+        locBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                items.populateLocations();
+                adapter.notifyDataSetChanged();
+
+            }
+        });
+
+
         addField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
