@@ -15,7 +15,7 @@ import java.util.Map;
 public class DBItemList {
 
     List<Item> items = new ArrayList<Item>();
-    ShoptimizeDB db = MainActivity.db;
+    ShoptimizeDB db = null;
 
     public DBItemList() throws Exception {
         populateSL();
@@ -27,6 +27,9 @@ public class DBItemList {
         items.add(new Item(name, coupon));
     }
 
+    public void updateDB() {
+        db = MainActivity.db;
+    }
     public void populateSL(){
         addItem("Peanuts", false);
         addItem("Butter", false);

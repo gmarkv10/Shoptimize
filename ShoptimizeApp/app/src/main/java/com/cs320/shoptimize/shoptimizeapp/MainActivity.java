@@ -57,9 +57,13 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
         try {
             db = new ShoptimizeDB(this);
             new DBStarter().doInBackground(db);
+            Log.v("DB status", "DB has been connected successfully");
         } catch (Exception e) {
             e.printStackTrace();
+            Log.v("DB status", "DB not connected successfully");
         }
+
+        items.updateDB();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
