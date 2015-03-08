@@ -24,18 +24,24 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+
+import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.support.v4.view.GestureDetectorCompat;
 
+import com.amazonaws.services.dynamodbv2.model.ScanResult;
 
 
 public class MainActivity extends ActionBarActivity implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener{
 
     private GestureDetectorCompat gestureDetector;
-
+    
+    static ShoptimizeDB db;
     DBItemList items = new DBItemList();
     //List<Item> items = new ArrayList<Item>();
     EditText addField;
@@ -46,6 +52,15 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        try {
+            db = new ShoptimizeDB(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.v("SCANRES", "FAILURE");
+        }
+        ScanResult s = db.getInventoryListItem("TraderBruns_InventoryList", "Milk");
+        Log.v("SCANRES", s.getItems().get(0).toString());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

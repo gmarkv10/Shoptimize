@@ -20,6 +20,12 @@ import java.util.List;
  * Created by Gabe Markarian on 3/8/2015.
  */
 public class StoreListActivity extends Activity {
+    @Override
+    public Context getApplicationContext() {
+        return super.getApplicationContext();
+    }
+
+
 
     List<Store> storeList = new ArrayList<Store>();
     ArrayAdapter<Store> adapter;
