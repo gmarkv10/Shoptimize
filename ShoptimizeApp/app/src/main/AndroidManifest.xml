@@ -20,5 +20,5 @@
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".StoreListActivity"></activity>
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>
