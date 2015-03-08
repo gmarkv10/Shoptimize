@@ -36,7 +36,7 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
 
     private GestureDetectorCompat gestureDetector;
 
-    DBItemList items = new DBItemList();
+    DBItemList items;
     //List<Item> items = new ArrayList<Item>();
     EditText addField;
 
@@ -44,8 +44,23 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
     ArrayAdapter<Item> adapter;
     TabHost tabs;
 
+    static ShoptimizeDB db = null;
+
+    public MainActivity() throws Exception {
+        items = new DBItemList();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+        try {
+            db = new ShoptimizeDB(this);
+            new DBStarter().doInBackground(db);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

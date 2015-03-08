@@ -43,12 +43,13 @@ public class ShoptimizeDB {
 
 	//Instance of the DB Client. Make all queries to this client.
 	static AmazonDynamoDBClient dynamoDB;
+    public Context context;
 
     public ShoptimizeDB (Context context) throws Exception {
-        init(context);
+        this.context = context;
     }
 
-	private void init(Context context) throws Exception {
+	public void init() throws Exception {
 		/*
 		 * The ProfileCredentialsProvider will return your [Shoptimize]
 		 * credential profile by reading from the credentials file located at

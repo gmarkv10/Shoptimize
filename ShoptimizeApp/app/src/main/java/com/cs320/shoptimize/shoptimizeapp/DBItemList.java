@@ -1,7 +1,13 @@
 package com.cs320.shoptimize.shoptimizeapp;
 
+import android.content.Context;
+
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ScanResult;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Gabe Markarian on 3/8/2015.
@@ -9,8 +15,9 @@ import java.util.List;
 public class DBItemList {
 
     List<Item> items = new ArrayList<Item>();
+    ShoptimizeDB db = MainActivity.db;
 
-    public DBItemList(){
+    public DBItemList() throws Exception {
         populateSL();
     }
 
@@ -27,12 +34,17 @@ public class DBItemList {
         addItem("Sardines", false);
     }
 
-    private String[] locs = {"Isle 1", "Isle 2", "Isle 13", "Isle 5", "Isle 7"};
+//    private String[] locs = {"Isle 1", "Isle 2", "Isle 13", "Isle 5", "Isle 7"};
 
     public void populateLocations(){
         int index = 0;
+        ScanResult result = null;
         for(Item i : items){
-            i.setLocation(locs[index++]);
+            result = db.getInventoryListItem("TraderBruns_InventoryList", i.getName());
+            for(Map<String, AttributeValue> item : result.getItems()) {
+                String s = item.get("ItemLocation").getS();
+                i.setLocation(s);
+            }
         }
     }
 }
