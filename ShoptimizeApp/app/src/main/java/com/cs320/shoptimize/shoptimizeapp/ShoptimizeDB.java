@@ -50,7 +50,6 @@ import com.amazonaws.auth.CognitoCachingCredentialsProvider;
  * optional ClientConfiguration object when constructing a client.
  *
  * @see com.amazonaws.auth.BasicAWSCredentials
- * @see com.amazonaws.auth.ProfilesConfigFile
  * @see com.amazonaws.ClientConfiguration
  */
 
