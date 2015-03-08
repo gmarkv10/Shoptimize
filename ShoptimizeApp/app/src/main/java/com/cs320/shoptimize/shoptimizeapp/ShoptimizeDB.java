@@ -1,3 +1,7 @@
+package com.cs320.shoptimize.shoptimizeapp;
+
+import android.content.Context;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,11 +65,13 @@ public class ShoptimizeDB {
 		 * credential profile by reading from the credentials file located at
 		 * (C:\\Users\\Vincent Tse\\.aws\\credentials.csv).
 		 */
+        
 		CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
 			    context, // Context
 			    "us-east-1:29c88855-504d-436a-b962-e91d1dc68092", // Identity Pool ID
 			    Regions.US_EAST_1 // Region
 			);
+
 //		try {
 //			credentials = new ProfileCredentialsProvider("C:\\Users\\Vincent Tse\\.aws\\credentials.csv", "Shoptimize").getCredentials();
 //		} catch (Exception e) {
