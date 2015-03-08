@@ -47,7 +47,7 @@ public class ShoptimizeDB {
     public ShoptimizeDB (Context context) throws Exception {
         init(context);
     }
-    
+
 	private void init(Context context) throws Exception {
 		/*
 		 * The ProfileCredentialsProvider will return your [Shoptimize]
@@ -90,7 +90,7 @@ public class ShoptimizeDB {
         System.out.println("Result: " + putItemResult);
 	}
 
-	public void getStoreItem(String storeName) {
+	public ScanResult getStoreItem(String storeName) {
         HashMap<String, Condition> scanFilter = new HashMap<String, Condition>();
         Condition condition = new Condition()
             .withComparisonOperator(ComparisonOperator.EQ.toString())
@@ -98,10 +98,10 @@ public class ShoptimizeDB {
         scanFilter.put("StoreName", condition);
         ScanRequest scanRequest = new ScanRequest("Stores").withScanFilter(scanFilter);
         ScanResult scanResult = dynamoDB.scan(scanRequest);
-        System.out.println("Result: " + scanResult);
+        return scanResult;
 	}
 
-	public void getInventoryListItem(String inventoryListName, String itemName) {
+	public ScanResult getInventoryListItem(String inventoryListName, String itemName) {
         HashMap<String, Condition> scanFilter = new HashMap<String, Condition>();
         Condition condition = new Condition()
             .withComparisonOperator(ComparisonOperator.EQ.toString())
@@ -109,7 +109,7 @@ public class ShoptimizeDB {
         scanFilter.put("ItemName", condition);
         ScanRequest scanRequest = new ScanRequest(inventoryListName).withScanFilter(scanFilter);
         ScanResult scanResult = dynamoDB.scan(scanRequest);
-        System.out.println("Result: " + scanResult);
+        return scanResult;
 	}
 
     private static Map<String, AttributeValue> newStoreItem(String storeName, String inventoryListName, String floorPlanName) {
