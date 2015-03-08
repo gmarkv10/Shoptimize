@@ -18,3 +18,4 @@ public class DBStarter extends AsyncTask<ShoptimizeDB, Void, Void>{
         return null;
     }
 }
+
