@@ -40,9 +40,11 @@ import com.amazonaws.services.dynamodbv2.model.ScanResult;
 public class MainActivity extends ActionBarActivity implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener{
 
     private GestureDetectorCompat gestureDetector;
+
     
     static ShoptimizeDB db;
     DBItemList items = new DBItemList();
+
     //List<Item> items = new ArrayList<Item>();
     EditText addField;
 
@@ -50,17 +52,25 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
     ArrayAdapter<Item> adapter;
     TabHost tabs;
 
+    static ShoptimizeDB db = null;
+
+    public MainActivity() throws Exception {
+        items = new DBItemList();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
+
+
         try {
             db = new ShoptimizeDB(this);
+            new DBStarter().doInBackground(db);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.v("SCANRES", "FAILURE");
         }
-        ScanResult s = db.getInventoryListItem("TraderBruns_InventoryList", "Milk");
-        Log.v("SCANRES", s.getItems().get(0).toString());
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
