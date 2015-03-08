@@ -36,7 +36,8 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
 
     private GestureDetectorCompat gestureDetector;
 
-    List<Item> items = new ArrayList<Item>();
+    DBItemList items = new DBItemList();
+    //List<Item> items = new ArrayList<Item>();
     EditText addField;
 
     ListView lv;
@@ -63,12 +64,11 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
         tabSpec.setIndicator("FLOORPLAN");
         tabs.addTab(tabSpec);*/
 
-        populateSL();
 
         addBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                items.add(new Item(addField.getText().toString(), false));
+                items.addItem(addField.getText().toString(), false);
                 Toast.makeText(getApplicationContext(), "Item added", Toast.LENGTH_SHORT).show();
                 addField.setText("");
             }
@@ -90,7 +90,7 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
             }
         });
 
-        adapter = new ItemListAdapter(this, R.layout.listview_item, items );
+        adapter = new ItemListAdapter(this, R.layout.listview_item, items.getItems() );
         lv.setAdapter(adapter);
 
 
@@ -123,16 +123,8 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
     }
 
 
-    private void populateSL(){
-        addItem("Peanuts", false);
-        addItem("Butter", false);
-        addItem("Salt", false);
-        addItem("Sardines", false);
-    }
 
-    private void addItem(String name, boolean coupon){
-        items.add(new Item(name, coupon));
-    }
+
 
     class ItemListAdapter extends ArrayAdapter<Item> {
 
@@ -146,7 +138,7 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
             LayoutInflater inflater = MainActivity.this.getLayoutInflater();
             View row = inflater.inflate(R.layout.listview_item, parent, false);
 
-            final Item currItem = items.get(position);
+            final Item currItem = items.getItems().get(position);
             TextView name = (TextView) row.findViewById(R.id.list_item);
             name.setText(currItem.getName());
             final TextView coupText = (TextView) row.findViewById(R.id.coupon);

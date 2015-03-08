@@ -19,9 +19,11 @@ android {
     }
 }
 
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:21.0.3'
-    compile files('libs/aws-java-sdk-1.9.22.jar')
-    compile files('libs/aws-android-sdk-core-2.1.10.jar')
+//    compile files('libs/aws-java-sdk-1.9.22.jar')
+ //   compile files('libs/aws-android-sdk-core-2.1.10.jar')
 }
+
