@@ -66,6 +66,7 @@ public class ShoptimizeDB {
 //							"location (C:\\Users\\Vincent Tse\\.aws\\credentials.csv), and is in valid format.",
 //							e);
 //		}
+
 		dynamoDB = new AmazonDynamoDBClient(credentialsProvider);
 		Region usEast1 = Region.getRegion(Regions.US_EAST_1);
 		dynamoDB.setRegion(usEast1);
@@ -88,7 +89,7 @@ public class ShoptimizeDB {
 	public void getStoreItem(String storeName) {
         HashMap<String, Condition> scanFilter = new HashMap<String, Condition>();
         Condition condition = new Condition()
-            .withComparisonOperator(ComparisonOperator.CONTAINS.toString())
+            .withComparisonOperator(ComparisonOperator.EQ.toString())
             .withAttributeValueList(new AttributeValue(storeName));
         scanFilter.put("StoreName", condition);
         ScanRequest scanRequest = new ScanRequest("Stores").withScanFilter(scanFilter);
@@ -99,7 +100,7 @@ public class ShoptimizeDB {
 	public void getInventoryListItem(String inventoryListName, String itemName) {
         HashMap<String, Condition> scanFilter = new HashMap<String, Condition>();
         Condition condition = new Condition()
-            .withComparisonOperator(ComparisonOperator.CONTAINS.toString())
+            .withComparisonOperator(ComparisonOperator.EQ.toString())
             .withAttributeValueList(new AttributeValue(itemName));
         scanFilter.put("ItemName", condition);
         ScanRequest scanRequest = new ScanRequest(inventoryListName).withScanFilter(scanFilter);
