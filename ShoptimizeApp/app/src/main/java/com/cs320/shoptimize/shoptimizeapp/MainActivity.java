@@ -51,7 +51,7 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
     ArrayAdapter<Item> adapter;
     TabHost tabs;
 
-    static ShoptimizeDB db = null;
+    static AmazonClientManager clientManager = null;
 
     public MainActivity() throws Exception {
         items = new DBItemList();
@@ -60,22 +60,10 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
-
-
-        try {
-            db = new ShoptimizeDB();
-            new DBStarter().doInBackground(db);
-            Log.v("DB status", "DB has been connected successfully");
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.v("DB status", "DB not connected successfully");
-        }
-
-        items.updateDB();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        clientManager = new AmazonClientManager(this);
 
         addField = (EditText) findViewById(R.id.add_item_field);
         final Button addBtn = (Button) findViewById(R.id.add_item_button);
