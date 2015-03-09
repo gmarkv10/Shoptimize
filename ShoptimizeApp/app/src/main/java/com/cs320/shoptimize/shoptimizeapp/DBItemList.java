@@ -15,9 +15,9 @@ import java.util.Map;
  */
 public class DBItemList {
 
-    ShoptimizeDB sdb = MainActivity.db;
-    List<Item> items = new ArrayList<Item>();
     ShoptimizeDB db = null;
+
+    List<Item> items = new ArrayList<Item>();
 
     public DBItemList() throws Exception {
         populateSL();
@@ -29,9 +29,6 @@ public class DBItemList {
         items.add(new Item(name, coupon));
     }
 
-    public void updateDB() {
-        db = MainActivity.db;
-    }
     public void populateSL(){
         addItem("Peanuts", false);
         addItem("Butter", false);
@@ -41,12 +38,16 @@ public class DBItemList {
 
 //    private String[] locs = {"Isle 1", "Isle 2", "Isle 13", "Isle 5", "Isle 7"};
 
+    public void updateDB() {
+        this.db = MainActivity.db;
+    }
+
     public void populateLocations(){
 
         int index = 0;
         ScanResult result = null;
         for(Item i : items){
-            result = db.getInventoryListItem("TraderBruns_InventoryList", i.getName());
+            result = new DBQueryer().doInBackground(i);
             for(Map<String, AttributeValue> item : result.getItems()) {
                 String s = item.get("ItemLocation").getS();
                 i.setLocation(s);
