@@ -6,7 +6,9 @@ import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
 
+
 import com.amazonaws.auth.AWSSessionCredentials;
+import com.amazonaws.auth.CognitoCredentialsProvider;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
@@ -45,18 +47,18 @@ public class ShoptimizeDB {
 
 	//Instance of the DB Client. Make all queries to this client.
 	static AmazonDynamoDBClient dynamoDB;
-    public Context context;
 
-    public ShoptimizeDB (Context context) throws Exception {
-        this.context = context;
+    public ShoptimizeDB () throws Exception {
+
     }
 
-	public void init() throws Exception {
+	public void init() {
 		/*
 		 * The ProfileCredentialsProvider will return your [Shoptimize]
 		 * credential profile by reading from the credentials file located at
 		 * (C:\\Users\\Vincent Tse\\.aws\\credentials.csv).
 		 */
+<<<<<<< HEAD
 
 		CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
 			    context, // Context
@@ -78,6 +80,39 @@ public class ShoptimizeDB {
 		dynamoDB = new AmazonDynamoDBClient(credentials);
 		Region usEast1 = Region.getRegion(Regions.US_EAST_1);
 		dynamoDB.setRegion(usEast1);
+||||||| merged common ancestors
+
+		CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
+			    context, // Context
+			    "us-east-1:29c88855-504d-436a-b962-e91d1dc68092", // Identity Pool ID
+			    Regions.US_EAST_1 // Region
+			);
+
+//		try {
+//			credentials = new ProfileCredentialsProvider("C:\\Users\\Vincent Tse\\.aws\\credentials.csv", "Shoptimize").getCredentials();
+//		} catch (Exception e) {
+//			throw new AmazonClientException(
+//					"Cannot load the credentials from the credential profiles file. " +
+//							"Please make sure that your credentials file is at the correct " +
+//							"location (C:\\Users\\Vincent Tse\\.aws\\credentials.csv), and is in valid format.",
+//							e);
+//		}
+
+		dynamoDB = new AmazonDynamoDBClient(credentialsProvider);
+		Region usEast1 = Region.getRegion(Regions.US_EAST_1);
+		dynamoDB.setRegion(usEast1);
+=======
+    try {
+        CognitoCredentialsProvider credentialsProvider = new CognitoCredentialsProvider(
+                "us-east-1:29c88855-504d-436a-b962-e91d1dc68092", // Identity Pool ID
+                Regions.US_EAST_1 // Region
+        );
+        dynamoDB = new AmazonDynamoDBClient(credentialsProvider);
+        Region usEast1 = Region.getRegion(Regions.US_EAST_1);
+        dynamoDB.setRegion(usEast1);
+    }   catch (Exception e) {
+        }
+>>>>>>> 4a76ba0fb64c315e8cab396a591c26b80b7a23db
 	}
 
 	public void addStoreItem(String storeName, String inventoryListName, String floorPlanName) {
