@@ -61,17 +61,13 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
     protected void onCreate(Bundle savedInstanceState) {
 
 
-
-
         try {
             db = new ShoptimizeDB();
-            new DBStarter().doInBackground(db);
-            Log.v("DB status", "DB has been connected successfully");
         } catch (Exception e) {
+            Log.v("DBINIT", "FAILURE");
             e.printStackTrace();
-            Log.v("DB status", "DB not connected successfully");
         }
-
+        db.init();
         items.updateDB();
 
         super.onCreate(savedInstanceState);

@@ -47,7 +47,7 @@ public class DBItemList {
         int index = 0;
         ScanResult result = null;
         for(Item i : items){
-            result = new DBQueryer().doInBackground(i);
+            result = db.getInventoryListItem("TraderBruns_InventoryList", i.getName());
             for(Map<String, AttributeValue> item : result.getItems()) {
                 String s = item.get("ItemLocation").getS();
                 i.setLocation(s);
