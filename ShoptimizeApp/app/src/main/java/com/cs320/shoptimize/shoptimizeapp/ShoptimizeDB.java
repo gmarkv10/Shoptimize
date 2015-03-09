@@ -1,10 +1,12 @@
 package com.cs320.shoptimize.shoptimizeapp;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import com.amazonaws.auth.AWSSessionCredentials;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
@@ -61,6 +63,7 @@ public class ShoptimizeDB {
 			    "us-east-1:29c88855-504d-436a-b962-e91d1dc68092", // Identity Pool ID
 			    Regions.US_EAST_1 // Region
 			);
+        Log.v("DBINIT" , credentialsProvider.getIdentityId());
 
 //		try {
 //			credentials = new ProfileCredentialsProvider("C:\\Users\\Vincent Tse\\.aws\\credentials.csv", "Shoptimize").getCredentials();
@@ -71,8 +74,8 @@ public class ShoptimizeDB {
 //							"location (C:\\Users\\Vincent Tse\\.aws\\credentials.csv), and is in valid format.",
 //							e);
 //		}
-
-		dynamoDB = new AmazonDynamoDBClient(credentialsProvider);
+        AWSSessionCredentials credentials = credentialsProvider.getCredentials();
+		dynamoDB = new AmazonDynamoDBClient(credentials);
 		Region usEast1 = Region.getRegion(Regions.US_EAST_1);
 		dynamoDB.setRegion(usEast1);
 	}
