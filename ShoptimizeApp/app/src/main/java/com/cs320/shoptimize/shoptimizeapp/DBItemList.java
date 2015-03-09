@@ -35,8 +35,8 @@ public class DBItemList {
     public void populateSL(){
         addItem("Peanuts", false);
         addItem("Butter", false);
-        addItem("Salt", false);
-        addItem("Sardines", false);
+        addItem("Milk", false);
+        addItem("Peanut Butter", false);
     }
 
 //    private String[] locs = {"Isle 1", "Isle 2", "Isle 13", "Isle 5", "Isle 7"};
