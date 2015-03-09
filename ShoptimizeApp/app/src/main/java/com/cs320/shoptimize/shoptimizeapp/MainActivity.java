@@ -41,7 +41,6 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
 
     private GestureDetectorCompat gestureDetector;
 
-    static ShoptimizeDB db;
 
     DBItemList items = new DBItemList();
 
