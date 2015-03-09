@@ -41,6 +41,7 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
 
     private GestureDetectorCompat gestureDetector;
 
+
     DBItemList items = new DBItemList();
 
     //List<Item> items = new ArrayList<Item>();
