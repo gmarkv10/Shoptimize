@@ -3,6 +3,7 @@ package com.cs320.shoptimize.shoptimizeapp;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -94,7 +95,13 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
             @Override
             public void onClick(View view){
                 items.populateLocations();
-                adapter.notifyDataSetChanged();
+                Handler handler = new Handler();
+
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                    }
+                }, 1000);
 
             }
         });

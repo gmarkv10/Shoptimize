@@ -69,7 +69,12 @@ public class DBItemList {
 
         @Override
         protected void onPostExecute(ScanResult scanResult) {
-            item.setLocation(scanResult.getItems().get(0).get("ItemLocation").toString());
+            if(scanResult.getCount() == 0) {
+                item.setLocation("Item is not in database");
+            }
+            else {
+                item.setLocation(scanResult.getItems().get(0).get("ItemLocation").toString());
+            }
         }
     }
 }
