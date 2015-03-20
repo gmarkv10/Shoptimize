@@ -46,6 +46,7 @@ public class DBItemList {
         for(Item i : items){
             new InventoryListQueryer("TraderBruns_InventoryList", i).execute();
         }
+
     }
 
     private class DBClient extends Activity{

@@ -94,6 +94,7 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
             @Override
             public void onClick(View view){
                 items.populateLocations();
+
                 adapter.notifyDataSetChanged();
 
             }
