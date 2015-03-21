@@ -43,6 +43,11 @@ public class Item {
         else return "no coupon.";
     }
 
+    @Override
+    public String toString(){
+        return "Name is " + name + " with " + coupon + " coupon";
+    }
+
     public static void getLocations(String store, List<Item> sl){
 
     }

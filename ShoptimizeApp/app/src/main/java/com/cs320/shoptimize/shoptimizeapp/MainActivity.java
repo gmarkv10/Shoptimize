@@ -28,6 +28,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,27 +43,44 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
 
     private GestureDetectorCompat gestureDetector;
 
+    //List<DBItemList> shoppingLists;// =  new ArrayList<DBItemList>();
+    DBItemList items;
+    //DBItemList items = new DBItemList();
+    //DELETE AFTER LOCAL MEMORY IS IMPLEMENTED
 
-    DBItemList items = new DBItemList();
 
+    HashMap<String, DBItemList> shoppingLists;
     //List<Item> items = new ArrayList<Item>();
     EditText addField;
-
+    TextView storename;
     ListView lv;
     ArrayAdapter<Item> adapter;
     TabHost tabs;
-
+    private String current_Store; //tells which store's list to access by index
     static AmazonClientManager clientManager = null;
 
     public MainActivity() throws Exception {
-        items = new DBItemList();
+        shoppingLists = new HashMap<String, DBItemList>();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        //ADDITION so that main activity can deal with multiple stores, will probably become a hastable in BETA
         setContentView(R.layout.activity_main);
+        //TODO:  replace with load from internal memory
+        try {
+            shoppingLists.put("Trader Brun's", new DBItemList());
+            shoppingLists.put("Stop & Shop", new DBItemList());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        //END TODO
+        current_Store = getIntent().getExtras().getString("storeNAME");  //intent from store list screen
+        storename = (TextView) findViewById(R.id.storename);
+        items = shoppingLists.get(current_Store);
+        storename.setText(current_Store);
 
         clientManager = new AmazonClientManager(this);
 
@@ -70,17 +88,7 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
         final Button addBtn = (Button) findViewById(R.id.add_item_button);
         final Button locBtn = (Button) findViewById(R.id.button_addLocs);
         lv = (ListView) findViewById(R.id.listView);
-/*        tabs = (TabHost) findViewById(R.id.tabHost);
-        tabs.setup();
-        TabHost.TabSpec tabSpec = tabs.newTabSpec("shoppinglist");
-        tabSpec.setContent(R.id.tab_list);
-        tabSpec.setIndicator("SHOPPINGLIST");
-        tabs.addTab(tabSpec);
 
-        tabSpec = tabs.newTabSpec("floorplan");
-        tabSpec.setContent(R.id.tab_list);
-        tabSpec.setIndicator("FLOORPLAN");
-        tabs.addTab(tabSpec);*/
 
 
         addBtn.setOnClickListener(new View.OnClickListener(){
@@ -217,6 +225,34 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
 
 
     }*/
+    //POSSIBLY USEFUL TABBOST CODE, haven't figured it out just yet
+    /*        tabs = (TabHost) findViewById(R.id.tabHost);
+        tabs.setup();
+        TabHost.TabSpec tabSpec = tabs.newTabSpec("shoppinglist");
+        tabSpec.setContent(R.id.tab_list);
+        tabSpec.setIndicator("SHOPPINGLIST");
+        tabs.addTab(tabSpec);
+
+        tabSpec = tabs.newTabSpec("floorplan");
+        tabSpec.setContent(R.id.tab_list);
+        tabSpec.setIndicator("FLOORPLAN");
+        tabs.addTab(tabSpec);*/
+
+    private boolean tmp_populateShoppingLists(){
+        DBItemList one;
+        DBItemList two;
+        try {
+            one = new DBItemList();
+            two = new DBItemList();
+            shoppingLists.put("Trader Brun's", one);
+            shoppingLists.put("Stop & Shop", two);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return true;
+    }
 
 
 

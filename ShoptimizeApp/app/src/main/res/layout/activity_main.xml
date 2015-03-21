@@ -78,7 +78,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/store"
-        android:id="@+id/textView2"
+        android:id="@+id/storename"
         android:layout_gravity="center_horizontal" />
 
     <EditText

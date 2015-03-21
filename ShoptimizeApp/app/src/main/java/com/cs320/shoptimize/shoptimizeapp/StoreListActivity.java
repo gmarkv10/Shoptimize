@@ -48,6 +48,7 @@ public class StoreListActivity extends Activity {
         @Override
         public void onItemClick(AdapterView<?> parent, View v, int i, long l) {
             Intent listScreen = new Intent(getApplicationContext(), MainActivity.class);
+            listScreen.putExtra("storeNAME", storeList.get(i).getName());
             startActivity(listScreen);
 
         }
@@ -55,6 +56,7 @@ public class StoreListActivity extends Activity {
 
     private void populateStoreList(){
         addStore("Trader Brun's",0001);
+        addStore("Stop & Shop", 0002);
     }
 
     private void addStore(String name, int store_ID){
