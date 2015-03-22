@@ -93,7 +93,8 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
         items = shoppingLists.get(current_Store);
         storename.setText(current_Store);
 
-        clientManager = new AmazonClientManager(this);
+        clientManager = AmazonClientManager.getInstance();
+        clientManager.setContext(this);
 
         addField = (EditText) findViewById(R.id.add_item_field);
         final Button addBtn = (Button) findViewById(R.id.add_item_button);
