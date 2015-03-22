@@ -11,15 +11,28 @@
         android:focusable="false"
         android:id="@+id/list_item" />
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Coupon"
-        android:id="@+id/couponCheck"
-        android:layout_gravity="right"
-        android:singleLine="false"
-        android:checked="false"
-        android:focusable="false"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/camera_icon"
+            android:id="@+id/add_coupon_button"
+            />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Coupon"
+            android:id="@+id/couponCheck"
+            android:layout_gravity="right"
+            android:singleLine="false"
+            android:checked="false"
+            android:focusable="false"/>
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
