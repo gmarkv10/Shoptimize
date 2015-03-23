@@ -69,11 +69,13 @@ public class FPView extends SurfaceView implements SurfaceHolder.Callback {
     //METHODS ASSOCIATED WITH BUTTONS IN FLOORPLAN ACTIVITY
 
     protected void nextCoord(){
-        currentCoord++;//%xs.size();
+        currentCoord++;
+        doDraw(new Canvas());//%xs.size();
     }
 
     protected void prevCoord(){
-        currentCoord--;//%xs.size();
+        currentCoord--;
+        doDraw(new Canvas());//%xs.size();
     }
 
     @Override
