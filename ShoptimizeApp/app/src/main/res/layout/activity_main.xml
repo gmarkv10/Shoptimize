@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     tools:context=".MainActivity"
@@ -10,47 +10,6 @@
     android:id="@+id/main_relative_layout">
 
 
-    <TabHost
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tabHost">
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical">
-
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"></TabWidget>
-
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
-                <LinearLayout
-                    android:id="@+id/tab1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical"></LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/tab2"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical"></LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/tab3"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical"></LinearLayout>
-            </FrameLayout>
-        </LinearLayout>
-    </TabHost>
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,18 +17,8 @@
         android:textSize="45sp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/SL"
-        android:id="@+id/textView" />
+        android:id="@+id/textView"/>
 
-    <!--    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />-->
-
-    <!--<ImageView xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--android:layout_width="match_parent" android:layout_height="match_parent"-->
-    <!--android:scaleType="center"-->
-    <!--android:src="@drawable/nearby_store_drawable"-->
-    <!--android:saveEnabled="true"-->
-    <!--android:id="@+id/map_image_view">-->
-    <!--</ImageView>-->
 
 
 
@@ -79,7 +28,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/store"
         android:id="@+id/storename"
-        android:layout_gravity="center_horizontal" />
+
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="match_parent"
@@ -88,7 +39,11 @@
         android:layout_gravity="center_horizontal|left"
         android:inputType="text"
         android:hint="@string/hint"
-        android:layout_marginTop="15dp" />
+        android:layout_below="@+id/storename"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/add_item_button"
+        android:layout_toLeftOf="@+id/add_item_button" />
 
     <Button
         android:layout_width="wrap_content"
@@ -97,23 +52,40 @@
         android:id="@+id/add_item_button"
         android:layout_gravity="right"
         android:enabled="false"
-        android:nestedScrollingEnabled="true" />
+        android:nestedScrollingEnabled="true"
+        android:layout_alignTop="@+id/add_item_field"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:id="@+id/listView"
         android:layout_gravity="center_horizontal"
-        android:minHeight="200dp" />
+        android:layout_above="@+id/button_addLocs"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/add_item_button" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="Show Locations"
         android:id="@+id/button_addLocs"
-        android:layout_gravity="center_horizontal" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Store Trip"
+        android:id="@+id/button_floorplan"
+        android:layout_alignTop="@+id/button_addLocs"
+        android:layout_alignRight="@+id/listView"
+        android:layout_alignEnd="@+id/listView" />
 
 
-</LinearLayout>
+</RelativeLayout>
 

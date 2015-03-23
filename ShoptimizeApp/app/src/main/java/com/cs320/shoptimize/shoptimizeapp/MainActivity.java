@@ -92,7 +92,7 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
         items = shoppingLists.get(current_Store);
         storename.setText(current_Store);
 
-        clientManager = new AmazonClientManager(this);
+        //clientManager = new AmazonClientManager(this);
         //activate all the onscreen buttons and text fields
 
         //clientManager = new AmazonClientManager(this);  unsure if needed after merge
@@ -104,6 +104,7 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
         addField = (EditText) findViewById(R.id.add_item_field);
         final Button addBtn = (Button) findViewById(R.id.add_item_button);
         final Button locBtn = (Button) findViewById(R.id.button_addLocs);
+        final Button tripBtn = (Button) findViewById(R.id.button_floorplan);
         addBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -125,6 +126,14 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
                     }
                 }, 1000);
 
+
+            }
+        });
+        tripBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent floorplan = new Intent(getApplicationContext(), FloorplanActivity.class);
+                startActivity(floorplan);
 
             }
         });
