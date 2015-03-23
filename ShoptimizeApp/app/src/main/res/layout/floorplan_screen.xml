@@ -20,7 +20,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Magic"
+        android:text="Show coupons"
         android:id="@+id/button2"
         android:layout_alignTop="@+id/button"
         android:layout_centerHorizontal="true" />
