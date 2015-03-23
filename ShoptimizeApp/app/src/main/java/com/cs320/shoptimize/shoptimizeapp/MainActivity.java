@@ -4,6 +4,7 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -129,10 +130,16 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
 
             }
         });
+        //TODO: get points from database!
+        final ArrayList<Integer> xs= new ArrayList<Integer>();  xs.add(50); xs.add(100); xs.add(150); xs.add(300); //xs.add(150); xs.add(40);
+        final ArrayList<Integer> ys= new ArrayList<Integer>();  ys.add(50); ys.add(100); ys.add(150); ys.add(300); //ys.add(150); ys.add(200);
+
         tripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent floorplan = new Intent(getApplicationContext(), FloorplanActivity.class);
+                floorplan.putExtra("XPOINTS", xs);
+                floorplan.putExtra("YPOINTS", ys);
                 startActivity(floorplan);
 
             }

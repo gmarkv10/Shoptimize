@@ -4,10 +4,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import java.util.ArrayList;
 
 /**
  * Created by Gabe Markarian on 3/23/2015.
@@ -16,6 +20,8 @@ public class FPView extends SurfaceView implements SurfaceHolder.Callback {
     Bitmap bm;
     boolean draw = false;
     private ViewThread viewThread;
+    private ArrayList<Integer> xs, ys;
+    private int currentCoord = 0;
 
     public FPView(Context context){
         super(context);
@@ -38,11 +44,36 @@ public class FPView extends SurfaceView implements SurfaceHolder.Callback {
 
         //canvas.drawCircle(200, 200, 10, paint);
         canvas.drawBitmap(bm, 0, 0, null);
-        canvas.drawCircle(100,100,10,paint);
+
+        for(int i = 0; i < xs.size(); i++){
+            paint.setColor(Color.RED);
+            if(i == currentCoord) paint.setColor(Color.BLUE);
+            canvas.drawCircle(xs.get(i), ys.get(i), 15, paint);
+        }
     }
 
     protected void toggleDraw(){
         draw = !draw;
+    }
+
+    protected void getXYCollection(ArrayList<Integer> XS, ArrayList<Integer> YS){
+        if(XS.size() == YS.size()) {
+            this.xs = XS;
+            this.ys = YS;
+        }
+        else{
+            Log.v("FPVIEWERR", "Array list sizes do not match");
+        }
+    }
+
+    //METHODS ASSOCIATED WITH BUTTONS IN FLOORPLAN ACTIVITY
+
+    protected void nextCoord(){
+        currentCoord++;//%xs.size();
+    }
+
+    protected void prevCoord(){
+        currentCoord--;//%xs.size();
     }
 
     @Override

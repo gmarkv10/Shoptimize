@@ -6,13 +6,14 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
 
-        android:layout_above="@+id/button"></com.cs320.shoptimize.shoptimizeapp.FPView>
+        android:layout_above="@+id/btn_prev"
+        android:id="@+id/floorplan_view"></com.cs320.shoptimize.shoptimizeapp.FPView>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Previous"
-        android:id="@+id/button"
+        android:id="@+id/btn_prev"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -21,16 +22,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Magic"
-        android:id="@+id/button2"
-        android:layout_alignTop="@+id/button"
+        android:id="@+id/btn_magic"
+        android:layout_alignTop="@+id/btn_prev"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Next"
-        android:id="@+id/button3"
-        android:layout_alignTop="@+id/button2"
+        android:id="@+id/btn_next"
+        android:layout_alignTop="@+id/btn_magic"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:focusableInTouchMode="true" />
 </RelativeLayout>
