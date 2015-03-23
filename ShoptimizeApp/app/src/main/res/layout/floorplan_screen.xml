@@ -21,9 +21,9 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Magic"
-        android:id="@+id/btn_magic"
+        android:id="@+id/btn_show"
         android:layout_alignTop="@+id/btn_prev"
+        android:text="Show coupons"
         android:layout_centerHorizontal="true" />
 
     <Button

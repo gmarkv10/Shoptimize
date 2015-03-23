@@ -10,8 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,7 @@ public class StoreListActivity extends Activity {
     List<Store> storeList = new ArrayList<Store>();
     ArrayAdapter<Store> adapter;
     ListView listView;
+    EditText addField;
 
     public void onCreate(Bundle icicle){
         super.onCreate(icicle);
@@ -41,6 +45,18 @@ public class StoreListActivity extends Activity {
         adapter = new ItemListAdapter(this, R.layout.shop_item,storeList);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(selectItem);
+
+        addField = (EditText) findViewById(R.id.txt_addStore);
+        final Button addBtn = (Button) findViewById(R.id.but_addStore);
+
+        addBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                storeList.add(new Store(addField.getText().toString(), 2674));
+                Toast.makeText(getApplicationContext(), "Shop added", Toast.LENGTH_SHORT).show();
+                addField.setText("");
+            }
+        });
 
     }
 

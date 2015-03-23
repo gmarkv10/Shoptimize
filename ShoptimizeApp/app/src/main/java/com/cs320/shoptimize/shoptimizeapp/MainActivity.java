@@ -195,17 +195,34 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
     }
 
 
-    private File createImageFile() throws IOException {
+    /*
+Created by Peter
+I needed an organized way to keep track of coupon image files. Within the Shoptimize directory in Android internal storage,
+these methods create (if it doesn't exist yet) and return a directory in the form Shoptimize/name_of_store/item_name
+to keep track of coupon files that could be updated by the user.
+*/
+    private File getCurrentDirectory(int position){
+        current_Store = getIntent().getExtras().getString("storeNAME");
+        final Item currItem = items.getItems().get(position);
+        //replaceAll methods sanitize names to be suitable directory names
+        String storeDirName = current_Store.replaceAll("\\W+", "");
+        String itemDirName = currItem.getName().replaceAll("\\W+", "");
+        File storeDir = new File(getApplicationContext().getFilesDir() + "/" + storeDirName + "/" + itemDirName);
+        Log.v("directory", getApplicationContext().getFilesDir() + "/" + storeDirName + "/" + itemDirName);
+        if(!storeDir.exists()){
+            storeDir.mkdirs();
+        }
+        return storeDir;
+    }
+    private File createImageFile(int position) throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         //File storageDir = Environment.getExternalStoragePublicDirectory(
         //        Environment.DIRECTORY_PICTURES);
-        File storageDir = getApplicationContext().getFilesDir();
-        if(storageDir != null) {
-            Log.v("storagedirectory:", "storage Directory: " + storageDir.toString());
-        } else {
-            Log.v("storaged", "StorageDir is null");
+        File storageDir = getCurrentDirectory(position);
+        if(storageDir == null){
+            Log.v("bad", "storageDir was null");
         }
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
@@ -218,14 +235,14 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
         return image;
     }
 
-    private void dispatchTakePictureIntent() {
+    private void dispatchTakePictureIntent(int position) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
             File photoFile = null;
             try {
-                photoFile = createImageFile();
+                photoFile = createImageFile(position);
             } catch (IOException ex) {
                 // Error occurred while creating the File
                 Log.v("lol", "photoFile failed.");
@@ -253,6 +270,7 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
 
         @Override
         public View getView(int position, View view, ViewGroup parent){
+            final int finalPosition = position;
             LayoutInflater inflater = MainActivity.this.getLayoutInflater();
             View row = inflater.inflate(R.layout.listview_item, parent, false);
 
@@ -278,7 +296,7 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
             addCoupBtn.setOnClickListener(new View.OnClickListener() {
                                               @Override
                                               public void onClick(View v) {
-                                                  dispatchTakePictureIntent();
+                                                  dispatchTakePictureIntent(finalPosition);
                                               }
                                           }
 
