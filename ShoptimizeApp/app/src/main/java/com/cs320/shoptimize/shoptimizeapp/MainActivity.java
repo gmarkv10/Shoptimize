@@ -65,9 +65,7 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        //ADDITION so that main activity can deal with multiple stores, will probably become a hastable in BETA
         setContentView(R.layout.activity_main);
         //TODO:  replace with load from internal memory
         try {
@@ -76,21 +74,18 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
         }catch(Exception e){
             e.printStackTrace();
         }
-        //END TODO
+
+        //Setup the shopping list with the right labels
         current_Store = getIntent().getExtras().getString("storeNAME");  //intent from store list screen
         storename = (TextView) findViewById(R.id.storename);
         items = shoppingLists.get(current_Store);
         storename.setText(current_Store);
 
         clientManager = new AmazonClientManager(this);
-
+        //activate all the onscreen buttons and text fields
         addField = (EditText) findViewById(R.id.add_item_field);
         final Button addBtn = (Button) findViewById(R.id.add_item_button);
         final Button locBtn = (Button) findViewById(R.id.button_addLocs);
-        lv = (ListView) findViewById(R.id.listView);
-
-
-
         addBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -115,8 +110,6 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
 
             }
         });
-
-
         addField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -133,14 +126,15 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
 
             }
         });
-
+        //Populate the shoppinglist  TODO: items needs to be populated from memory
+        lv = (ListView) findViewById(R.id.listView);
         adapter = new ItemListAdapter(this, R.layout.listview_item, items.getItems() );
         lv.setAdapter(adapter);
 
-
+        /*unused
         this.gestureDetector = new GestureDetectorCompat(this, this);
         gestureDetector.setOnDoubleTapListener(this);
-
+        */
     }
 
 
