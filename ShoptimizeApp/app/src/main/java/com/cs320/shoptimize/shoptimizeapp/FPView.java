@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -22,6 +23,7 @@ public class FPView extends SurfaceView implements SurfaceHolder.Callback {
     private ViewThread viewThread;
     private ArrayList<Integer> xs, ys;
     private int currentCoord = 0;
+    int mX, mY;
 
     public FPView(Context context){
         super(context);
@@ -40,15 +42,19 @@ public class FPView extends SurfaceView implements SurfaceHolder.Callback {
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     protected void doDraw(Canvas canvas) {
         //super.onDraw(canvas);
-
+        Log.v("COORD", new Integer(mX).toString()+"<-X" );
+        Log.v("COORD", new Integer(mY).toString()+"<-Y" );
 
         //canvas.drawCircle(200, 200, 10, paint);
         canvas.drawBitmap(bm, 0, 0, null);
 
+
         for(int i = 0; i < xs.size(); i++){
             paint.setColor(Color.RED);
             if(i == currentCoord) paint.setColor(Color.BLUE);
+            //DRAW CIRCLES BABY////////////////////////////////
             canvas.drawCircle(xs.get(i), ys.get(i), 15, paint);
+            //CIRCLES UP IN THIS BIZITCH///////////////////////
         }
     }
 
@@ -76,6 +82,13 @@ public class FPView extends SurfaceView implements SurfaceHolder.Callback {
     protected void prevCoord(){
         currentCoord--;
         doDraw(new Canvas());//%xs.size();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        mX = (int) event.getX();// - bm.getWidth() / 2;
+        mY = (int) event.getY();// - bm.getHeight() / 2;
+        return super.onTouchEvent(event);
     }
 
     @Override

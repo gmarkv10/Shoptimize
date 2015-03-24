@@ -131,8 +131,8 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
             }
         });
         //TODO: get points from database!
-        final ArrayList<Integer> xs= new ArrayList<Integer>();  xs.add(50); xs.add(100); xs.add(150); xs.add(300); //xs.add(150); xs.add(40);
-        final ArrayList<Integer> ys= new ArrayList<Integer>();  ys.add(50); ys.add(100); ys.add(150); ys.add(300); //ys.add(150); ys.add(200);
+        final ArrayList<Integer> xs= new ArrayList<Integer>();  xs.add(50); xs.add(299); xs.add(517); xs.add(643); //xs.add(150); xs.add(40);
+        final ArrayList<Integer> ys= new ArrayList<Integer>();  ys.add(50); ys.add(451); ys.add(495); ys.add(302); //ys.add(150); ys.add(200);
 
         tripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
