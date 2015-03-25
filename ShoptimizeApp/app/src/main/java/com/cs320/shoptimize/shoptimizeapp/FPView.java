@@ -55,6 +55,7 @@ public class FPView extends SurfaceView implements SurfaceHolder.Callback {
             //DRAW CIRCLES BABY////////////////////////////////
             canvas.drawCircle(xs.get(i), ys.get(i), 15, paint);
             //CIRCLES UP IN THIS BIZITCH///////////////////////
+            //dank circles yo. dank as shit
         }
     }
 

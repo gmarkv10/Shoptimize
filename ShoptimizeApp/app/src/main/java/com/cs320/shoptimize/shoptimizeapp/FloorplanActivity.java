@@ -1,6 +1,7 @@
 package com.cs320.shoptimize.shoptimizeapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,7 @@ public class FloorplanActivity extends Activity {
     FPView fp;
     Button nextBtn;
     Button prevBtn;
+    Button couponBtn;
 
 
     @Override
@@ -31,6 +33,7 @@ public class FloorplanActivity extends Activity {
 
         nextBtn = (Button) findViewById(R.id.btn_next);
         prevBtn = (Button) findViewById(R.id.btn_prev);
+        couponBtn = (Button) findViewById(R.id.btn_show);
 
         nextBtn.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -45,6 +48,17 @@ public class FloorplanActivity extends Activity {
                 fp.prevCoord();
             }
         });
+
+        couponBtn.setOnClickListener( new View.OnClickListener() {
+                                          @Override
+                                          public void onClick(View v) {
+                                              Intent couponGallery = new Intent(getApplicationContext(), CouponGalleryActivity.class);
+                                              startActivity(couponGallery);
+                                          }
+                                      }
+
+
+        );
     }
 
 }

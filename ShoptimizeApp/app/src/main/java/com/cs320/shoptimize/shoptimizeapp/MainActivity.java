@@ -124,9 +124,17 @@ public class MainActivity extends ActionBarActivity {
         addBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                items.addItem(addField.getText().toString(), false);
-                Toast.makeText(getApplicationContext(), "Item added", Toast.LENGTH_SHORT).show();
-                addField.setText("");
+
+                String s = addField.getText().toString();
+                if(!items.contains(s)){
+                    items.addItem(addField.getText().toString(), false);
+                    Toast.makeText(getApplicationContext(), "Item added", Toast.LENGTH_SHORT).show();
+                    addField.setText("");
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "This item has already been added", Toast.LENGTH_SHORT).show();
+                    addField.setText("");
+                }
 
             }
         });
