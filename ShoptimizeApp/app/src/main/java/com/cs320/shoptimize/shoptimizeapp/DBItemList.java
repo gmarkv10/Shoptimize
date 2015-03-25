@@ -20,6 +20,9 @@ public class DBItemList {
     List<Item> items = new ArrayList<Item>();
     ScanResult result = null;
 
+    ArrayList<Integer> xs= new ArrayList<Integer>();
+    ArrayList<Integer> ys= new ArrayList<Integer>();
+
     public DBItemList() throws Exception {
         populateSL();
     }
@@ -40,12 +43,38 @@ public class DBItemList {
     public void populateLocations(){
 
         int index = 0;
-
+        //attempted to load coords into ArrayLists here, but it got sticky.  Moved to helper
         for(Item i : items){
             new InventoryListQueryer("TraderBruns_InventoryList", i).execute();
         }
 
     }
+
+
+    public ArrayList<Integer> getXs(){
+        return xs;
+    }
+
+    public ArrayList<Integer> getYs(){
+        return ys;
+    }
+    //LOC OF FIRST﹕ {S: 50,50,}
+    protected void addFPPointsforInent(){
+        for(Item i : items) {
+            String s = i.getLocation();
+            if(s.substring(0, 3).equals("{S:")) {  //check for validity
+                s = s.substring(s.indexOf(' '), s.lastIndexOf(','));
+                s = s.trim();
+                String[] xy = s.split(",");
+                Integer x = Integer.parseInt(xy[0]);
+                Integer y = Integer.parseInt(xy[1]);
+                xs.add(x);
+                ys.add(y);
+            }
+        }
+        //xs.add(x);  ys.add(y);
+    }
+
 
     private class InventoryListQueryer extends AsyncTask<Void, Void, ScanResult> {
 

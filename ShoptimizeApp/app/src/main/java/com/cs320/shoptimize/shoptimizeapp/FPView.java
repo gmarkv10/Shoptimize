@@ -42,8 +42,8 @@ public class FPView extends SurfaceView implements SurfaceHolder.Callback {
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     protected void doDraw(Canvas canvas) {
         //super.onDraw(canvas);
-        Log.v("COORD", new Integer(mX).toString()+"<-X" );
-        Log.v("COORD", new Integer(mY).toString()+"<-Y" );
+        //Log.v("COORD", new Integer(mX).toString()+"<-X" );
+        //Log.v("COORD", new Integer(mY).toString()+"<-Y" );
 
         //canvas.drawCircle(200, 200, 10, paint);
         canvas.drawBitmap(bm, 0, 0, null);

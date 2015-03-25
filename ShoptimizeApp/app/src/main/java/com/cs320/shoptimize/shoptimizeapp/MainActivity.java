@@ -73,6 +73,8 @@ public class MainActivity extends ActionBarActivity {
     private String current_Store; //tells which store's list to access by index
     static AmazonClientManager clientManager = null;
 
+
+
     public MainActivity() throws Exception {
         shoppingLists = new HashMap<String, DBItemList>();
     }
@@ -94,26 +96,38 @@ public class MainActivity extends ActionBarActivity {
         storename = (TextView) findViewById(R.id.storename);
         items = shoppingLists.get(current_Store);
         storename.setText(current_Store);
+        addField = (EditText) findViewById(R.id.add_item_field);
 
-        //clientManager = new AmazonClientManager(this);
-        //activate all the onscreen buttons and text fields
-
-        //clientManager = new AmazonClientManager(this);  unsure if needed after merge
-
-
+        //AWS CONNECTION
         clientManager = AmazonClientManager.getInstance();
         clientManager.setContext(this);
 
-        addField = (EditText) findViewById(R.id.add_item_field);
+
+
+        //TODO: get points from database!
+        //xs.add(50); xs.add(299); xs.add(517); xs.add(643); //xs.add(150); xs.add(40);
+        //ys.add(50); ys.add(451); ys.add(495); ys.add(302); //ys.add(150); ys.add(200);
+
+        //Populate the shoppinglist  TODO: items needs to be populated from memory
+        lv = (ListView) findViewById(R.id.listView);
+        adapter = new ItemListAdapter(this, R.layout.listview_item, items.getItems() );
+        lv.setAdapter(adapter);
+
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        final Button tripBtn = (Button) findViewById(R.id.button_floorplan);
         final Button addBtn = (Button) findViewById(R.id.add_item_button);
         final Button locBtn = (Button) findViewById(R.id.button_addLocs);
-        final Button tripBtn = (Button) findViewById(R.id.button_floorplan);
         addBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 items.addItem(addField.getText().toString(), false);
                 Toast.makeText(getApplicationContext(), "Item added", Toast.LENGTH_SHORT).show();
                 addField.setText("");
+
             }
         });
         locBtn.setOnClickListener(new View.OnClickListener(){
@@ -132,16 +146,13 @@ public class MainActivity extends ActionBarActivity {
 
             }
         });
-        //TODO: get points from database!
-        final ArrayList<Integer> xs= new ArrayList<Integer>();  xs.add(50); xs.add(299); xs.add(517); xs.add(643); //xs.add(150); xs.add(40);
-        final ArrayList<Integer> ys= new ArrayList<Integer>();  ys.add(50); ys.add(451); ys.add(495); ys.add(302); //ys.add(150); ys.add(200);
-
         tripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                items.addFPPointsforInent();
                 Intent floorplan = new Intent(getApplicationContext(), FloorplanActivity.class);
-                floorplan.putExtra("XPOINTS", xs);
-                floorplan.putExtra("YPOINTS", ys);
+                floorplan.putExtra("XPOINTS", items.getXs());
+                floorplan.putExtra("YPOINTS", items.getXs());
                 startActivity(floorplan);
 
             }
@@ -162,15 +173,10 @@ public class MainActivity extends ActionBarActivity {
 
             }
         });
-        //Populate the shoppinglist  TODO: items needs to be populated from memory
+
         lv = (ListView) findViewById(R.id.listView);
         adapter = new ItemListAdapter(this, R.layout.listview_item, items.getItems() );
         lv.setAdapter(adapter);
-
-        /*unused
-        this.gestureDetector = new GestureDetectorCompat(this, this);
-        gestureDetector.setOnDoubleTapListener(this);
-        */
     }
 
 
@@ -321,10 +327,9 @@ to keep track of coupon files that could be updated by the user.
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
         return true;
     }
+
 
 
 }
