@@ -38,7 +38,7 @@ public class StoreListActivity extends Activity {
     ArrayAdapter<Store> adapter;
     ListView listView;
     EditText addField;
-    SharedPreferences storeListData;
+    SharedPreferences storeListData; //How I am storing the data
 
     public void onCreate(Bundle icicle){
         super.onCreate(icicle);
@@ -47,7 +47,7 @@ public class StoreListActivity extends Activity {
 
         listView = (ListView) findViewById(R.id.listView2);
         populateStoreList();
-        if(storeListData.contains("storeList")) {
+        if(storeListData.contains("storeList")) { //Right now this part is doing the storing
             Gson gson = new Gson();
             Type type = new TypeToken< List < Store >>() {}.getType();
             String json = storeListData.getString("storeList","");
@@ -64,9 +64,20 @@ public class StoreListActivity extends Activity {
         addBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                storeList.add(new Store(addField.getText().toString(), 2674));
-                Toast.makeText(getApplicationContext(), "Shop added", Toast.LENGTH_SHORT).show();
-                addField.setText("");
+                String st = addField.getText().toString();
+                int match = 0;
+                for(Store s : storeList){
+                    if(s.getName().toLowerCase().equals(st.toLowerCase())){
+                        Toast.makeText(getApplicationContext(), "Shop has already been added", Toast.LENGTH_SHORT).show();
+                        match++;
+                        break;
+                    }
+                }
+                if(match == 0) {
+                    storeList.add(new Store(addField.getText().toString(), 2674));
+                    Toast.makeText(getApplicationContext(), "Shop added", Toast.LENGTH_SHORT).show();
+                    addField.setText("");
+                }
             }
         });
        // SharedPreferences.Editor storeListEditor = storeListData.edit();
@@ -77,7 +88,7 @@ public class StoreListActivity extends Activity {
 
     }
     @Override
-    public void onPause()
+    public void onPause() //Where we are saving
     {
         super.onPause();
 
@@ -88,7 +99,7 @@ public class StoreListActivity extends Activity {
         storeListEditor.apply();
     }
    // @Override
-    //public void onResume()
+    //public void onResume() //Ultimately this is where it is stored, if we setup everything
     //{
        // super.onResume();
 
