@@ -305,7 +305,6 @@ to keep track of coupon files that could be updated by the user.
             );
             return row;
         }
-
     }
 
 /*    public class ItemListActivity extends ListActivity{

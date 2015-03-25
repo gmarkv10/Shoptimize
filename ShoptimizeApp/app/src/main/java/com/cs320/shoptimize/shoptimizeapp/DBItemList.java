@@ -37,8 +37,6 @@ public class DBItemList {
         addItem("Peanut Butter", false);
     }
 
-//    private String[] locs = {"Isle 1", "Isle 2", "Isle 13", "Isle 5", "Isle 7"};
-
     public void populateLocations(){
 
         int index = 0;
@@ -46,10 +44,6 @@ public class DBItemList {
         for(Item i : items){
             new InventoryListQueryer("TraderBruns_InventoryList", i).execute();
         }
-
-    }
-
-    private class DBClient extends Activity{
 
     }
 

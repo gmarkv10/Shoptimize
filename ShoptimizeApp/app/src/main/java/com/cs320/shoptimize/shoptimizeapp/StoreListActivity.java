@@ -34,8 +34,6 @@ public class StoreListActivity extends Activity {
         return super.getApplicationContext();
     }
 
-
-
     List<Store> storeList = new ArrayList<Store>();
     ArrayAdapter<Store> adapter;
     ListView listView;
