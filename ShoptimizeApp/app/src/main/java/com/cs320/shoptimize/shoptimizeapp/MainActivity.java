@@ -48,7 +48,7 @@ import android.support.v4.view.GestureDetectorCompat;
 import com.amazonaws.services.dynamodbv2.model.ScanResult;
 
 
-public class MainActivity extends ActionBarActivity implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener{
+public class MainActivity extends ActionBarActivity {
 
     private GestureDetectorCompat gestureDetector;
 
@@ -306,38 +306,8 @@ to keep track of coupon files that could be updated by the user.
 
     }
 
-/*    public class ItemListActivity extends ListActivity{
-        @Override
-        protected void onCreate(Bundle bundle){
-            super.onCreate(bundle);
-
-            ItemListAdapter ila = new ItemListAdapter(this, R.layout.listview_item, items);
-
-            setListAdapter(ila);
-
-        }
-
-        @Override
-        protected void onListItemClick(ListView l, View v, int position, long id ){
-            String item = (String) getListAdapter().getItem(position);
-            Toast.makeText(this, item + " selected", Toast.LENGTH_SHORT).show();
-
-        }
 
 
-    }*/
-    //POSSIBLY USEFUL TABBOST CODE, haven't figured it out just yet
-    /*        tabs = (TabHost) findViewById(R.id.tabHost);
-        tabs.setup();
-        TabHost.TabSpec tabSpec = tabs.newTabSpec("shoppinglist");
-        tabSpec.setContent(R.id.tab_list);
-        tabSpec.setIndicator("SHOPPINGLIST");
-        tabs.addTab(tabSpec);
-
-        tabSpec = tabs.newTabSpec("floorplan");
-        tabSpec.setContent(R.id.tab_list);
-        tabSpec.setIndicator("FLOORPLAN");
-        tabs.addTab(tabSpec);*/
 
     private boolean tmp_populateShoppingLists(){
         DBItemList one;
@@ -356,57 +326,17 @@ to keep track of coupon files that could be updated by the user.
     }
 
 
-
-
-
-    @Override
-    public boolean onDown(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public void onShowPress(MotionEvent e) {
-    }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        return false;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent e) {
-        return;
-    }
-
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        return false;
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event){
-        this.gestureDetector.onTouchEvent(event);
-        return super.onTouchEvent(event);
-    }
-
-    @Override
-    public boolean onSingleTapConfirmed(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public boolean onDoubleTap(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public boolean onDoubleTapEvent(MotionEvent e) {
-        return false;
-    }
-
 }
+
+//POSSIBLY USEFUL TABBOST CODE, haven't figured it out just yet
+    /*        tabs = (TabHost) findViewById(R.id.tabHost);
+        tabs.setup();
+        TabHost.TabSpec tabSpec = tabs.newTabSpec("shoppinglist");
+        tabSpec.setContent(R.id.tab_list);
+        tabSpec.setIndicator("SHOPPINGLIST");
+        tabs.addTab(tabSpec);
+
+        tabSpec = tabs.newTabSpec("floorplan");
+        tabSpec.setContent(R.id.tab_list);
+        tabSpec.setIndicator("FLOORPLAN");
+        tabs.addTab(tabSpec);*/
