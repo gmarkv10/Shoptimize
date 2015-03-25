@@ -70,6 +70,7 @@ public class StoreListActivity extends Activity {
                     if(s.getName().toLowerCase().equals(st.toLowerCase())){
                         Toast.makeText(getApplicationContext(), "Shop has already been added", Toast.LENGTH_SHORT).show();
                         match++;
+                        addField.setText("");
                         break;
                     }
                 }

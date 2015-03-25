@@ -37,6 +37,15 @@ public class DBItemList {
         addItem("Peanut Butter", false);
     }
 
+    public boolean contains(String s){
+        for(Item i : items){
+            if(i.getName().toLowerCase().equals(s.toLowerCase())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void populateLocations(){
 
         int index = 0;
@@ -71,5 +80,7 @@ public class DBItemList {
                 item.setLocation(scanResult.getItems().get(0).get("ItemLocation").toString());
             }
         }
+
+
     }
 }
