@@ -3,6 +3,7 @@ package com.cs320.shoptimize.shoptimizeapp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +17,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amazonaws.com.google.gson.Gson;
+import com.amazonaws.com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -34,13 +40,21 @@ public class StoreListActivity extends Activity {
     ArrayAdapter<Store> adapter;
     ListView listView;
     EditText addField;
+    SharedPreferences storeListData;
 
     public void onCreate(Bundle icicle){
         super.onCreate(icicle);
         setContentView(R.layout.shop_list);
+        storeListData = getApplicationContext().getSharedPreferences("storeListData", Context.MODE_PRIVATE);
 
         listView = (ListView) findViewById(R.id.listView2);
         populateStoreList();
+        if(storeListData.contains("storeList")) {
+            Gson gson = new Gson();
+            Type type = new TypeToken< List < Store >>() {}.getType();
+            String json = storeListData.getString("storeList","");
+            storeList = gson.fromJson(json, type);
+        }
 
         adapter = new ItemListAdapter(this, R.layout.shop_item,storeList);
         listView.setAdapter(adapter);
@@ -57,8 +71,37 @@ public class StoreListActivity extends Activity {
                 addField.setText("");
             }
         });
+       // SharedPreferences.Editor storeListEditor = storeListData.edit();
+       // Gson gson = new Gson();
+       // String json = gson.toJson(storeList);
+       // storeListEditor.putString("storeList",json);
+       // storeListEditor.apply();
 
     }
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+
+        SharedPreferences.Editor storeListEditor = storeListData.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(storeList);
+        storeListEditor.putString("storeList",json);
+        storeListEditor.apply();
+    }
+   // @Override
+    //public void onResume()
+    //{
+       // super.onResume();
+
+        //if(storeListData.contains("storeList")) {
+          //  Gson gson = new Gson();
+          //  Type type = new TypeToken< List < Store >>() {}.getType();
+          //  String json = storeListData.getString("storeList","");
+           // storeList = gson.fromJson(json, type);
+       // }
+
+    //}
 
     private AdapterView.OnItemClickListener selectItem = new AdapterView.OnItemClickListener() {
         @Override

@@ -4,6 +4,7 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Handler;
@@ -45,6 +46,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.support.v4.view.GestureDetectorCompat;
 
+import com.amazonaws.com.google.gson.Gson;
 import com.amazonaws.services.dynamodbv2.model.ScanResult;
 
 
