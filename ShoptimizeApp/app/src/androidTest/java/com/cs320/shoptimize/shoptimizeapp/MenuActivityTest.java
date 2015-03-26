@@ -18,8 +18,8 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 
     private MenuActivity activity;
     private Solo solo;
-    private Button listButton;
-    private Button manButton;
+    private View listButton;
+    private View manButton;
     private Instrumentation.ActivityMonitor storeListMonitor;
     //private Instrumentation.ActivityMonitor manualMonitor;
 
@@ -33,8 +33,8 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
         //manualMonitor = getInstrumentation().addMonitor(Activity.class.getName(), null, false);
         activity = getActivity();
         solo = new Solo(getInstrumentation(), activity);
-        listButton = (Button)solo.getButton("Shopping Lists");
-        manButton = (Button)solo.getButton("Manual");
+        listButton = solo.getView(R.id.button_list);
+        manButton = solo.getView(R.id.button_man);
     }
 
     public void tearDown() throws Exception{
@@ -57,7 +57,7 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 
     public void testManButton_functionality(){
         //Pressing the "Manual" button should open the browser
-        solo.clickOnButton("Manual");
+        solo.clickOnView(manButton);
         Activity webActivity = getInstrumentation().waitForMonitorWithTimeout(manualMonitor, 3000);
         assertNotNull("Browser activity is null", webActivity);
         webActivity.finish();
@@ -66,7 +66,7 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 
     public void testStoreListButton_functionality(){
         //Pressing the "Shopping Lists" button should start a StoreListActivity
-        solo.clickOnButton("Shopping Lists");
+        solo.clickOnView(listButton);
         Activity storeListActivity = getInstrumentation().waitForMonitorWithTimeout(storeListMonitor, 3000);
         assertNotNull("storeListActivity is null", storeListActivity);
         storeListActivity.finish();
