@@ -4,6 +4,7 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Handler;
@@ -45,10 +46,11 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.support.v4.view.GestureDetectorCompat;
 
+import com.amazonaws.com.google.gson.Gson;
 import com.amazonaws.services.dynamodbv2.model.ScanResult;
 
 
-public class MainActivity extends ActionBarActivity implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener{
+public class MainActivity extends ActionBarActivity {
 
     private GestureDetectorCompat gestureDetector;
 
@@ -71,6 +73,8 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
     private String current_Store; //tells which store's list to access by index
     static AmazonClientManager clientManager = null;
 
+
+
     public MainActivity() throws Exception {
         shoppingLists = new HashMap<String, DBItemList>();
     }
@@ -92,26 +96,46 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
         storename = (TextView) findViewById(R.id.storename);
         items = shoppingLists.get(current_Store);
         storename.setText(current_Store);
+        addField = (EditText) findViewById(R.id.add_item_field);
 
-        //clientManager = new AmazonClientManager(this);
-        //activate all the onscreen buttons and text fields
-
-        //clientManager = new AmazonClientManager(this);  unsure if needed after merge
-
-
+        //AWS CONNECTION
         clientManager = AmazonClientManager.getInstance();
         clientManager.setContext(this);
 
-        addField = (EditText) findViewById(R.id.add_item_field);
+
+
+        //TODO: get points from database!
+        //xs.add(50); xs.add(299); xs.add(517); xs.add(643); //xs.add(150); xs.add(40);
+        //ys.add(50); ys.add(451); ys.add(495); ys.add(302); //ys.add(150); ys.add(200);
+
+        //Populate the shoppinglist  TODO: items needs to be populated from memory
+        lv = (ListView) findViewById(R.id.listView);
+        adapter = new ItemListAdapter(this, R.layout.listview_item, items.getItems() );
+        lv.setAdapter(adapter);
+
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        final Button tripBtn = (Button) findViewById(R.id.button_floorplan);
         final Button addBtn = (Button) findViewById(R.id.add_item_button);
         final Button locBtn = (Button) findViewById(R.id.button_addLocs);
-        final Button tripBtn = (Button) findViewById(R.id.button_floorplan);
         addBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                items.addItem(addField.getText().toString(), false);
-                Toast.makeText(getApplicationContext(), "Item added", Toast.LENGTH_SHORT).show();
-                addField.setText("");
+
+                String s = addField.getText().toString();
+                if(!items.contains(s)){
+                    items.addItem(addField.getText().toString(), false);
+                    Toast.makeText(getApplicationContext(), "Item added", Toast.LENGTH_SHORT).show();
+                    addField.setText("");
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "This item has already been added", Toast.LENGTH_SHORT).show();
+                    addField.setText("");
+                }
+
             }
         });
         locBtn.setOnClickListener(new View.OnClickListener(){
@@ -130,17 +154,24 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
 
             }
         });
-        //TODO: get points from database!
-        final ArrayList<Integer> xs= new ArrayList<Integer>();  xs.add(50); xs.add(100); xs.add(150); xs.add(300); //xs.add(150); xs.add(40);
-        final ArrayList<Integer> ys= new ArrayList<Integer>();  ys.add(50); ys.add(100); ys.add(150); ys.add(300); //ys.add(150); ys.add(200);
-
         tripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent floorplan = new Intent(getApplicationContext(), FloorplanActivity.class);
-                floorplan.putExtra("XPOINTS", xs);
-                floorplan.putExtra("YPOINTS", ys);
-                startActivity(floorplan);
+                items.populateLocations();
+                final Intent floorplan = new Intent(getApplicationContext(), FloorplanActivity.class);
+
+                Handler handler = new Handler();
+                Toast.makeText(getApplicationContext(), "Loading Locations...", Toast.LENGTH_LONG).show();
+                handler.postDelayed( new Runnable() {
+                    @Override
+                    public void run() {
+                        items.addFPPointsforInent();
+                        floorplan.putExtra("XPOINTS", items.getXs());
+                        floorplan.putExtra("YPOINTS", items.getXs());
+                        startActivity(floorplan);
+                    }
+                }, 2000);
+
 
             }
         });
@@ -160,15 +191,10 @@ public class MainActivity extends ActionBarActivity implements GestureDetector.O
 
             }
         });
-        //Populate the shoppinglist  TODO: items needs to be populated from memory
+
         lv = (ListView) findViewById(R.id.listView);
         adapter = new ItemListAdapter(this, R.layout.listview_item, items.getItems() );
         lv.setAdapter(adapter);
-
-        /*unused
-        this.gestureDetector = new GestureDetectorCompat(this, this);
-        gestureDetector.setOnDoubleTapListener(this);
-        */
     }
 
 
@@ -207,7 +233,7 @@ to keep track of coupon files that could be updated by the user.
         //replaceAll methods sanitize names to be suitable directory names
         String storeDirName = current_Store.replaceAll("\\W+", "");
         String itemDirName = currItem.getName().replaceAll("\\W+", "");
-        File storeDir = new File(getApplicationContext().getFilesDir() + "/" + storeDirName + "/" + itemDirName);
+        File storeDir = new File(getApplicationContext().getFilesDir().getPath() + "/" + storeDirName + "/" + itemDirName);
         Log.v("directory", getApplicationContext().getFilesDir() + "/" + storeDirName + "/" + itemDirName);
         if(!storeDir.exists()){
             storeDir.mkdirs();
@@ -303,41 +329,10 @@ to keep track of coupon files that could be updated by the user.
             );
             return row;
         }
-
     }
 
-/*    public class ItemListActivity extends ListActivity{
-        @Override
-        protected void onCreate(Bundle bundle){
-            super.onCreate(bundle);
-
-            ItemListAdapter ila = new ItemListAdapter(this, R.layout.listview_item, items);
-
-            setListAdapter(ila);
-
-        }
-
-        @Override
-        protected void onListItemClick(ListView l, View v, int position, long id ){
-            String item = (String) getListAdapter().getItem(position);
-            Toast.makeText(this, item + " selected", Toast.LENGTH_SHORT).show();
-
-        }
 
 
-    }*/
-    //POSSIBLY USEFUL TABBOST CODE, haven't figured it out just yet
-    /*        tabs = (TabHost) findViewById(R.id.tabHost);
-        tabs.setup();
-        TabHost.TabSpec tabSpec = tabs.newTabSpec("shoppinglist");
-        tabSpec.setContent(R.id.tab_list);
-        tabSpec.setIndicator("SHOPPINGLIST");
-        tabs.addTab(tabSpec);
-
-        tabSpec = tabs.newTabSpec("floorplan");
-        tabSpec.setContent(R.id.tab_list);
-        tabSpec.setIndicator("FLOORPLAN");
-        tabs.addTab(tabSpec);*/
 
     private boolean tmp_populateShoppingLists(){
         DBItemList one;
@@ -350,63 +345,22 @@ to keep track of coupon files that could be updated by the user.
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
         return true;
     }
 
 
 
-
-
-    @Override
-    public boolean onDown(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public void onShowPress(MotionEvent e) {
-    }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        return false;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent e) {
-        return;
-    }
-
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        return false;
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event){
-        this.gestureDetector.onTouchEvent(event);
-        return super.onTouchEvent(event);
-    }
-
-    @Override
-    public boolean onSingleTapConfirmed(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public boolean onDoubleTap(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public boolean onDoubleTapEvent(MotionEvent e) {
-        return false;
-    }
-
 }
+
+//POSSIBLY USEFUL TABBOST CODE, haven't figured it out just yet
+    /*        tabs = (TabHost) findViewById(R.id.tabHost);
+        tabs.setup();
+        TabHost.TabSpec tabSpec = tabs.newTabSpec("shoppinglist");
+        tabSpec.setContent(R.id.tab_list);
+        tabSpec.setIndicator("SHOPPINGLIST");
+        tabs.addTab(tabSpec);
+
+        tabSpec = tabs.newTabSpec("floorplan");
+        tabSpec.setContent(R.id.tab_list);
+        tabSpec.setIndicator("FLOORPLAN");
+        tabs.addTab(tabSpec);*/

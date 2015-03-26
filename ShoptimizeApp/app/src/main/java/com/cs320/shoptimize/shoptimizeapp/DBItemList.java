@@ -20,6 +20,10 @@ public class DBItemList {
     List<Item> items = new ArrayList<Item>();
     ScanResult result = null;
 
+    ArrayList<Integer> xs= new ArrayList<Integer>();
+    ArrayList<Integer> ys= new ArrayList<Integer>();
+    ArrayList<String[]> preproc = new ArrayList<String[]>();
+
     public DBItemList() throws Exception {
         populateSL();
     }
@@ -37,21 +41,70 @@ public class DBItemList {
         addItem("Peanut Butter", false);
     }
 
-//    private String[] locs = {"Isle 1", "Isle 2", "Isle 13", "Isle 5", "Isle 7"};
+    public boolean contains(String s){
+        for(Item i : items){
+            if(i.getName().toLowerCase().equals(s.toLowerCase())){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void populateLocations(){
 
         int index = 0;
-
+        //attempted to load coords into ArrayLists here, but it got sticky.  Moved to helper
         for(Item i : items){
             new InventoryListQueryer("TraderBruns_InventoryList", i).execute();
         }
-
     }
 
-    private class DBClient extends Activity{
 
+    public ArrayList<Integer> getXs(){
+        return xs;
     }
+
+    public ArrayList<Integer> getYs(){
+        return ys;
+    }
+    //LOC OF FIRST﹕ {S: 50,50,}
+
+
+
+    protected void addFPPointsforInent(){
+        for(Item i : items) {
+            String s = i.getLocation();
+            if(s.substring(0, 3).equals("{S:")) {  //check for validity
+                s = s.substring(s.indexOf(' '), s.lastIndexOf(','));
+                s = s.trim();
+                String[] xy = s.split(",");
+                preproc.add(xy);
+                //Integer x = Integer.parseInt(xy[0]);
+                //Integer y = Integer.parseInt(xy[1]);
+
+            }
+        }
+        routingAlorithm();
+        //xs.add(x);  ys.add(y);
+    }
+
+    private void routingAlorithm(){
+        while(preproc.size() > 0){
+            int min = 10000; //max int
+            int minIdx = 0;
+            for(int i = 0; i < preproc.size(); i++){
+                int comp = Integer.parseInt(preproc.get(i)[0]);
+                if(comp < min){
+                    min = comp;
+                    minIdx = i;
+                }
+            }
+            xs.add(Integer.parseInt(preproc.get(minIdx)[0]));
+            ys.add(Integer.parseInt(preproc.get(minIdx)[1]));
+            preproc.remove(minIdx);
+        }
+    }
+
 
     private class InventoryListQueryer extends AsyncTask<Void, Void, ScanResult> {
 
@@ -74,8 +127,12 @@ public class DBItemList {
                 item.setLocation("Item is not in database");
             }
             else {
-                item.setLocation(scanResult.getItems().get(0).get("ItemLocation").toString());
+                String loc = scanResult.getItems().get(0).get("ItemLocation").toString();
+                String trimmed = loc.substring(4, loc.length() - 3);
+                item.setLocation(trimmed);
             }
         }
+
+
     }
 }

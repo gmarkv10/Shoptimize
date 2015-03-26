@@ -21,6 +21,7 @@
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".StoreListActivity"></activity>
         <activity android:name=".FloorplanActivity"></activity>
+        <activity android:name=".CouponGalleryActivity"></activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA" />

@@ -3,6 +3,7 @@ package com.cs320.shoptimize.shoptimizeapp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +17,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amazonaws.com.google.gson.Gson;
+import com.amazonaws.com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,19 +34,25 @@ public class StoreListActivity extends Activity {
         return super.getApplicationContext();
     }
 
-
-
     List<Store> storeList = new ArrayList<Store>();
     ArrayAdapter<Store> adapter;
     ListView listView;
     EditText addField;
+    SharedPreferences storeListData; //How I am storing the data
 
     public void onCreate(Bundle icicle){
         super.onCreate(icicle);
         setContentView(R.layout.shop_list);
+        storeListData = getApplicationContext().getSharedPreferences("storeListData", Context.MODE_PRIVATE);
 
         listView = (ListView) findViewById(R.id.listView2);
         populateStoreList();
+        if(storeListData.contains("storeList")) { //Right now this part is doing the storing
+            Gson gson = new Gson();
+            Type type = new TypeToken< List < Store >>() {}.getType();
+            String json = storeListData.getString("storeList","");
+            storeList = gson.fromJson(json, type);
+        }
 
         adapter = new ItemListAdapter(this, R.layout.shop_item,storeList);
         listView.setAdapter(adapter);
@@ -52,13 +64,54 @@ public class StoreListActivity extends Activity {
         addBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                storeList.add(new Store(addField.getText().toString(), 2674));
-                Toast.makeText(getApplicationContext(), "Shop added", Toast.LENGTH_SHORT).show();
-                addField.setText("");
+                String st = addField.getText().toString();
+                int match = 0;
+                for(Store s : storeList){
+                    if(s.getName().toLowerCase().equals(st.toLowerCase())){
+                        Toast.makeText(getApplicationContext(), "Shop has already been added", Toast.LENGTH_SHORT).show();
+                        match++;
+                        addField.setText("");
+                        break;
+                    }
+                }
+                if(match == 0) {
+                    storeList.add(new Store(addField.getText().toString(), 2674));
+                    Toast.makeText(getApplicationContext(), "Shop added", Toast.LENGTH_SHORT).show();
+                    addField.setText("");
+                }
             }
         });
+       // SharedPreferences.Editor storeListEditor = storeListData.edit();
+       // Gson gson = new Gson();
+       // String json = gson.toJson(storeList);
+       // storeListEditor.putString("storeList",json);
+       // storeListEditor.apply();
 
     }
+    @Override
+    public void onPause() //Where we are saving
+    {
+        super.onPause();
+
+        SharedPreferences.Editor storeListEditor = storeListData.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(storeList);
+        storeListEditor.putString("storeList",json);
+        storeListEditor.apply();
+    }
+   // @Override
+    //public void onResume() //Ultimately this is where it is stored, if we setup everything
+    //{
+       // super.onResume();
+
+        //if(storeListData.contains("storeList")) {
+          //  Gson gson = new Gson();
+          //  Type type = new TypeToken< List < Store >>() {}.getType();
+          //  String json = storeListData.getString("storeList","");
+           // storeList = gson.fromJson(json, type);
+       // }
+
+    //}
 
     private AdapterView.OnItemClickListener selectItem = new AdapterView.OnItemClickListener() {
         @Override
