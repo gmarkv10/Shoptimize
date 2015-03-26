@@ -157,11 +157,21 @@ public class MainActivity extends ActionBarActivity {
         tripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                items.addFPPointsforInent();
-                Intent floorplan = new Intent(getApplicationContext(), FloorplanActivity.class);
-                floorplan.putExtra("XPOINTS", items.getXs());
-                floorplan.putExtra("YPOINTS", items.getXs());
-                startActivity(floorplan);
+                items.populateLocations();
+                final Intent floorplan = new Intent(getApplicationContext(), FloorplanActivity.class);
+
+                Handler handler = new Handler();
+                Toast.makeText(getApplicationContext(), "Loading Locations...", Toast.LENGTH_LONG).show();
+                handler.postDelayed( new Runnable() {
+                    @Override
+                    public void run() {
+                        items.addFPPointsforInent();
+                        floorplan.putExtra("XPOINTS", items.getXs());
+                        floorplan.putExtra("YPOINTS", items.getXs());
+                        startActivity(floorplan);
+                    }
+                }, 2000);
+
 
             }
         });
