@@ -22,6 +22,7 @@ public class DBItemList {
 
     ArrayList<Integer> xs= new ArrayList<Integer>();
     ArrayList<Integer> ys= new ArrayList<Integer>();
+    ArrayList<String[]> preproc = new ArrayList<String[]>();
 
     public DBItemList() throws Exception {
         populateSL();
@@ -68,6 +69,9 @@ public class DBItemList {
         return ys;
     }
     //LOC OF FIRST﹕ {S: 50,50,}
+
+
+
     protected void addFPPointsforInent(){
         for(Item i : items) {
             String s = i.getLocation();
@@ -75,13 +79,31 @@ public class DBItemList {
                 s = s.substring(s.indexOf(' '), s.lastIndexOf(','));
                 s = s.trim();
                 String[] xy = s.split(",");
-                Integer x = Integer.parseInt(xy[0]);
-                Integer y = Integer.parseInt(xy[1]);
-                xs.add(x);
-                ys.add(y);
+                preproc.add(xy);
+                //Integer x = Integer.parseInt(xy[0]);
+                //Integer y = Integer.parseInt(xy[1]);
+
             }
         }
+        routingAlorithm();
         //xs.add(x);  ys.add(y);
+    }
+
+    private void routingAlorithm(){
+        while(preproc.size() > 0){
+            int min = 10000; //max int
+            int minIdx = 0;
+            for(int i = 0; i < preproc.size(); i++){
+                int comp = Integer.parseInt(preproc.get(i)[0]);
+                if(comp < min){
+                    min = comp;
+                    minIdx = i;
+                }
+            }
+            xs.add(Integer.parseInt(preproc.get(minIdx)[0]));
+            ys.add(Integer.parseInt(preproc.get(minIdx)[1]));
+            preproc.remove(minIdx);
+        }
     }
 
 
