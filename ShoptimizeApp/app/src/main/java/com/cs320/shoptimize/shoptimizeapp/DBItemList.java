@@ -57,7 +57,6 @@ public class DBItemList {
         for(Item i : items){
             new InventoryListQueryer("TraderBruns_InventoryList", i).execute();
         }
-
     }
 
 
@@ -128,7 +127,9 @@ public class DBItemList {
                 item.setLocation("Item is not in database");
             }
             else {
-                item.setLocation(scanResult.getItems().get(0).get("ItemLocation").toString());
+                String loc = scanResult.getItems().get(0).get("ItemLocation").toString();
+                String trimmed = loc.substring(4, loc.length() - 3);
+                item.setLocation(trimmed);
             }
         }
 
