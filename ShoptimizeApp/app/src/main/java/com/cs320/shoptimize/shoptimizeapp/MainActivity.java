@@ -223,7 +223,7 @@ to keep track of coupon files that could be updated by the user.
         //replaceAll methods sanitize names to be suitable directory names
         String storeDirName = current_Store.replaceAll("\\W+", "");
         String itemDirName = currItem.getName().replaceAll("\\W+", "");
-        File storeDir = new File(getApplicationContext().getFilesDir() + "/" + storeDirName + "/" + itemDirName);
+        File storeDir = new File(getApplicationContext().getFilesDir().getPath() + "/" + storeDirName + "/" + itemDirName);
         Log.v("directory", getApplicationContext().getFilesDir() + "/" + storeDirName + "/" + itemDirName);
         if(!storeDir.exists()){
             storeDir.mkdirs();
