@@ -1,5 +1,7 @@
 package com.cs320.shoptimize.shoptimizeapp;
 
+import android.app.Activity;
+import android.app.Instrumentation;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
@@ -17,6 +19,8 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     private EditText addItemField;
     private View addItemButton;
     private View showLocationsButton;
+    private View storeTripButton;
+    private Instrumentation.ActivityMonitor floorplanMonitor;
     private DBItemList mockList;
 
     public MainActivityTest(){
@@ -24,6 +28,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     }
 
     public void setUp()throws Exception{
+        floorplanMonitor = getInstrumentation().addMonitor(FloorplanActivity.class.getName(), null, false);
         try{
             mockList = new DBItemList();
         }catch(Exception e){}
@@ -38,12 +43,14 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         //Set up views
         addItemField = (EditText)solo.getView(R.id.add_item_field);
         addItemButton = solo.getView(R.id.add_item_button);
+        storeTripButton = solo.getView(R.id.button_floorplan);
         showLocationsButton = solo.getView(R.id.button_addLocs);
     }
 
     public void tearDown() throws Exception{
         addItemField = null;
         addItemButton = null;
+        storeTripButton = null;
         showLocationsButton = null;
         mockList = null;
         solo.finishOpenedActivities();
@@ -147,6 +154,17 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     }
 
     /**
+     * This method tests whether or not the "Store Trip" button starts a FloorplanActivity.
+     **/
+    public void testStoreTripButton_functionality(){
+        //Pressing the "Store Trip" button should start a FloorplanActivity
+        solo.clickOnView(storeTripButton);
+        Activity floorplanActivity = getInstrumentation().waitForMonitorWithTimeout(floorplanMonitor, 3000);
+        assertNotNull("floorplanActivity is null", floorplanActivity);
+        floorplanActivity.finish();
+    }
+
+    /**
      * This method tests the lifecycle of the activity. This test is focused on the
      * item list. The item list should retain its values after the activity is destroyed.
      **/
@@ -161,5 +179,18 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         activity.finish();
         activity = getActivity();
         assertEquals("State was not saved before activity destruction: item list size differences", oldSize+1, activity.items.getItems().size());
+    }
+
+    /**
+     * This method tests the visibility of UI components.
+     **/
+    public void testUIVisibility(){
+        assertTrue("addItemField is not visible", View.VISIBLE == addItemField.getVisibility());
+        assertTrue("'Add Item' button is not visible", View.VISIBLE == addItemButton.getVisibility());
+        assertTrue("'Show Locations' button is not visible", View.VISIBLE == showLocationsButton.getVisibility());
+        assertTrue("'Store Trip' button is not visible", View.VISIBLE == storeTripButton.getVisibility());
+        assertTrue("'Shopping List' text is not visible", View.VISIBLE == solo.getView(R.id.textView).getVisibility());
+        assertTrue("Store name text is not visible", View.VISIBLE == solo.getView(R.id.store_name).getVisibility());
+        assertTrue("List view is not visible", View.VISIBLE == solo.getView(R.id.listView).getVisibility());
     }
 }
