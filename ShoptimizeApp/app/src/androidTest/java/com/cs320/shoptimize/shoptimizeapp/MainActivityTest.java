@@ -3,7 +3,6 @@ package com.cs320.shoptimize.shoptimizeapp;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.robotium.solo.Solo;

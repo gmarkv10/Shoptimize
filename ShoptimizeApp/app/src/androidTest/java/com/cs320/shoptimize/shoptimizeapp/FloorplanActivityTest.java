@@ -1,13 +1,10 @@
 package com.cs320.shoptimize.shoptimizeapp;
 
-import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.robotium.solo.Solo;
 import java.util.ArrayList;
