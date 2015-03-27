@@ -133,7 +133,7 @@ public class DBItemList {
             }
             else {
                 String loc = scanResult.getItems().get(0).get("ItemLocation").toString();
-                String trimmed = loc.substring(4, loc.length() - 3);
+                String trimmed = loc.substring(4, loc.length() - 2);
                 item.setLocation(trimmed);
             }
         }
