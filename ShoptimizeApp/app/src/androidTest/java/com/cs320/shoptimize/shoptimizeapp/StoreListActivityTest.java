@@ -46,6 +46,11 @@ public class StoreListActivityTest extends ActivityInstrumentationTestCase2<Stor
         assertNotNull("addStoreField is null", addStoreField);
     }
 
+    /**
+     * This method tests whether or not the "Add" button increases the store list size by 1. It also
+     * tests access to the "Add" button. It should be disabled if there is no text in addStoreField.
+     * It should be enabled if there is text in addStoreField.
+     **/
     public void testAddStoreButton_functionality(){
         //addStoreButton should be disabled if addStoreField is empty.
         assertTrue("'Add' button is enabled", !addStoreButton.isEnabled());
@@ -65,6 +70,9 @@ public class StoreListActivityTest extends ActivityInstrumentationTestCase2<Stor
         assertTrue("Test Store is not visible on the screen", solo.searchText(test_string, true));
     }
 
+    /**
+     * This method tests whether or not the store list accepts duplicates. It shouldn't.
+     **/
     public void testAddStoreDuplication(){
         //storeList should not allow duplicates
         final String test_string = "Test Store";
@@ -80,6 +88,9 @@ public class StoreListActivityTest extends ActivityInstrumentationTestCase2<Stor
         assertEquals("activity.storeList has registered a duplicate", oldSize + 1, activity.storeList.size());
     }
 
+    /**
+     * This method tests whether or not clicking a store in the view list starts a MainActivity.
+     **/
     public void testStoreSelection(){
         //Pressing one of the Stores should start a MainActivity
         solo.clickOnText("Trader Brun's");
@@ -89,6 +100,9 @@ public class StoreListActivityTest extends ActivityInstrumentationTestCase2<Stor
         mainActivity.finish();
     }
 
+    /**
+     * This method tests the visibility of UI components.
+     **/
     public void testUIVisibility(){
         assertTrue("'Add' button is not visible", View.VISIBLE == addStoreButton.getVisibility());
         assertTrue("'Add a new store' input field is not visible", View.VISIBLE == addStoreField.getVisibility());

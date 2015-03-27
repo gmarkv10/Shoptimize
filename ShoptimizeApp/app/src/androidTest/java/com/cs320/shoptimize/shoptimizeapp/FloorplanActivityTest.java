@@ -73,6 +73,9 @@ public class FloorplanActivityTest extends ActivityInstrumentationTestCase2<Floo
         couponGalleryActivity.finish();
     }*/
 
+    /**
+     * This method tests the visibility of UI components.
+     **/
     public void testUIVisibility(){
         assertTrue("'Next' button is not visible", View.VISIBLE == nextButton.getVisibility());
         assertTrue("'Previous' button is not visible", View.VISIBLE == prevButton.getVisibility());

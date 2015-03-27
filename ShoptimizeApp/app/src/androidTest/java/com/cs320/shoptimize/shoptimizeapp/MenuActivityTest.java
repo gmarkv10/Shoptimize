@@ -60,6 +60,10 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
     }
     */
 
+    /**
+     * This method tests whether or not the "Shopping Lists" button starts a
+     * StoreListActivity. This test gives the app 3 seconds to do so.
+     **/
     public void testStoreListButton_functionality(){
         //Pressing the "Shopping Lists" button should start a StoreListActivity
         solo.clickOnView(listButton);
@@ -68,6 +72,9 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
         storeListActivity.finish();
     }
 
+    /**
+     * This method tests the visibility of UI components.
+     **/
     public void testUIVisibility(){
         assertTrue("'Shopping Lists' button is not visible", View.VISIBLE == listButton.getVisibility());
         assertTrue("'Manual' button is not visible", View.VISIBLE == manButton.getVisibility());

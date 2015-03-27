@@ -60,6 +60,10 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertNotNull("showLocationsButton is null", showLocationsButton);
     }
 
+    /**
+     * This method tests whether or not the addItemField works. It should be cleared after
+     * pressing the "Add Item" button.
+     **/
     public void testAddItemField_contents(){
         //The contents of addItemField should not change without user interaction
         final String test_string = "Test Item";
@@ -72,6 +76,10 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals("addItemField's input text is not empty", "", addItemField.getText().toString());
     }
 
+    /**
+     * This method tests whether or not the addItemButton works. It should be increasing the
+     * size of the item list by 1. The last item in the item list should be the one we just added.
+     **/
     public void testAddItemButton_functionality(){
         //addItemButton should be disabled if addItemField is empty.
         assertTrue("'Add Item' button is enabled", !addItemButton.isEnabled());
@@ -89,6 +97,9 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals("The latest item in activity.item.items is not one that was previously added", test_string, activity.items.getItems().get(activity.items.getItems().size()-1).getName());
     }
 
+    /**
+     * This method tests whether or not the item list accepts duplicates. It shouldn't.
+     **/
     public void testAddItemDuplication(){
         //DBItemList should not allow duplicates
         final String test_string = "Test Item";
@@ -104,6 +115,10 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals("activity.items.items has registered a duplicate", oldSize+1, activity.items.getItems().size());
     }
 
+    /**
+     * This method tests whether or not the "Show Locations" button pulls item locations from
+     * the database..
+     **/
     public void testShowLocationsButton_functionality(){
         //locations should be null before pressing showLocationsButton
         assertNull("Item location is not null", activity.items.items.get(0).getLocation());
@@ -116,6 +131,10 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertNotNull("Item location is null", activity.items.items.get(0).getLocation());
     }
 
+    /**
+     * This method tests the lifecycle of the activity. This test is focused on the
+     * addItemField. addItemField should retain its input value after the activity is destroyed.
+     **/
     public void testAddItemField_lifecycle(){
         //Entered text should be saved before activity destruction
         final String test_string = "Test Item";
@@ -127,6 +146,10 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals("State was not saved before activity destruction: addItemField input string differences", test_string, addItemField.getText().toString());
     }
 
+    /**
+     * This method tests the lifecycle of the activity. This test is focused on the
+     * item list. The item list should retain its values after the activity is destroyed.
+     **/
     public void testItemList_lifecycle(){
         //Store items should be saved before activity destruction
         final String test_string = "Test Item";
