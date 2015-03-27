@@ -130,6 +130,7 @@ public class MainActivity extends ActionBarActivity {
                     items.addItem(addField.getText().toString(), false);
                     Toast.makeText(getApplicationContext(), "Item added", Toast.LENGTH_SHORT).show();
                     addField.setText("");
+                    Log.v("COORD", items.getItems().get(0).getLocation());
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "This item has already been added", Toast.LENGTH_SHORT).show();
@@ -168,6 +169,7 @@ public class MainActivity extends ActionBarActivity {
                         items.addFPPointsforInent();
                         floorplan.putExtra("XPOINTS", items.getXs());
                         floorplan.putExtra("YPOINTS", items.getXs());
+                        floorplan.putExtra("NAMES",   items.getNames());
                         startActivity(floorplan);
                     }
                 }, 2000);

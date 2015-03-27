@@ -6,6 +6,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -18,7 +19,11 @@ public class FloorplanActivity extends Activity {
     Button nextBtn;
     Button prevBtn;
     Button couponBtn;
-
+    TextView nameField;
+    int count = 0;
+    ArrayList<String>  names;
+    ArrayList<Integer> ypoints;
+    ArrayList<Integer> xpoints;
 
     @Override
     protected void onCreate(Bundle icicle){
@@ -26,11 +31,13 @@ public class FloorplanActivity extends Activity {
         setContentView(R.layout.floorplan_screen);
 
         fp = (FPView) findViewById(R.id.floorplan_view);
+        nameField = (TextView) findViewById(R.id.name_item);
 
-        ArrayList<Integer> xpoints = getIntent().getExtras().getIntegerArrayList("XPOINTS");
-        ArrayList<Integer> ypoints = getIntent().getExtras().getIntegerArrayList("YPOINTS");
+        xpoints = getIntent().getExtras().getIntegerArrayList("XPOINTS");
+        ypoints = getIntent().getExtras().getIntegerArrayList("YPOINTS");
+        names   = getIntent().getExtras().getStringArrayList("NAMES");
         fp.getXYCollection(xpoints, ypoints);
-
+        nameField.setText(names.get(count));
         nextBtn = (Button) findViewById(R.id.btn_next);
         prevBtn = (Button) findViewById(R.id.btn_prev);
         couponBtn = (Button) findViewById(R.id.btn_show);
@@ -38,7 +45,10 @@ public class FloorplanActivity extends Activity {
         nextBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //todo: refactor so the count for names/coords is all in FPActivity
                 fp.nextCoord();
+                nameField.setText(names.get(++count));
+
             }
         });
 
@@ -46,6 +56,7 @@ public class FloorplanActivity extends Activity {
             @Override
             public void onClick(View v) {
                 fp.prevCoord();
+                nameField.setText(names.get(--count));
             }
         });
 

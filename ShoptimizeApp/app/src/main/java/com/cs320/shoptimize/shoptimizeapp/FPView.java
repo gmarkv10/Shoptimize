@@ -89,7 +89,12 @@ public class FPView extends SurfaceView implements SurfaceHolder.Callback {
     public boolean onTouchEvent(MotionEvent event) {
         mX = (int) event.getX();// - bm.getWidth() / 2;
         mY = (int) event.getY();// - bm.getHeight() / 2;
+        logTouchEvent();
         return super.onTouchEvent(event);
+    }
+
+    public void logTouchEvent(){
+        Log.v("Touch Registered at: ", "{" + mX + "," + mY + "}");
     }
 
     @Override
