@@ -18,18 +18,25 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     private EditText addItemField;
     private View addItemButton;
     private View showLocationsButton;
-
+    private DBItemList mockList;
 
     public MainActivityTest(){
         super(MainActivity.class);
     }
 
     public void setUp()throws Exception{
+        try{
+            mockList = new DBItemList();
+        }catch(Exception e){}
+        //Set up intent
         Intent intent = new Intent(getInstrumentation().getContext(), MainActivity.class);
         intent.putExtra("storeNAME", "Trader Brun's");
         setActivityIntent(intent);
+        //Set up activity
         activity = getActivity();
+        activity.items = mockList;
         solo = new Solo(getInstrumentation(), activity);
+        //Set up views
         addItemField = (EditText)solo.getView(R.id.add_item_field);
         addItemButton = solo.getView(R.id.add_item_button);
         showLocationsButton = solo.getView(R.id.button_addLocs);
@@ -39,6 +46,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         addItemField = null;
         addItemButton = null;
         showLocationsButton = null;
+        mockList = null;
         solo.finishOpenedActivities();
     }
 
@@ -80,8 +88,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals("activity.items.items did not increase in size", oldSize+1, activity.items.getItems().size());
         //The latest item in DBItemList should be the one just added
         assertEquals("The latest item in activity.item.items is not one that was previously added", test_string, activity.items.getItems().get(activity.items.getItems().size()-1).getName());
-        //The new Item should be visible on the screen.
-        assertTrue("Test Item is not visible on the screen", solo.searchText(test_string, true));
     }
 
     public void testAddItemDuplication(){
@@ -109,5 +115,29 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             Thread.sleep(3000);
         }catch(InterruptedException e){}
         assertNotNull("Item location is null", activity.items.items.get(0).getLocation());
+    }
+
+    public void testAddItemField_lifecycle(){
+        //Entered text should be saved before activity destruction
+        final String test_string = "Test Item";
+        final int oldSize = activity.items.getItems().size();
+        solo.enterText(addItemField, test_string);
+        getInstrumentation().waitForIdleSync();
+        activity.finish();
+        activity = getActivity();
+        assertEquals("State was not saved before activity destruction: addItemField input string differences", test_string, addItemField.getText().toString());
+    }
+
+    public void testItemList_lifecycle(){
+        //Store items should be saved before activity destruction
+        final String test_string = "Test Item";
+        final int oldSize = activity.items.getItems().size();
+        solo.enterText(addItemField, test_string);
+        getInstrumentation().waitForIdleSync();
+        solo.clickOnView(addItemButton);
+        getInstrumentation().waitForIdleSync();
+        activity.finish();
+        activity = getActivity();
+        assertEquals("State was not saved before activity destruction: item list size differences", oldSize+1, activity.items.getItems().size());
     }
 }
