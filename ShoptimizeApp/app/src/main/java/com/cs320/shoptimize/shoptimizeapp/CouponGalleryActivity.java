@@ -2,6 +2,8 @@ package com.cs320.shoptimize.shoptimizeapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -11,6 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Peter on 3/24/2015.
@@ -25,6 +31,24 @@ public class CouponGalleryActivity extends Activity {
         viewPager.setAdapter(adapter);
     }
 
+    private List<Bitmap> getCouponBitmaps(){
+        List<Bitmap> bitmaps = new ArrayList<Bitmap>();
+        String currentStore = getIntent().getExtras().getString("storeNAME").replaceAll("\\W+", "");
+        //String storeDirPath = getApplicationContext().getFilesDir().getPath() + "/" + currentStore;
+        File storeDir = new File(getApplicationContext().getFilesDir().getAbsolutePath() + "/" + currentStore);
+        if(storeDir.exists()){
+            File[] items = storeDir.listFiles();
+            for(File file : items){
+                String pathName = file.getAbsolutePath();
+                Bitmap bitmap = BitmapFactory.decodeFile(pathName);
+                bitmaps.add(bitmap);
+            }
+        } else {
+            Log.v("dir", "could not find " + storeDir.getAbsolutePath());
+        }
+        return bitmaps;
+
+    }
 
     private class CouponPageAdapter extends PagerAdapter{
 
@@ -56,7 +80,9 @@ public class CouponGalleryActivity extends Activity {
                     (Context.LAYOUT_INFLATER_SERVICE);
             View itemView = inflater.inflate(R.layout.cgallery_item, container, false);
             ImageView imageview = (ImageView) itemView.findViewById(R.id.imageView);
-            imageview.setImageResource(mImages[position]);
+            //imageview.setImageResource(mImages[position]);
+            List<Bitmap> coupons = getCouponBitmaps();
+            imageview.setImageBitmap(coupons.get(position));
             Log.v("intItem", "instantiate item finished");
             container.addView(itemView);
             return itemView;
