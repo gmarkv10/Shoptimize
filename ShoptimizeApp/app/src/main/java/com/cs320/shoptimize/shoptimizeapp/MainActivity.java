@@ -188,7 +188,7 @@ public class MainActivity extends ActionBarActivity {
                     public void run() {
                         items.addFPPointsforInent();
                         floorplan.putExtra("XPOINTS", items.getXs());
-                        floorplan.putExtra("YPOINTS", items.getXs());
+                        floorplan.putExtra("YPOINTS", items.getYs());
                         floorplan.putExtra("NAMES",   items.getNames());
                         startActivity(floorplan);
                     }

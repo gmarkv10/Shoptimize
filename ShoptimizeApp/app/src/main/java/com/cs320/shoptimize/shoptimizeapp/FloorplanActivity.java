@@ -46,8 +46,9 @@ public class FloorplanActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //todo: refactor so the count for names/coords is all in FPActivity
-                fp.nextCoord();
-                nameField.setText(names.get(++count));
+                count++;
+                fp.setCoord(count);
+                nameField.setText(names.get(count));
 
             }
         });
@@ -55,8 +56,9 @@ public class FloorplanActivity extends Activity {
         prevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fp.prevCoord();
-                nameField.setText(names.get(--count));
+                count--;
+                fp.setCoord(count);
+                nameField.setText(names.get(count));
             }
         });
 
