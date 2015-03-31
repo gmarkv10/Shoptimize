@@ -67,7 +67,7 @@ public class DBItemList {
 
 
 
-    protected void addFPPointsforInent(){
+    protected void addFPPointsforIntent(){
         for(Item i : items) {
             String s = i.getLocation();
             String name = i.getName();
