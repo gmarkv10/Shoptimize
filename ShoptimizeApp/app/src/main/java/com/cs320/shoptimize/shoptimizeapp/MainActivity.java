@@ -34,6 +34,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.text.AttributedCharacterIterator;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ import android.view.MotionEvent;
 import android.support.v4.view.GestureDetectorCompat;
 
 import com.amazonaws.com.google.gson.Gson;
+import com.amazonaws.com.google.gson.reflect.TypeToken;
 import com.amazonaws.services.dynamodbv2.model.ScanResult;
 
 
@@ -72,6 +74,7 @@ public class MainActivity extends ActionBarActivity {
     TabHost tabs;
     private String current_Store; //tells which store's list to access by index
     static AmazonClientManager clientManager = null;
+    SharedPreferences itemListData; //How I am storing the data
 
 
 
@@ -83,6 +86,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        itemListData = getApplicationContext().getSharedPreferences("itemListData", Context.MODE_PRIVATE);
         //TODO:  replace with load from internal memory
         try {
             shoppingLists.put("Trader Brun's", new DBItemList());
@@ -114,10 +118,26 @@ public class MainActivity extends ActionBarActivity {
         lv.setAdapter(adapter);
 
     }
+    @Override
+    public void onPause() //Where we are saving
+    {
+        super.onPause();
+
+        SharedPreferences.Editor itemListEditor = itemListData.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(items);
+        itemListEditor.putString(current_Store,json);
+        itemListEditor.apply();
+    }
 
     @Override
     protected void onResume(){
         super.onResume();
+        if(itemListData.contains(current_Store)) { //Right now this part is doing the Retrieving
+            Gson gson = new Gson();
+            String json = itemListData.getString(current_Store,"");
+            items = gson.fromJson(json, DBItemList.class);
+        }
         final Button tripBtn = (Button) findViewById(R.id.button_floorplan);
         final Button addBtn = (Button) findViewById(R.id.add_item_button);
         final Button locBtn = (Button) findViewById(R.id.button_addLocs);
@@ -130,6 +150,7 @@ public class MainActivity extends ActionBarActivity {
                     items.addItem(addField.getText().toString(), false);
                     Toast.makeText(getApplicationContext(), "Item added", Toast.LENGTH_SHORT).show();
                     addField.setText("");
+                    //Log.v("COORD", items.getItems().get(0).getLocation());
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "This item has already been added", Toast.LENGTH_SHORT).show();
@@ -167,7 +188,8 @@ public class MainActivity extends ActionBarActivity {
                     public void run() {
                         items.addFPPointsforInent();
                         floorplan.putExtra("XPOINTS", items.getXs());
-                        floorplan.putExtra("YPOINTS", items.getXs());
+                        floorplan.putExtra("YPOINTS", items.getYs());
+                        floorplan.putExtra("NAMES",   items.getNames());
                         startActivity(floorplan);
                     }
                 }, 2000);

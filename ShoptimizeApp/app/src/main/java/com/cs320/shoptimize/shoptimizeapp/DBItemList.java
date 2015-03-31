@@ -16,9 +16,11 @@ public class DBItemList {
     List<Item> items = new ArrayList<Item>();
     ScanResult result = null;
 
-    ArrayList<Integer> xs= new ArrayList<Integer>();
-    ArrayList<Integer> ys= new ArrayList<Integer>();
-    ArrayList<String[]> preproc = new ArrayList<String[]>();
+    ArrayList<Integer>   xs          = new ArrayList<Integer>();
+    ArrayList<Integer>   ys          = new ArrayList<Integer>();
+    ArrayList<String>    names       = new ArrayList<String>();
+    ArrayList<String[]>  preprocXY   = new ArrayList<String[]>();
+    ArrayList<String>    preprocNAME = new ArrayList<String>();
 
     public DBItemList() throws Exception {
         populateSL();
@@ -56,13 +58,11 @@ public class DBItemList {
     }
 
 
-    public ArrayList<Integer> getXs(){
-        return xs;
-    }
+    public ArrayList<Integer> getXs()    { return xs;}
 
-    public ArrayList<Integer> getYs(){
-        return ys;
-    }
+    public ArrayList<Integer> getYs()    { return ys; }
+
+    public ArrayList<String>  getNames() { return names; }
     //LOC OF FIRST﹕ {S: 50,50,}
 
 
@@ -70,11 +70,13 @@ public class DBItemList {
     protected void addFPPointsforInent(){
         for(Item i : items) {
             String s = i.getLocation();
-            if(s.substring(0, 3).equals("{S:")) {  //check for validity
-                s = s.substring(s.indexOf(' '), s.lastIndexOf(','));
-                s = s.trim();
+            String name = i.getName();
+            if(s.charAt(0) != 'I') {  //check for validity
+                //s = s.substring(s.indexOf(' '), s.lastIndexOf(','));
+                //s = s.trim();
                 String[] xy = s.split(",");
-                preproc.add(xy);
+                preprocXY.add(xy);
+                preprocNAME.add(name);
                 //Integer x = Integer.parseInt(xy[0]);
                 //Integer y = Integer.parseInt(xy[1]);
 
@@ -85,19 +87,21 @@ public class DBItemList {
     }
 
     private void routingAlgorithm(){
-        while(preproc.size() > 0){
-            int min = 10000; //max int
+        while(preprocXY.size() > 0){
+            int min = 100000; //max int
             int minIdx = 0;
-            for(int i = 0; i < preproc.size(); i++){
-                int comp = Integer.parseInt(preproc.get(i)[0]);
+            for(int i = 0; i < preprocXY.size(); i++){
+                int comp = Integer.parseInt(preprocXY.get(i)[0]);
                 if(comp < min){
                     min = comp;
                     minIdx = i;
                 }
             }
-            xs.add(Integer.parseInt(preproc.get(minIdx)[0]));
-            ys.add(Integer.parseInt(preproc.get(minIdx)[1]));
-            preproc.remove(minIdx);
+            xs.add(Integer.parseInt(preprocXY.get(minIdx)[0]));
+            ys.add(Integer.parseInt(preprocXY.get(minIdx)[1]));
+            names.add(preprocNAME.get(minIdx));
+            preprocNAME.remove(minIdx);
+            preprocXY.remove(minIdx);
         }
     }
 
@@ -124,7 +128,7 @@ public class DBItemList {
             }
             else {
                 String loc = scanResult.getItems().get(0).get("ItemLocation").toString();
-                String trimmed = loc.substring(4, loc.length() - 3);
+                String trimmed = loc.substring(4, loc.length() - 2);
                 item.setLocation(trimmed);
             }
         }

@@ -4,10 +4,11 @@
 
     <com.cs320.shoptimize.shoptimizeapp.FPView
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
+        android:layout_height="350dp"
 
-        android:layout_above="@+id/btn_prev"
-        android:id="@+id/floorplan_view"></com.cs320.shoptimize.shoptimizeapp.FPView>
+        android:id="@+id/floorplan_view"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"></com.cs320.shoptimize.shoptimizeapp.FPView>
 
     <Button
         android:layout_width="wrap_content"
@@ -35,4 +36,25 @@
         android:layout_alignTop="@+id/btn_show"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Item: "
+        android:id="@+id/label_item"
+        android:layout_below="@+id/floorplan_view"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Name goes here"
+        android:id="@+id/name_item"
+        android:layout_alignTop="@+id/label_item"
+        android:layout_toRightOf="@+id/label_item"
+        android:layout_toEndOf="@+id/label_item" />
 </RelativeLayout>
