@@ -23,6 +23,7 @@ public class FPView extends SurfaceView implements SurfaceHolder.Callback {
     private ViewThread viewThread;
     private ArrayList<Integer> xs, ys;
     private int currentCoord = 0;
+    int test = 1;
     int mX, mY;
 
     public FPView(Context context){
@@ -39,21 +40,24 @@ public class FPView extends SurfaceView implements SurfaceHolder.Callback {
         viewThread = new ViewThread(this);
     }
 
-    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    Paint paint1 = new Paint(Paint.ANTI_ALIAS_FLAG);
+    Paint paint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
     protected void doDraw(Canvas canvas) {
         //super.onDraw(canvas);
-        //Log.v("COORD", new Integer(mX).toString()+"<-X" );
-        //Log.v("COORD", new Integer(mY).toString()+"<-Y" );
-
-        //canvas.drawCircle(200, 200, 10, paint);
+        paint1.setColor(Color.CYAN);
+        paint2.setColor(Color.RED);
         canvas.drawBitmap(bm, 0, 0, null);
-
-
+        //Draw points
         for(int i = 0; i < xs.size(); i++){
-            paint.setColor(Color.RED);
-            if(i == currentCoord) paint.setColor(Color.BLUE);
+            paint1.setColor(Color.GREEN);
+            if(i == currentCoord) {
+                canvas.drawCircle(xs.get(i), ys.get(i), 22, paint2);
+            }
+            else{
+                canvas.drawCircle(xs.get(i), ys.get(i), 15, paint1);
+            }
             //DRAW CIRCLES BABY////////////////////////////////
-            canvas.drawCircle(xs.get(i), ys.get(i), 15, paint);
+
             //CIRCLES UP IN THIS BIZITCH///////////////////////
             //dank circles yo. dank as shit
         }
@@ -85,11 +89,22 @@ public class FPView extends SurfaceView implements SurfaceHolder.Callback {
         doDraw(new Canvas());//%xs.size();
     }
 
+    protected void setCoord( int idx){
+        currentCoord = idx;
+        doDraw(new Canvas());
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         mX = (int) event.getX();// - bm.getWidth() / 2;
         mY = (int) event.getY();// - bm.getHeight() / 2;
+        logTouchEvent();
         return super.onTouchEvent(event);
+    }
+
+    public void logTouchEvent(){
+        Log.v("Touch Registered at: ", "{" + mX + "," + mY + "}");
+        Log.v("Current coord:", " " + currentCoord);
     }
 
     @Override

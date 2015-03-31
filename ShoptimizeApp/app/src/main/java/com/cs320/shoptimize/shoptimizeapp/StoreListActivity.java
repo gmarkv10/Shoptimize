@@ -47,7 +47,7 @@ public class StoreListActivity extends Activity {
 
         listView = (ListView) findViewById(R.id.listView2);
         populateStoreList();
-        if(storeListData.contains("storeList")) { //Right now this part is doing the storing
+        if(storeListData.contains("storeList")) { //Right now this part is doing the Retrieving
             Gson gson = new Gson();
             Type type = new TypeToken< List < Store >>() {}.getType();
             String json = storeListData.getString("storeList","");
