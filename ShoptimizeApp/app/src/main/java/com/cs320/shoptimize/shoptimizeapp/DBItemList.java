@@ -1,15 +1,11 @@
 package com.cs320.shoptimize.shoptimizeapp;
 
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+
 import com.amazonaws.services.dynamodbv2.model.ScanResult;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Gabe Markarian on 3/8/2015.
@@ -84,11 +80,11 @@ public class DBItemList {
 
             }
         }
-        routingAlorithm();
+        routingAlgorithm();
         //xs.add(x);  ys.add(y);
     }
 
-    private void routingAlorithm(){
+    private void routingAlgorithm(){
         while(preproc.size() > 0){
             int min = 10000; //max int
             int minIdx = 0;
