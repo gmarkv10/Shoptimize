@@ -1,4 +1,6 @@
-**Shoptimize**
+#Shoptimize
+
+Shoptimize is an application designed to make your trips to the grocery store as easy and efficient as possible. We expect to do this by allowing users to create and edit multiple shopping lists for each and every store that they plan to go to, store and manage coupons, and find the locations of each item in their list is in the store to minimize time spent and reduce impulse purchases. 
 
 **Source Control and Build Instructions**
 
@@ -21,9 +23,13 @@ The code for Shoptimize is being shared with all team members via the source con
   * To run the project on one of Android Studio‟s built in emulators, make sure your 
      computer supports virtualization and that it is enabled from in the BIOS settings
 
-**Source Control and Build Process**
+**Change Logs**
 
-Bugs encountered while using Shoptimize are recorded in Git‟s issue tracking system. Since the Git repository is public, any person with a GitHub account may open issues in the issue tracker and discuss issues already in existence. Collaborators may open, close, edit, and assign people to issues. Collaborators also get a notification if a new issue has been opened or a pre-existing issue has been closed in the issue system.
+Github has a commit history that documents every change ever made to the repository. Looking at the commit history and the descriptions of each commit makes it easy to track the history of the project and any design choices that have been made in the project. 
+
+**Issue Tracking**
+
+Bugs encountered while using Shoptimize are recorded in Git's issue tracking system. Since the Git repository is public, any person with a GitHub account may open issues in the issue tracker and discuss issues already in existence. Collaborators may open, close, edit, and assign people to issues. Collaborators also get a notification if a new issue has been opened or a pre-existing issue has been closed in the issue system.
 
 To access the issue tracking system for Shoptimize, navigate to https://github.com/gmarkv10/Shoptimize/issues in your browser. Doing anything other than just viewing issues requires a GitHub account.
 
