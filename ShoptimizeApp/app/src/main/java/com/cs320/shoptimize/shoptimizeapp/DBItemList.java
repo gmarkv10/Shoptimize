@@ -1,15 +1,11 @@
 package com.cs320.shoptimize.shoptimizeapp;
 
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+
 import com.amazonaws.services.dynamodbv2.model.ScanResult;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Gabe Markarian on 3/8/2015.
@@ -71,7 +67,7 @@ public class DBItemList {
 
 
 
-    protected void addFPPointsforInent(){
+    protected void addFPPointsforIntent(){
         for(Item i : items) {
             String s = i.getLocation();
             String name = i.getName();
@@ -86,12 +82,11 @@ public class DBItemList {
 
             }
         }
-        routingAlorithm();
+        routingAlgorithm();
         //xs.add(x);  ys.add(y);
     }
 
-    //control the order in which the items are presented in FloorplanActivity
-    private void routingAlorithm(){
+    private void routingAlgorithm(){
         while(preprocXY.size() > 0){
             int min = 100000; //max int
             int minIdx = 0;

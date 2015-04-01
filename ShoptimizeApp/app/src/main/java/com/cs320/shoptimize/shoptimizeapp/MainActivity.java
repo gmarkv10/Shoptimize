@@ -1,11 +1,8 @@
 package com.cs320.shoptimize.shoptimizeapp;
 
-import android.app.ListActivity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -20,7 +17,6 @@ import android.view.MenuItem;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -30,26 +26,17 @@ import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.text.AttributedCharacterIterator;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.support.v4.view.GestureDetectorCompat;
 
 import com.amazonaws.com.google.gson.Gson;
-import com.amazonaws.com.google.gson.reflect.TypeToken;
-import com.amazonaws.services.dynamodbv2.model.ScanResult;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -186,7 +173,7 @@ public class MainActivity extends ActionBarActivity {
                 handler.postDelayed( new Runnable() {
                     @Override
                     public void run() {
-                        items.addFPPointsforInent();
+                        items.addFPPointsforIntent();
                         floorplan.putExtra("XPOINTS", items.getXs());
                         floorplan.putExtra("YPOINTS", items.getYs());
                         floorplan.putExtra("NAMES",   items.getNames());
@@ -250,6 +237,7 @@ these methods create (if it doesn't exist yet) and return a directory in the for
 to keep track of coupon files that could be updated by the user.
 */
     private File getCurrentDirectory(int position){
+        /*
         current_Store = getIntent().getExtras().getString("storeNAME");
         final Item currItem = items.getItems().get(position);
         //replaceAll methods sanitize names to be suitable directory names
@@ -257,6 +245,14 @@ to keep track of coupon files that could be updated by the user.
         String itemDirName = currItem.getName().replaceAll("\\W+", "");
         File storeDir = new File(getApplicationContext().getFilesDir().getPath() + "/" + storeDirName + "/" + itemDirName);
         Log.v("directory", getApplicationContext().getFilesDir() + "/" + storeDirName + "/" + itemDirName);
+        if(!storeDir.exists()){
+            storeDir.mkdirs();
+        }
+        return storeDir;
+        */
+        current_Store = getIntent().getExtras().getString("storeNAME");
+        String storeDirName = current_Store.replaceAll("\\W+", "");
+        File storeDir = new File(getApplicationContext().getFilesDir().getPath() + "/" + storeDirName);
         if(!storeDir.exists()){
             storeDir.mkdirs();
         }

@@ -70,6 +70,7 @@ public class FloorplanActivity extends Activity {
                                           @Override
                                           public void onClick(View v) {
                                               Intent couponGallery = new Intent(getApplicationContext(), CouponGalleryActivity.class);
+                                              couponGallery.putExtra("storeNAME", getIntent().getExtras().getString("storeNAME"));
                                               startActivity(couponGallery);
                                           }
                                       }
