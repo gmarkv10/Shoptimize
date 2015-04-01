@@ -39,3 +39,8 @@ To access the issue tracking system for Shoptimize, navigate to https://github.c
 
 * To open an issue, click on the “new issue” button and fill out a new issue
 * To view and/or discuss an existing issue, click on one of the issues.
+
+**Testing Plan**
+
+All instructions for the tests that we have can be found here.
+https://github.com/gmarkv10/Shoptimize/wiki/Running-Tests
