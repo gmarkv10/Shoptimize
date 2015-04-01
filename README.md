@@ -1,6 +1,6 @@
-** Shoptimize **
+**Shoptimize**
 
-** Source Control and Build Instructions **
+**Source Control and Build Instructions**
 
 As the development team for Shoptimize, we must take certain steps to ensure that 
 Shoptimize is in a runnable state at all times, and that all team members are up to date on the 
@@ -31,7 +31,7 @@ make changes to the code, and these changes will be recorded in Git‟s robust h
   b. To run the project on one of Android Studio‟s built in emulators, make sure your 
      computer supports virtualization and that it is enabled from in the BIOS settings
 
-** Source Control and Build Process **
+**Source Control and Build Process**
 
 Bugs encountered while using Shoptimize are recorded in Git‟s issue tracking system. 
 Since the Git repository is public, any person with a GitHub account may open issues in the 
