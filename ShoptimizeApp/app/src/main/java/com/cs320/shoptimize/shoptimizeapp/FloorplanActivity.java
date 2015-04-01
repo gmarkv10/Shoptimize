@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -45,7 +46,6 @@ public class FloorplanActivity extends Activity {
         nextBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo: refactor so the count for names/coords is all in FPActivity
                 count++;
                 fp.setCoord(count);
                 nameField.setText(names.get(count));
@@ -59,6 +59,10 @@ public class FloorplanActivity extends Activity {
                 count--;
                 fp.setCoord(count);
                 nameField.setText(names.get(count));
+                //todo: uncomment this code an it will show how the store trip keeps adding ot itself!
+                /*for(String s : names){
+                    Log.v("Item ", s);
+                }*/
             }
         });
 
