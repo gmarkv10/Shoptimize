@@ -237,6 +237,7 @@ these methods create (if it doesn't exist yet) and return a directory in the for
 to keep track of coupon files that could be updated by the user.
 */
     private File getCurrentDirectory(int position){
+        /*
         current_Store = getIntent().getExtras().getString("storeNAME");
         final Item currItem = items.getItems().get(position);
         //replaceAll methods sanitize names to be suitable directory names
@@ -244,6 +245,14 @@ to keep track of coupon files that could be updated by the user.
         String itemDirName = currItem.getName().replaceAll("\\W+", "");
         File storeDir = new File(getApplicationContext().getFilesDir().getPath() + "/" + storeDirName + "/" + itemDirName);
         Log.v("directory", getApplicationContext().getFilesDir() + "/" + storeDirName + "/" + itemDirName);
+        if(!storeDir.exists()){
+            storeDir.mkdirs();
+        }
+        return storeDir;
+        */
+        current_Store = getIntent().getExtras().getString("storeNAME");
+        String storeDirName = current_Store.replaceAll("\\W+", "");
+        File storeDir = new File(getApplicationContext().getFilesDir().getPath() + "/" + storeDirName);
         if(!storeDir.exists()){
             storeDir.mkdirs();
         }

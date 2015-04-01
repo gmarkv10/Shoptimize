@@ -2,6 +2,7 @@ package com.cs320.shoptimize.shoptimizeapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -33,21 +35,65 @@ public class CouponGalleryActivity extends Activity {
 
     private List<Bitmap> getCouponBitmaps(){
         List<Bitmap> bitmaps = new ArrayList<Bitmap>();
-        String currentStore = getIntent().getExtras().getString("storeNAME").replaceAll("\\W+", "");
+        Intent intent = getIntent();
+        Bundle bundle;
+        String string1;
+        String currentStore;
+        if(intent != null){
+            bundle = intent.getExtras();
+            if(bundle != null){
+                string1 = bundle.getString("storeNAME");
+                if(string1 != null){
+                    currentStore = string1.replaceAll("\\W+", "");
+                } else {
+                    Log.v("string1", "string1 was null");
+                    return bitmaps;
+                }
+            }else{
+                Log.v("bundle", "bundle was null");
+                return bitmaps;
+            }
+        } else {
+            Log.v("intent", "intent was null");
+            return bitmaps;
+        }
+        Log.v("GCB","string created successfully");
+
+
+        //String currentStore = getIntent().getExtras().getString("storeNAME").replaceAll("\\W+", "");
         //String storeDirPath = getApplicationContext().getFilesDir().getPath() + "/" + currentStore;
         File storeDir = new File(getApplicationContext().getFilesDir().getAbsolutePath() + "/" + currentStore);
         if(storeDir.exists()){
             File[] items = storeDir.listFiles();
+
             for(File file : items){
-                String pathName = file.getAbsolutePath();
-                Bitmap bitmap = BitmapFactory.decodeFile(pathName);
-                bitmaps.add(bitmap);
+                if(file.isFile()) {
+                    String pathName = file.getAbsolutePath();
+                    //Bitmap bitmap = BitmapFactory.decodeFile(pathName);
+                    Bitmap bitmap = loadImage(pathName);
+                    bitmaps.add(bitmap);
+
+                }
             }
         } else {
             Log.v("dir", "could not find " + storeDir.getAbsolutePath());
         }
+       // Toast.makeText(getApplicationContext(), "I made " + bitmaps.size() + " bitmaps.", Toast.LENGTH_SHORT).show();
         return bitmaps;
 
+    }
+
+    private Bitmap loadImage(String imgPath) {
+        BitmapFactory.Options options;
+        try {
+            options = new BitmapFactory.Options();
+            options.inSampleSize = 2;
+            Bitmap bitmap = BitmapFactory.decodeFile(imgPath, options);
+            return bitmap;
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private class CouponPageAdapter extends PagerAdapter{
@@ -74,15 +120,27 @@ public class CouponGalleryActivity extends Activity {
 
 
         public Object instantiateItem(ViewGroup container, int position){
-            Log.v("intItem", "instantiate item called");
             Context context = getApplicationContext();
             LayoutInflater inflater = (LayoutInflater)context.getSystemService
                     (Context.LAYOUT_INFLATER_SERVICE);
             View itemView = inflater.inflate(R.layout.cgallery_item, container, false);
             ImageView imageview = (ImageView) itemView.findViewById(R.id.imageView);
-            //imageview.setImageResource(mImages[position]);
+            imageview.setImageResource(mImages[position]);
             List<Bitmap> coupons = getCouponBitmaps();
-            imageview.setImageBitmap(coupons.get(position));
+            /*if(coupons.size() == 0){
+                Log.v("bitmaps", "size was 0");
+                Toast.makeText(getApplicationContext(), "no coupons", Toast.LENGTH_SHORT).show();
+            } else {
+
+
+                if(coupons.get(position) != null) {
+                    imageview.setImageBitmap(coupons.get(position));
+                    Toast.makeText(getApplicationContext(), "Displaying coupon " + position + " of size " + coupons.get(position).getHeight() + "x" + coupons.get(position).getWidth() + ".", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "coupon.get(position) returned null",Toast.LENGTH_SHORT).show();
+                }
+            }
+            */
             Log.v("intItem", "instantiate item finished");
             container.addView(itemView);
             return itemView;
