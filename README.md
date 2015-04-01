@@ -21,7 +21,10 @@ The code for Shoptimize is being shared with all team members via the source con
      
 
 3. Building the project
-  * ![alt tag](https://github.com/gmarkv10/Shoptimize/blob/master/ShoptimizeApp/app/src/main/res/drawable/readme_build_image.png) As seen in this picture, make sure that the ‘1: Project’ tab is selected on the left side of Android Studio and that the drop down menu directly next to it reads ‘Project Files’.
+ 
+ ![alt tag](https://github.com/gmarkv10/Shoptimize/blob/master/ShoptimizeApp/app/src/main/res/drawable/readme_build_image.png) 
+
+  * As seen in this picture, make sure that the ‘1: Project’ tab is selected on the left side of Android Studio and that the drop down menu directly next to it reads ‘Project Files’.
   * b.	Once you’ve imported the project and opened the project files view, open the Build menu and select ‘Make project’. After Java, Git, and Android Studio are set up, building our project is as easy as running ‘rebuild’ from this menu.
 
 **Change Logs**
