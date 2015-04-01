@@ -16,17 +16,17 @@ status the repository is in. This includes any recent changes to the repository,
 on the project, and any reported bugs that have occurred. Using Git, any team member can 
 make changes to the code, and these changes will be recorded in Git‟s robust history system.
 
-* 1. Getting the project files
+1. Getting the project files
   a. If you haven‟t already, install git from http://git-scm.com/
   b. In Git bash, navigate to a new project folder and run the command „git init‟
   c. Run the command „git clone https://github.com/gmarkv10/Shoptimize.git‟
 
-* 2. Setting up Android Studio
+2. Setting up Android Studio
   a. Go to http://developer.android.com/sdk/index.html and install Android Studio.
   b. Open Android Studio and select „import project‟. Specify the location where you 
      cloned the source files from Github.
 
-* 3. Building the project
+3. Building the project
   a. Once you‟ve imported the project, open the Build menu and select „Make project‟.
   b. To run the project on one of Android Studio‟s built in emulators, make sure your 
      computer supports virtualization and that it is enabled from in the BIOS settings
