@@ -274,6 +274,8 @@ to keep track of coupon files that could be updated by the user.
         if(storageDir == null){
             Toast.makeText(getApplicationContext(), "storageDir was null", Toast.LENGTH_SHORT).show();
         }
+        // new File(Environment.getExternalStorageDirectory(), name + ".jpg");
+        File image1 = new File(storageDir, imageFileName + ".jpg");
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -282,7 +284,7 @@ to keep track of coupon files that could be updated by the user.
 
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = "file:" + image.getAbsolutePath();
-        return image;
+        return image1;
     }
 
     private void dispatchTakePictureIntent(int position) {
@@ -295,12 +297,10 @@ to keep track of coupon files that could be updated by the user.
                 photoFile = createImageFile(position);
             } catch (IOException ex) {
                 // Error occurred while creating the File
-                Toast.makeText(getApplicationContext(), "photofile failed", Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(getApplicationContext(), "photo file failed", Toast.LENGTH_SHORT).show();
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                         Uri.fromFile(photoFile));
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
