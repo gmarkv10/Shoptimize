@@ -118,6 +118,7 @@ public class FloorplanActivity extends Activity {
                 AlertDialog alertDialog = alert.create();
                 alertDialog.show();
                 doneBtn.setVisibility(View.VISIBLE);
+                setButtonGroup(true);
                 fp.setPlacing(true);
 
 
@@ -129,10 +130,33 @@ public class FloorplanActivity extends Activity {
             public void onClick(View v) {
                 foundItems.add(new Item(itemName, fp.sendTouchEvent()));
                 doneBtn.setVisibility(View.INVISIBLE);
+                setButtonGroup(false);
                 fp.setPlacing(false);
-                Log.v("END OF PLACE",foundItems.get(0).toString());
+                Log.v("END OF PLACE",foundItems.get(foundItems.size()-1).toString());
             }
         });
+    }
+
+    private void setButtonGroup(boolean placing){
+        if(placing){
+            //DONE:YES.  Next, coupon, prev, replace:disable.  Text: invisible
+            doneBtn.setVisibility(View.VISIBLE);
+            findItemBtn.setEnabled(false);
+            nextBtn.setEnabled(false);
+            prevBtn.setEnabled(false);
+            couponBtn.setEnabled(false);
+            nameField.setVisibility(View.INVISIBLE);
+
+        }
+        else{
+            //DONE: invisible.  Next, coupon, prev: enable, Text:visible
+            doneBtn.setVisibility(View.INVISIBLE);
+            nextBtn.setEnabled(true);
+            findItemBtn.setEnabled(true);
+            prevBtn.setEnabled(true);
+            couponBtn.setEnabled(true);
+            nameField.setVisibility(View.VISIBLE);
+        }
     }
 
 }
