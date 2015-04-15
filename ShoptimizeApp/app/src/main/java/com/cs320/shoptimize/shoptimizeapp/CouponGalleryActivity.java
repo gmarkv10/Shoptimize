@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -62,7 +63,9 @@ public class CouponGalleryActivity extends Activity {
         List<Bitmap> bitmaps = new ArrayList<Bitmap>();
         String string1 = getIntent().getExtras().getString("storeNAME");
         String currentStore = string1.replaceAll("\\W+", "");
-        File storeDir = new File(getApplicationContext().getFilesDir().getAbsolutePath() + "/" + currentStore);
+        File storeDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        //File storeDir = new File(getApplicationContext().getFilesDir().getAbsolutePath() + "/" + currentStore);
         if(storeDir.exists()){
             File[] items = storeDir.listFiles();
             for(File file : items){
@@ -130,6 +133,7 @@ public class CouponGalleryActivity extends Activity {
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(filePath, options);
+        Log.d("CGA", "help! does this log eveen work?");
 
         // Calculate inSampleSize
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);

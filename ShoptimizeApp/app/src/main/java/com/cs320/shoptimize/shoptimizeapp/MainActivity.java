@@ -268,9 +268,9 @@ to keep track of coupon files that could be updated by the user.
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        //File storageDir = Environment.getExternalStoragePublicDirectory(
-        //        Environment.DIRECTORY_PICTURES);
-        File storageDir = getCurrentDirectory(position);
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        //File storageDir = getCurrentDirectory(position);
         if(storageDir == null){
             Toast.makeText(getApplicationContext(), "storageDir was null", Toast.LENGTH_SHORT).show();
         }
@@ -284,7 +284,7 @@ to keep track of coupon files that could be updated by the user.
 
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = "file:" + image.getAbsolutePath();
-        return image1;
+        return image;
     }
 
     private void dispatchTakePictureIntent(int position) {
