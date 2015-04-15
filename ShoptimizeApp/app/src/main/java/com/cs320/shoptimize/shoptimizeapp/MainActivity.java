@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
@@ -177,6 +178,7 @@ public class MainActivity extends ActionBarActivity {
                         floorplan.putExtra("XPOINTS", items.getXs());
                         floorplan.putExtra("YPOINTS", items.getYs());
                         floorplan.putExtra("NAMES",   items.getNames());
+                        floorplan.putExtra("storeNAME", getIntent().getExtras().getString("storeNAME"));
                         startActivity(floorplan);
                     }
                 }, 2000);
@@ -252,12 +254,16 @@ to keep track of coupon files that could be updated by the user.
         */
         current_Store = getIntent().getExtras().getString("storeNAME");
         String storeDirName = current_Store.replaceAll("\\W+", "");
-        File storeDir = new File(getApplicationContext().getFilesDir().getPath() + "/" + storeDirName);
+        File storeDir = new File(getApplicationContext().getFilesDir().getAbsolutePath() + "/" + storeDirName);
         if(!storeDir.exists()){
             storeDir.mkdirs();
         }
         return storeDir;
     }
+
+    // File storageDir = Environment.getExternalStoragePublicDirectory(
+    //        Environment.DIRECTORY_PICTURES);
+
     private File createImageFile(int position) throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -266,7 +272,7 @@ to keep track of coupon files that could be updated by the user.
         //        Environment.DIRECTORY_PICTURES);
         File storageDir = getCurrentDirectory(position);
         if(storageDir == null){
-            Log.v("bad", "storageDir was null");
+            Toast.makeText(getApplicationContext(), "storageDir was null", Toast.LENGTH_SHORT).show();
         }
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
@@ -289,7 +295,7 @@ to keep track of coupon files that could be updated by the user.
                 photoFile = createImageFile(position);
             } catch (IOException ex) {
                 // Error occurred while creating the File
-                Log.v("lol", "photoFile failed.");
+                Toast.makeText(getApplicationContext(), "photofile failed", Toast.LENGTH_SHORT).show();
 
             }
             // Continue only if the File was successfully created
@@ -299,7 +305,7 @@ to keep track of coupon files that could be updated by the user.
                         Uri.fromFile(photoFile));
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             } else {
-                Log.v("tag", "photoFile was equal to null.");
+                Toast.makeText(getApplicationContext(), "photoFile null", Toast.LENGTH_SHORT).show();
             }
         }
     }
