@@ -110,5 +110,52 @@ public class StoreListActivityTest extends ActivityInstrumentationTestCase2<Stor
         assertTrue("Store list view is not visible", View.VISIBLE == solo.getView(R.id.listView2).getVisibility());
     }
 
+    /**
+     * This method tests the lifecycle of the activity. This test is focused on the
+     * store list. The store list should retain its values after the activity is destroyed.
+     **/
+    public void testStoreList_lifecycle(){
+        //Store items should be saved before activity destruction
+        final String test_string = "Test Item";
+        final int oldSize = activity.storeList.size();
+        solo.enterText(addStoreField, test_string);
+        getInstrumentation().waitForIdleSync();
+        solo.clickOnView(addStoreButton);
+        getInstrumentation().waitForIdleSync();
+        activity.finish();
+        activity = getActivity();
+        assertEquals("State was not saved before activity destruction: item list size differences", oldSize+1, activity.storeList.size());
+    }
+
+    /**
+     * This method tests the lifecycle of the activity. This test is focused on the
+     * addStoreField. addStoreField should retain its input value after the activity is destroyed.
+     **/
+    public void testAddItemField_lifecycle(){
+        //Entered text should be saved before activity destruction
+        final String test_string = "Test Item";
+        final int oldSize = activity.storeList.size();
+        solo.enterText(addStoreField, test_string);
+        getInstrumentation().waitForIdleSync();
+        activity.finish();
+        activity = getActivity();
+        assertEquals("State was not saved before activity destruction: addItemField input string differences", test_string, addStoreField.getText().toString());
+    }
+
+    /**
+     * This method tests whether or not the addStoreField works. It should be cleared after
+     * pressing the "Add" button.
+     **/
+    public void testAddStoreField_contents(){
+        //The contents of addItemField should not change without user interaction
+        final String test_string = "Test Item";
+        solo.enterText(addStoreField, test_string);
+        getInstrumentation().waitForIdleSync();
+        assertEquals("addItemField's input text has changed", test_string, addStoreField.getText().toString());
+        //Clicking on the "Add Item" button should clear addItemField's input text
+        solo.clickOnView(addStoreButton);
+        getInstrumentation().waitForIdleSync();
+        assertEquals("addItemField's input text is not empty", "", addStoreField.getText().toString());
+    }
 
 }
