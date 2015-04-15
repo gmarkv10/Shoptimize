@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -34,6 +36,23 @@ public class CouponGalleryActivity extends Activity {
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         CouponPageAdapter adapter = new CouponPageAdapter();
         viewPager.setAdapter(adapter);
+    }
+
+    private List<File> getCouponFiles(){
+        List<File> files = new ArrayList<File>();
+        String string1 = getIntent().getExtras().getString("storeNAME");
+        String currentStore = string1.replaceAll("\\W+", "");
+        File storeDir = new File(getApplicationContext().getFilesDir().getAbsolutePath() + "/" + currentStore);
+        File[] items = storeDir.listFiles();
+        for(File file : items){
+            if(file.isFile()) {
+                files.add(file);
+            }
+        }
+        if (items == null || items.length == 0){
+            Toast.makeText(getApplicationContext(), "couldn't get files", Toast.LENGTH_SHORT).show();
+        }
+        return files;
     }
 
     private List<Bitmap> getCouponBitmaps(){
@@ -68,21 +87,35 @@ public class CouponGalleryActivity extends Activity {
             for(File file : items){
                 //Toast.makeText(getApplicationContext(), "found some files", Toast.LENGTH_SHORT).show();
                 if(file.isFile()) {
-                    String pathName = null;
+                    String pathName = file.getPath();
                     String canonicalPathName = null;
-                    String absolutePathName = null;
+                    String absolutePathName = file.getAbsolutePath();
                     try {
                         canonicalPathName = file.getCanonicalPath();
                     } catch (IOException e) {
                         Toast.makeText(getApplicationContext(), "IOEXCEPTION", Toast.LENGTH_SHORT).show();
 
                     }
-                    Toast.makeText(getApplicationContext(), pathName, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), pathName, Toast.LENGTH_SHORT).show();
                     //Bitmap bitmap = BitmapFactory.decodeFile(pathName);
-                    Bitmap bitmap = decodeSampledBitmapFromFile(pathName, 720, 720);
+                    Bitmap bitmap;
+                   bitmap = decodeSampledBitmapFromFile(pathName, 720, 720);
                     if(bitmap != null){
-                        Toast.makeText(getApplicationContext(), "NOT NULL", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "1NOT NULL", Toast.LENGTH_SHORT).show();
+                    } else {
+                        bitmap = decodeSampledBitmapFromFile(canonicalPathName, 720, 720);
+                        if(bitmap != null){
+                            Toast.makeText(getApplicationContext(), "2NOT NULL", Toast.LENGTH_SHORT).show();
+                        } else {
+                            bitmap = decodeSampledBitmapFromFile(absolutePathName, 720, 720);
+                            if(bitmap != null){
+                                Toast.makeText(getApplicationContext(), "3NOT NULL", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "4NULL " + file.getName(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
+
                     bitmaps.add(bitmap);
 
                 }
@@ -179,13 +212,29 @@ public class CouponGalleryActivity extends Activity {
 
 
         public Object instantiateItem(ViewGroup container, int position){
+
+
+
             Context context = getApplicationContext();
             LayoutInflater inflater = (LayoutInflater)context.getSystemService
                     (Context.LAYOUT_INFLATER_SERVICE);
             View itemView = inflater.inflate(R.layout.cgallery_item, container, false);
             ImageView imageview = (ImageView) itemView.findViewById(R.id.imageView);
+
+            List<File> files = getCouponFiles();
+            if(files == null){
+                Toast.makeText(getApplicationContext(), "files are null",Toast.LENGTH_SHORT).show();
+                return itemView;
+            }
+            if (files.size() == 0){
+                Toast.makeText(getApplicationContext(), "size is 0",Toast.LENGTH_SHORT).show();
+                return itemView;
+            }
+            Picasso.with(getApplicationContext()).load(files.get(position)).resize(720, 720).into(imageview);
+
             //imageview.setImageResource(mImages[position]);
-            List<Bitmap> coupons = getCouponBitmaps();
+            //Picasso.with(getApplicationContext())load
+          /*  List<Bitmap> coupons = getCouponBitmaps();
             if(coupons.size() == 0){
                 Log.v("bitmaps", "size was 0");
                 Toast.makeText(getApplicationContext(), "no coupons", Toast.LENGTH_SHORT).show();
@@ -200,8 +249,7 @@ public class CouponGalleryActivity extends Activity {
                 }
             }
 
-            Log.v("intItem", "instantiate item finished");
-            container.addView(itemView);
+            container.addView(itemView); */
             return itemView;
 
         }
