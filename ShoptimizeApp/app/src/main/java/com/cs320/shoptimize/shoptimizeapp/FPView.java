@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -20,10 +21,10 @@ import java.util.ArrayList;
 public class FPView extends SurfaceView implements SurfaceHolder.Callback {
     Bitmap bm;
     boolean draw = false;
+    boolean placing = false;
     private ViewThread viewThread;
     private ArrayList<Integer> xs, ys;
     private int currentCoord = 0;
-    int test = 1;
     int mX, mY;
 
     public FPView(Context context){
@@ -43,29 +44,41 @@ public class FPView extends SurfaceView implements SurfaceHolder.Callback {
     Paint paint1 = new Paint(Paint.ANTI_ALIAS_FLAG);
     Paint paint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
     protected void doDraw(Canvas canvas) {
+        if(placing){
+           canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+           canvas.drawBitmap(bm, 0, 0, null);
+           paint1.setColor(Color.MAGENTA);
+           canvas.drawCircle(mX, mY, 25, paint1);
+        }
+        else{
         //super.onDraw(canvas);
         paint1.setColor(Color.CYAN);
         paint2.setColor(Color.RED);
         canvas.drawBitmap(bm, 0, 0, null);
         //Draw points
-        for(int i = 0; i < xs.size(); i++){
-            paint1.setColor(Color.GREEN);
-            if(i == currentCoord) {
-                canvas.drawCircle(xs.get(i), ys.get(i), 22, paint2);
-            }
-            else{
-                canvas.drawCircle(xs.get(i), ys.get(i), 15, paint1);
-            }
-            //DRAW CIRCLES BABY////////////////////////////////
+            for(int i = 0; i < xs.size(); i++) {
+                paint1.setColor(Color.GREEN);
+                if (i == currentCoord) {
+                    canvas.drawCircle(xs.get(i), ys.get(i), 22, paint2);
+                } else {
+                    canvas.drawCircle(xs.get(i), ys.get(i), 15, paint1);
+                }
+                //DRAW CIRCLES BABY////////////////////////////////
 
-            //CIRCLES UP IN THIS BIZITCH///////////////////////
-            //dank circles yo. dank as shit
+                //CIRCLES UP IN THIS BIZITCH///////////////////////
+                //dank circles yo. dank as shit
+            }
         }
     }
 
     protected void toggleDraw(){
         draw = !draw;
     }
+    protected void setPlacing(boolean b){
+        placing = b;
+    }
+    protected boolean getPlacing(){ return placing;}
+
 
     protected void getXYCollection(ArrayList<Integer> XS, ArrayList<Integer> YS){
         if(XS.size() == YS.size()) {
@@ -94,17 +107,25 @@ public class FPView extends SurfaceView implements SurfaceHolder.Callback {
         doDraw(new Canvas());
     }
 
+
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         mX = (int) event.getX();// - bm.getWidth() / 2;
         mY = (int) event.getY();// - bm.getHeight() / 2;
         logTouchEvent();
+        setPlacing(true);
         return super.onTouchEvent(event);
     }
 
     public void logTouchEvent(){
         Log.v("Touch Registered at: ", "{" + mX + "," + mY + "}");
         Log.v("Current coord:", " " + currentCoord);
+    }
+
+    public String sendTouchEvent(){
+        //Log.v("SendTouchEvent -- ", Integer.toString(mX)+","+Integer.toString(mY));
+        return Integer.toString(mX)+","+Integer.toString(mY);
     }
 
     @Override

@@ -19,6 +19,11 @@ public class Item {
         this.coupon = coupon;
     }
 
+    public Item(String name, String loc){
+        this.name = name;
+        this.location = loc;
+    }
+
     public boolean toggleCoupon(){
         this.coupon = !coupon;
         return coupon;
@@ -45,7 +50,7 @@ public class Item {
 
     @Override
     public String toString(){
-        return "Name is " + name + " with " + coupon + " coupon";
+        return "Name is " + name + " with " + location + " location";
     }
 
     public static void getLocations(String store, List<Item> sl){

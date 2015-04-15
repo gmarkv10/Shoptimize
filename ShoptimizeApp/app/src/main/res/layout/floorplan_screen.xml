@@ -57,4 +57,24 @@
         android:layout_alignTop="@+id/label_item"
         android:layout_toRightOf="@+id/label_item"
         android:layout_toEndOf="@+id/label_item" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(Re)place Item"
+        android:id="@+id/btn_findItem"
+        android:layout_above="@+id/name_item"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DONE"
+        android:id="@+id/btn_done"
+        android:clickable="false"
+        android:visibility="invisible"
+        android:layout_below="@+id/floorplan_view"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
