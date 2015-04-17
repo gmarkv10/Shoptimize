@@ -65,19 +65,25 @@ public class StoreListActivity extends Activity {
             @Override
             public void onClick(View view){
                 String st = addField.getText().toString();
-                int match = 0;
-                for(Store s : storeList){
-                    if(s.getName().toLowerCase().equals(st.toLowerCase())){
-                        Toast.makeText(getApplicationContext(), "Shop has already been added", Toast.LENGTH_SHORT).show();
-                        match++;
-                        addField.setText("");
-                        break;
+                if(st.length() < 2){
+                    Toast.makeText(getApplicationContext(), "Enter a valid Shop name", Toast.LENGTH_SHORT).show();
+                } else if(st.length() > 20){
+                    Toast.makeText(getApplicationContext(), "Shop name must be 20 or fewer characters", Toast.LENGTH_SHORT).show();
+                } else {
+                    int match = 0;
+                    for (Store s : storeList) {
+                        if (s.getName().toLowerCase().equals(st.toLowerCase())) {
+                            Toast.makeText(getApplicationContext(), "Shop has already been added", Toast.LENGTH_SHORT).show();
+                            match++;
+                            addField.setText("");
+                            break;
+                        }
                     }
-                }
-                if(match == 0) {
-                    storeList.add(new Store(addField.getText().toString(), 2674));
-                    Toast.makeText(getApplicationContext(), "Shop added", Toast.LENGTH_SHORT).show();
-                    addField.setText("");
+                    if (match == 0) {
+                        storeList.add(new Store(addField.getText().toString(), 2674));
+                        Toast.makeText(getApplicationContext(), "Shop added", Toast.LENGTH_SHORT).show();
+                        addField.setText("");
+                    }
                 }
             }
         });

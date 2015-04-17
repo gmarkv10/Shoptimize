@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -30,12 +31,15 @@ import java.util.List;
  */
 public class CouponGalleryActivity extends Activity {
 
+    List<Bitmap> coupons = null;
+
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.coupon_gallery);
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         CouponPageAdapter adapter = new CouponPageAdapter();
         viewPager.setAdapter(adapter);
+        coupons = this.getCouponBitmaps();
     }
 
     private List<File> getCouponFiles(){
@@ -57,35 +61,14 @@ public class CouponGalleryActivity extends Activity {
 
     private List<Bitmap> getCouponBitmaps(){
         List<Bitmap> bitmaps = new ArrayList<Bitmap>();
-        Intent intent = getIntent();
-        Bundle bundle;
-        String string1;
-        String currentStore;
-        if(intent != null){
-            bundle = intent.getExtras();
-            if(bundle != null){
-                string1 = bundle.getString("storeNAME");
-                if(string1 != null){
-                    currentStore = string1.replaceAll("\\W+", "");
-                } else {
-                    Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_SHORT).show();
-                    return bitmaps;
-                }
-            }else{
-                Toast.makeText(getApplicationContext(), "2", Toast.LENGTH_SHORT).show();
-                return bitmaps;
-            }
-        } else {
-            Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_SHORT).show();
-            return bitmaps;
-        }
-        //Toast.makeText(getApplicationContext(), "4", Toast.LENGTH_SHORT).show();
-        File storeDir = new File(getApplicationContext().getFilesDir().getAbsolutePath() + "/" + currentStore);
+        String string1 = getIntent().getExtras().getString("storeNAME");
+        String currentStore = string1.replaceAll("\\W+", "");
+        File storeDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        //File storeDir = new File(getApplicationContext().getFilesDir().getAbsolutePath() + "/" + currentStore);
         if(storeDir.exists()){
             File[] items = storeDir.listFiles();
-
             for(File file : items){
-                //Toast.makeText(getApplicationContext(), "found some files", Toast.LENGTH_SHORT).show();
                 if(file.isFile()) {
                     String pathName = file.getPath();
                     String canonicalPathName = null;
@@ -94,12 +77,9 @@ public class CouponGalleryActivity extends Activity {
                         canonicalPathName = file.getCanonicalPath();
                     } catch (IOException e) {
                         Toast.makeText(getApplicationContext(), "IOEXCEPTION", Toast.LENGTH_SHORT).show();
-
                     }
-                    //Toast.makeText(getApplicationContext(), pathName, Toast.LENGTH_SHORT).show();
-                    //Bitmap bitmap = BitmapFactory.decodeFile(pathName);
-                    Bitmap bitmap;
-                   bitmap = decodeSampledBitmapFromFile(pathName, 720, 720);
+                    Bitmap bitmap = null;
+                    bitmap = decodeSampledBitmapFromFile(pathName, 720, 720);
                     if(bitmap != null){
                         Toast.makeText(getApplicationContext(), "1NOT NULL", Toast.LENGTH_SHORT).show();
                     } else {
@@ -115,9 +95,7 @@ public class CouponGalleryActivity extends Activity {
                             }
                         }
                     }
-
                     bitmaps.add(bitmap);
-
                 }
             }
         } else {
@@ -155,6 +133,7 @@ public class CouponGalleryActivity extends Activity {
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(filePath, options);
+        Log.d("CGA", "help! does this log eveen work?");
 
         // Calculate inSampleSize
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
@@ -230,17 +209,16 @@ public class CouponGalleryActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "size is 0",Toast.LENGTH_SHORT).show();
                 return itemView;
             }
-            Picasso.with(getApplicationContext()).load(files.get(position)).resize(720, 720).into(imageview);
+            //Picasso.with(getApplicationContext()).load(files.get(position)).resize(720, 720).into(imageview);
 
             //imageview.setImageResource(mImages[position]);
             //Picasso.with(getApplicationContext())load
-          /*  List<Bitmap> coupons = getCouponBitmaps();
+            //List<Bitmap> coupons = getCouponBitmaps();
             if(coupons.size() == 0){
                 Log.v("bitmaps", "size was 0");
                 Toast.makeText(getApplicationContext(), "no coupons", Toast.LENGTH_SHORT).show();
             } else {
 
-                Toast.makeText(getApplicationContext(), "position is " + position, Toast.LENGTH_SHORT).show();
                 if(coupons.get(position) != null) {
                     imageview.setImageBitmap(coupons.get(position));
                     Toast.makeText(getApplicationContext(), "Displaying coupon " + position + " of size " + coupons.get(position).getHeight() + "x" + coupons.get(position).getWidth() + ".", Toast.LENGTH_SHORT).show();
@@ -249,7 +227,7 @@ public class CouponGalleryActivity extends Activity {
                 }
             }
 
-            container.addView(itemView); */
+            container.addView(itemView);
             return itemView;
 
         }

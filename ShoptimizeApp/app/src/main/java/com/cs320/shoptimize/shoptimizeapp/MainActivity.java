@@ -268,12 +268,14 @@ to keep track of coupon files that could be updated by the user.
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        //File storageDir = Environment.getExternalStoragePublicDirectory(
-        //        Environment.DIRECTORY_PICTURES);
-        File storageDir = getCurrentDirectory(position);
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        //File storageDir = getCurrentDirectory(position);
         if(storageDir == null){
             Toast.makeText(getApplicationContext(), "storageDir was null", Toast.LENGTH_SHORT).show();
         }
+        // new File(Environment.getExternalStorageDirectory(), name + ".jpg");
+        File image1 = new File(storageDir, imageFileName + ".jpg");
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -295,12 +297,10 @@ to keep track of coupon files that could be updated by the user.
                 photoFile = createImageFile(position);
             } catch (IOException ex) {
                 // Error occurred while creating the File
-                Toast.makeText(getApplicationContext(), "photofile failed", Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(getApplicationContext(), "photo file failed", Toast.LENGTH_SHORT).show();
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                         Uri.fromFile(photoFile));
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
