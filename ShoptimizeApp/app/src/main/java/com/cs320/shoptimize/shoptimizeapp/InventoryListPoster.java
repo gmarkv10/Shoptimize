@@ -19,7 +19,7 @@ public class InventoryListPoster extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... params) {
-        ShoptimizeDB.addInventoryListItem(InventoryListName, item.getName(), item.getLocation(), "False", "");
+        ShoptimizeDB.addInventoryListItem(InventoryListName, item.getName(), item.getLocation(), "False", "Screw Yourself");
         return "Add item " + item.toString();
     }
 

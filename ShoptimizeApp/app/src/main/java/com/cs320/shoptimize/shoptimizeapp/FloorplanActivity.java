@@ -27,6 +27,7 @@ public class FloorplanActivity extends Activity {
     Button couponBtn;
     Button findItemBtn;
     Button doneBtn;
+    Button postBtn;
     TextView nameField;
     String storeName;
     int count = 0;
@@ -54,6 +55,7 @@ public class FloorplanActivity extends Activity {
         prevBtn = (Button) findViewById(R.id.btn_prev);
         couponBtn = (Button) findViewById(R.id.btn_show);
         findItemBtn = (Button) findViewById(R.id.btn_findItem);
+        postBtn     = (Button) findViewById(R.id.btn_post);
         doneBtn = (Button) findViewById(R.id.btn_done);
         nextBtn.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -137,6 +139,16 @@ public class FloorplanActivity extends Activity {
                 Log.v("END OF PLACE",foundItems.get(foundItems.size()-1).toString());
             }
         });
+
+        postBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(Item i: foundItems){
+                    //new InventoryListPoster(storeName, i).execute();
+                    new InventoryListPoster("TraderBruns_InventoryList", i).execute();
+                }
+            }
+        });
     }
 
     private void setButtonGroup(boolean placing){
@@ -164,9 +176,7 @@ public class FloorplanActivity extends Activity {
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        for(Item i: foundItems){
-            new InventoryListPoster(storeName, i).execute();
-        }
+
 
     }
 
