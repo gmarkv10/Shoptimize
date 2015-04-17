@@ -175,6 +175,7 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     public void run() {
                         items.addFPPointsforIntent();
+                        floorplan.putExtra("STORENAME", current_Store);
                         floorplan.putExtra("XPOINTS", items.getXs());
                         floorplan.putExtra("YPOINTS", items.getYs());
                         floorplan.putExtra("NAMES",   items.getNames());

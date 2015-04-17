@@ -28,6 +28,7 @@ public class FloorplanActivity extends Activity {
     Button findItemBtn;
     Button doneBtn;
     TextView nameField;
+    String storeName;
     int count = 0;
     ArrayList<String>  names;
     ArrayList<Integer> ypoints;
@@ -46,6 +47,7 @@ public class FloorplanActivity extends Activity {
         xpoints = getIntent().getExtras().getIntegerArrayList("XPOINTS");
         ypoints = getIntent().getExtras().getIntegerArrayList("YPOINTS");
         names   = getIntent().getExtras().getStringArrayList("NAMES");
+        storeName = getIntent().getExtras().getString("STORENAME");
         fp.getXYCollection(xpoints, ypoints);
         nameField.setText(names.get(count));
         nextBtn = (Button) findViewById(R.id.btn_next);
@@ -157,6 +159,15 @@ public class FloorplanActivity extends Activity {
             couponBtn.setEnabled(true);
             nameField.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        for(Item i: foundItems){
+            new InventoryListPoster(storeName, i).execute();
+        }
+
     }
 
 }
