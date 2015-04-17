@@ -1,12 +1,10 @@
 package com.cs320.shoptimize.shoptimizeapp;
 
-import android.app.ListActivity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Point;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
@@ -20,7 +18,6 @@ import android.view.MenuItem;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -30,26 +27,17 @@ import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.text.AttributedCharacterIterator;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.support.v4.view.GestureDetectorCompat;
 
 import com.amazonaws.com.google.gson.Gson;
-import com.amazonaws.com.google.gson.reflect.TypeToken;
-import com.amazonaws.services.dynamodbv2.model.ScanResult;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -186,10 +174,11 @@ public class MainActivity extends ActionBarActivity {
                 handler.postDelayed( new Runnable() {
                     @Override
                     public void run() {
-                        items.addFPPointsforInent();
+                        items.addFPPointsforIntent();
                         floorplan.putExtra("XPOINTS", items.getXs());
                         floorplan.putExtra("YPOINTS", items.getYs());
                         floorplan.putExtra("NAMES",   items.getNames());
+                        floorplan.putExtra("storeNAME", getIntent().getExtras().getString("storeNAME"));
                         startActivity(floorplan);
                     }
                 }, 2000);
@@ -250,6 +239,7 @@ these methods create (if it doesn't exist yet) and return a directory in the for
 to keep track of coupon files that could be updated by the user.
 */
     private File getCurrentDirectory(int position){
+        /*
         current_Store = getIntent().getExtras().getString("storeNAME");
         final Item currItem = items.getItems().get(position);
         //replaceAll methods sanitize names to be suitable directory names
@@ -261,17 +251,31 @@ to keep track of coupon files that could be updated by the user.
             storeDir.mkdirs();
         }
         return storeDir;
+        */
+        current_Store = getIntent().getExtras().getString("storeNAME");
+        String storeDirName = current_Store.replaceAll("\\W+", "");
+        File storeDir = new File(getApplicationContext().getFilesDir().getAbsolutePath() + "/" + storeDirName);
+        if(!storeDir.exists()){
+            storeDir.mkdirs();
+        }
+        return storeDir;
     }
+
+    // File storageDir = Environment.getExternalStoragePublicDirectory(
+    //        Environment.DIRECTORY_PICTURES);
+
     private File createImageFile(int position) throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        //File storageDir = Environment.getExternalStoragePublicDirectory(
-        //        Environment.DIRECTORY_PICTURES);
-        File storageDir = getCurrentDirectory(position);
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        //File storageDir = getCurrentDirectory(position);
         if(storageDir == null){
-            Log.v("bad", "storageDir was null");
+            Toast.makeText(getApplicationContext(), "storageDir was null", Toast.LENGTH_SHORT).show();
         }
+        // new File(Environment.getExternalStorageDirectory(), name + ".jpg");
+        File image1 = new File(storageDir, imageFileName + ".jpg");
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -293,17 +297,15 @@ to keep track of coupon files that could be updated by the user.
                 photoFile = createImageFile(position);
             } catch (IOException ex) {
                 // Error occurred while creating the File
-                Log.v("lol", "photoFile failed.");
-
+                Toast.makeText(getApplicationContext(), "photo file failed", Toast.LENGTH_SHORT).show();
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                         Uri.fromFile(photoFile));
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             } else {
-                Log.v("tag", "photoFile was equal to null.");
+                Toast.makeText(getApplicationContext(), "photoFile null", Toast.LENGTH_SHORT).show();
             }
         }
     }
