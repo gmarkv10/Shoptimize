@@ -331,14 +331,8 @@ to keep track of coupon files that could be updated by the user.
             coupText.setText(currItem.getCouponAsStr());
             final CheckBox coupCheck = (CheckBox) row.findViewById(R.id.couponCheck);
             coupCheck.setChecked(currItem.getCoupon());
-            coupCheck.setOnClickListener( new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    currItem.toggleCoupon();
-                    coupText.setText(currItem.getCouponAsStr());
-
-                }
-            });
+            //currItem.toggleCoupon();
+            //coupText.setText(currItem.getCouponAsStr());
             TextView loc =  (TextView) row.findViewById(R.id.location);
             loc.setText("Location: " + currItem.getLocation());
 
@@ -347,6 +341,8 @@ to keep track of coupon files that could be updated by the user.
                                               @Override
                                               public void onClick(View v) {
                                                   dispatchTakePictureIntent(finalPosition);
+                                                  currItem.toggleCoupon();
+                                                  coupText.setText(currItem.getCouponAsStr());
                                               }
                                           }
 
