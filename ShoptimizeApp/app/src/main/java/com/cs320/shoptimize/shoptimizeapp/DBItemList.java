@@ -133,27 +133,5 @@ public class DBItemList {
                 item.setLocation(trimmed);
             }
         }
-
-    private class InventoryListPoster extends AsyncTask<Void, Void, String> {
-
-        String InventoryListName;
-        Item item;
-
-        public InventoryListPoster (String InventoryListName, Item item) {
-            this.InventoryListName = InventoryListName;
-            this.item = item;
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            ShoptimizeDB.addInventoryListItem(InventoryListName, item.getName(), item.getLocation(), "False", "");
-            return "Add item " + item.toString();
-        }
-
-        @Override
-        protected void onPostExecute(String... params) {
-            Log.v("RETURN", params.toString());
-        }
-    }
     }
 }
