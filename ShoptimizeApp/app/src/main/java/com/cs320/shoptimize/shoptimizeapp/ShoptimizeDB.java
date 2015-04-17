@@ -2,6 +2,7 @@ package com.cs320.shoptimize.shoptimizeapp;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.*;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
@@ -22,7 +23,6 @@ public class ShoptimizeDB {
         PutItemRequest putItemRequest = new PutItemRequest("Stores", storeItem);
         PutItemResult putItemResult = ddb.putItem(putItemRequest);
 
-        System.out.println("Result: " + putItemResult);
     }
 
     public static void addInventoryListItem(String inventoryListName, String itemName, String itemLocation, String hasCoupon, String...notes) {
@@ -33,7 +33,16 @@ public class ShoptimizeDB {
         PutItemRequest putItemRequest = new PutItemRequest(inventoryListName, inventoryListItem);
         PutItemResult putItemResult = ddb.putItem(putItemRequest);
 
-        System.out.println("Result: " + putItemResult);
+    }
+
+    public static void addInventoryListItem(String inventoryListName, Item item) {
+
+        AmazonDynamoDBClient ddb = MainActivity.clientManager.ddb();
+
+        Map<String, AttributeValue> inventoryListItem = newInventoryListItem(item.getName(), item.getLocation(), "False", "");
+        PutItemRequest putItemRequest = new PutItemRequest(inventoryListName, inventoryListItem);
+        PutItemResult putItemResult = ddb.putItem(putItemRequest);
+
     }
 
     public static ScanResult getStoreItem(String storeName) {

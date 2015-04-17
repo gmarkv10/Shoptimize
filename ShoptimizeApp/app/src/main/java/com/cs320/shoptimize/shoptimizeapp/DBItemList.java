@@ -137,7 +137,24 @@ public class DBItemList {
                 item.setLocation(trimmed);
             }
         }
+    }
 
+    private class InventoryListPoster extends AsyncTask<Void, Void, String> {
 
+        String InventoryListName;
+        Item item;
+
+        public InventoryListPoster (String InventoryListName, Item item) {
+            this.InventoryListName = InventoryListName;
+            this.item = item;
+        }
+        protected String doInBackground(Void... params) {
+            ShoptimizeDB.addInventoryListItem(InventoryListName, item);
+            return "Completed";
+        }
+
+        protected void onPostExecute(String... params) {
+            Log.v("RETURNTYPE", params.toString());
+        }
     }
 }

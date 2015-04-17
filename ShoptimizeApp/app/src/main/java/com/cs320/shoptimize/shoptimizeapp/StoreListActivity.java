@@ -130,6 +130,7 @@ public class StoreListActivity extends Activity {
 
     private void addStore(String name, int store_ID){
         storeList.add(new Store(name, store_ID));
+
     }
 
     class ItemListAdapter extends ArrayAdapter<Store> {
