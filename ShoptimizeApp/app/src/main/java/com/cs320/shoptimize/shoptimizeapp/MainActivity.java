@@ -282,7 +282,7 @@ to keep track of coupon files that could be updated by the user.
     private File createImageFile(int position) throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
+        String imageFileName = "SHOPT_" + timeStamp + "_";
         File storageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
         //File storageDir = getCurrentDirectory(position);
@@ -382,11 +382,14 @@ to keep track of coupon files that could be updated by the user.
     private boolean tmp_populateShoppingLists(){
         DBItemList one;
         DBItemList two;
+        DBItemList three;
         try {
             one = new DBItemList();
             two = new DBItemList();
-            shoppingLists.put("Trader Brun's", one);
+            three = new DBItemList();
+            shoppingLists.put("Trader Joe's", one);
             shoppingLists.put("Stop & Shop", two);
+            shoppingLists.put("Big Y", three);
         } catch (Exception e) {
             e.printStackTrace();
         }

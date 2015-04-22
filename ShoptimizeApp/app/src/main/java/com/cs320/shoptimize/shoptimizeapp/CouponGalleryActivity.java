@@ -22,9 +22,12 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Peter on 3/24/2015.
@@ -67,9 +70,14 @@ public class CouponGalleryActivity extends Activity {
                 Environment.DIRECTORY_PICTURES);
         //File storeDir = new File(getApplicationContext().getFilesDir().getAbsolutePath() + "/" + currentStore);
         if(storeDir.exists()){
-            File[] items = storeDir.listFiles();
+            File[] items = storeDir.listFiles(new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String filename) {
+                    return Pattern.matches(".\\.jpg", filename);
+                }
+            });
+            Log.v("file", "i found " + items.length);
             for(File file : items){
-                if(file.isFile()) {
                     String pathName = file.getPath();
                     String canonicalPathName = null;
                     String absolutePathName = file.getAbsolutePath();
@@ -80,7 +88,7 @@ public class CouponGalleryActivity extends Activity {
                     }
                     Bitmap bitmap = null;
                     bitmap = decodeSampledBitmapFromFile(pathName, 720, 720);
-                    if(bitmap != null){
+                    /* if(bitmap != null){
                         Toast.makeText(getApplicationContext(), "1NOT NULL", Toast.LENGTH_SHORT).show();
                     } else {
                         bitmap = decodeSampledBitmapFromFile(canonicalPathName, 720, 720);
@@ -94,9 +102,8 @@ public class CouponGalleryActivity extends Activity {
                                 Toast.makeText(getApplicationContext(), "4NULL " + file.getName(), Toast.LENGTH_SHORT).show();
                             }
                         }
-                    }
+                    } */
                     bitmaps.add(bitmap);
-                }
             }
         } else {
             Log.v("dir", "could not find " + storeDir.getAbsolutePath());
@@ -200,7 +207,7 @@ public class CouponGalleryActivity extends Activity {
             View itemView = inflater.inflate(R.layout.cgallery_item, container, false);
             ImageView imageview = (ImageView) itemView.findViewById(R.id.imageView);
 
-            List<File> files = getCouponFiles();
+            /*List<File> files = getCouponFiles();
             if(files == null){
                 Toast.makeText(getApplicationContext(), "files are null",Toast.LENGTH_SHORT).show();
                 return itemView;
@@ -208,7 +215,7 @@ public class CouponGalleryActivity extends Activity {
             if (files.size() == 0){
                 Toast.makeText(getApplicationContext(), "size is 0",Toast.LENGTH_SHORT).show();
                 return itemView;
-            }
+            } */
             //Picasso.with(getApplicationContext()).load(files.get(position)).resize(720, 720).into(imageview);
 
             //imageview.setImageResource(mImages[position]);
@@ -221,9 +228,9 @@ public class CouponGalleryActivity extends Activity {
 
                 if(coupons.get(position) != null) {
                     imageview.setImageBitmap(coupons.get(position));
-                    Toast.makeText(getApplicationContext(), "Displaying coupon " + position + " of size " + coupons.get(position).getHeight() + "x" + coupons.get(position).getWidth() + ".", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Displaying coupon " + position + ".", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "coupon.get(position) returned null",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "coupon.get(" + position + ") returned null",Toast.LENGTH_SHORT).show();
                 }
             }
 
