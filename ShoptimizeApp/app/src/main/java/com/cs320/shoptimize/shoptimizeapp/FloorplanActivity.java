@@ -48,6 +48,9 @@ public class FloorplanActivity extends Activity {
         xpoints = getIntent().getExtras().getIntegerArrayList("XPOINTS");
         ypoints = getIntent().getExtras().getIntegerArrayList("YPOINTS");
         names   = getIntent().getExtras().getStringArrayList("NAMES");
+        for(String s :names){
+            Log.v("IN FPA", s);
+        }
         storeName = getIntent().getExtras().getString("STORENAME");
         fp.getXYCollection(xpoints, ypoints);
         nameField.setText(names.get(count));

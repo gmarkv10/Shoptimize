@@ -189,6 +189,10 @@ public class MainActivity extends ActionBarActivity {
                         floorplan.putExtra("XPOINTS", items.getXs());
                         floorplan.putExtra("YPOINTS", items.getYs());
                         floorplan.putExtra("NAMES",   items.getNames());
+                        for(Item i: items.getItems() ){
+                            Log.v("IN MAIN:", i.getName());
+                        }
+
                         floorplan.putExtra("storeNAME", getIntent().getExtras().getString("storeNAME"));
                         startActivity(floorplan);
                     }
