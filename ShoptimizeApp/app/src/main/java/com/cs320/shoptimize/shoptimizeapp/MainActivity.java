@@ -148,6 +148,7 @@ public class MainActivity extends ActionBarActivity {
                     items.addItem(addField.getText().toString(), false);
                     Toast.makeText(getApplicationContext(), "Item added", Toast.LENGTH_SHORT).show();
                     addField.setText("");
+                    adapter.notifyDataSetChanged();
                     //Log.v("COORD", items.getItems().get(0).getLocation());
                 }
                 else{
