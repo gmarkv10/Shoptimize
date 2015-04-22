@@ -379,11 +379,14 @@ to keep track of coupon files that could be updated by the user.
     private boolean tmp_populateShoppingLists(){
         DBItemList one;
         DBItemList two;
+        DBItemList three;
         try {
             one = new DBItemList();
             two = new DBItemList();
-            shoppingLists.put("Trader Brun's", one);
+            three = new DBItemList();
+            shoppingLists.put("Trader Joe's", one);
             shoppingLists.put("Stop & Shop", two);
+            shoppingLists.put("Big Y", three);
         } catch (Exception e) {
             e.printStackTrace();
         }

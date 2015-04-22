@@ -24,7 +24,7 @@ public class DBItemList {
     ArrayList<String>    preprocNAME = new ArrayList<String>();
 
     public DBItemList() throws Exception {
-        populateSL();
+        // populateSL();
     }
 
     public List<Item> getItems(){return items;}
