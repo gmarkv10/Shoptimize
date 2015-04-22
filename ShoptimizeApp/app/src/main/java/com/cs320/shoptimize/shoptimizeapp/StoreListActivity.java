@@ -58,10 +58,10 @@ public class StoreListActivity extends Activity {
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(selectItem);
 
-        addField = (EditText) findViewById(R.id.txt_addStore);
-        final Button addBtn = (Button) findViewById(R.id.but_addStore);
+       // addField = (EditText) findViewById(R.id.txt_addStore);
+       // final Button addBtn = (Button) findViewById(R.id.but_addStore);
 
-        addBtn.setOnClickListener(new View.OnClickListener(){
+       /* addBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 String st = addField.getText().toString();
@@ -86,7 +86,7 @@ public class StoreListActivity extends Activity {
                     }
                 }
             }
-        });
+        }); */
        // SharedPreferences.Editor storeListEditor = storeListData.edit();
        // Gson gson = new Gson();
        // String json = gson.toJson(storeList);
