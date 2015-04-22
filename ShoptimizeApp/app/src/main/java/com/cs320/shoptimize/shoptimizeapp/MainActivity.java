@@ -344,8 +344,8 @@ to keep track of coupon files that could be updated by the user.
             coupCheck.setChecked(currItem.getCoupon());
             //currItem.toggleCoupon();
             //coupText.setText(currItem.getCouponAsStr());
-            TextView loc =  (TextView) row.findViewById(R.id.location);
-            loc.setText("Location: " + currItem.getLocation());
+            //TextView loc =  (TextView) row.findViewById(R.id.location);
+            //loc.setText("Location: " + currItem.getLocation());
 
             final ImageButton addCoupBtn = (ImageButton) row.findViewById(R.id.add_coupon_button);
             addCoupBtn.setOnClickListener(new View.OnClickListener() {
@@ -358,6 +358,16 @@ to keep track of coupon files that could be updated by the user.
                                           }
 
             );
+            final ImageButton delItemBtn = (ImageButton) row.findViewById(R.id.btn_delete);
+            delItemBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    items.getItems().remove(currItem);
+                    Toast.makeText(getApplicationContext(), "Item Deleted", Toast.LENGTH_SHORT).show();
+                    adapter.notifyDataSetChanged();
+
+                }
+            });
             return row;
         }
     }

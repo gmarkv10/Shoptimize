@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,32 +9,11 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Item "
         android:focusable="false"
-        android:id="@+id/list_item" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/camera_icon"
-            android:id="@+id/add_coupon_button"
-            />
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Coupon"
-            android:id="@+id/couponCheck"
-            android:layout_gravity="right"
-            android:singleLine="false"
-            android:checked="false"
-            android:focusable="false"
-            android:clickable="false"
-            android:editable="false"/>
-    </LinearLayout>
+        android:id="@+id/list_item"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -42,15 +21,53 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Coupon "
         android:id="@+id/coupon"
-        android:layout_gravity="right"
-        android:focusable="false"/>
+        android:layout_alignBottom="@+id/couponCheck"
+        android:layout_toRightOf="@+id/couponCheck"
+        android:layout_toEndOf="@+id/couponCheck"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="7dp" />
 
-    <TextView
+    <!--TextView  UNCOMMENT IF YOU REALLY WANT TO SEE THE LOCATION YOU BITCH
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Location"
         android:id="@+id/location"
-        android:layout_gravity="center_horizontal" />
+        android:layout_below="@+id/list_item"
+        android:layout_toRightOf="@+id/couponCheck"
+        android:layout_toEndOf="@+id/couponCheck" /-->
 
-</LinearLayout>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/camera_icon"
+        android:id="@+id/add_coupon_button"
+        android:layout_below="@+id/list_item"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Coupon"
+        android:id="@+id/couponCheck"
+        android:layout_gravity="right"
+        android:singleLine="false"
+        android:checked="false"
+        android:focusable="false"
+        android:clickable="false"
+        android:editable="false"
+        android:layout_alignBottom="@+id/add_coupon_button"
+        android:layout_toRightOf="@+id/add_coupon_button" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_delete"
+        android:src="@drawable/delete_item"
+        android:layout_alignBottom="@+id/add_coupon_button"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true" />
+
+</RelativeLayout>
