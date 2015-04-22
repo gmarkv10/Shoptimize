@@ -267,7 +267,7 @@ to keep track of coupon files that could be updated by the user.
     private File createImageFile(int position) throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
+        String imageFileName = "SHOPT_" + timeStamp + "_";
         File storageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
         //File storageDir = getCurrentDirectory(position);
