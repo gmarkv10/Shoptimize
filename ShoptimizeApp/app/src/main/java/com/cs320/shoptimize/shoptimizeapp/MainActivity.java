@@ -104,16 +104,11 @@ public class MainActivity extends ActionBarActivity {
         clientManager = AmazonClientManager.getInstance();
         clientManager.setContext(this);
 
-
-
-        //TODO: get points from database!
-        //xs.add(50); xs.add(299); xs.add(517); xs.add(643); //xs.add(150); xs.add(40);
-        //ys.add(50); ys.add(451); ys.add(495); ys.add(302); //ys.add(150); ys.add(200);
-
         //Populate the shoppinglist  TODO: items needs to be populated from memory
         lv = (ListView) findViewById(R.id.listView);
         adapter = new ItemListAdapter(this, R.layout.listview_item, items.getItems() );
         lv.setAdapter(adapter);
+        items.populateLocations(); //start populating passively
 
     }
     @Override
@@ -180,7 +175,7 @@ public class MainActivity extends ActionBarActivity {
                 final Intent floorplan = new Intent(getApplicationContext(), FloorplanActivity.class);
 
                 Handler handler = new Handler();
-                Toast.makeText(getApplicationContext(), "Loading Locations...", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Loading Locations...", Toast.LENGTH_SHORT).show();
                 handler.postDelayed( new Runnable() {
                     @Override
                     public void run() {
@@ -189,14 +184,10 @@ public class MainActivity extends ActionBarActivity {
                         floorplan.putExtra("XPOINTS", items.getXs());
                         floorplan.putExtra("YPOINTS", items.getYs());
                         floorplan.putExtra("NAMES",   items.getNames());
-                        for(Item i: items.getItems() ){
-                            Log.v("IN MAIN:", i.getName());
-                        }
-
                         floorplan.putExtra("storeNAME", getIntent().getExtras().getString("storeNAME"));
                         startActivity(floorplan);
                     }
-                }, 2000);
+                }, 1000);
 
 
             }
