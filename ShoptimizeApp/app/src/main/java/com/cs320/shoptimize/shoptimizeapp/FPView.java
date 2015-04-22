@@ -114,7 +114,7 @@ public class FPView extends SurfaceView implements SurfaceHolder.Callback {
         mX = (int) event.getX();// - bm.getWidth() / 2;
         mY = (int) event.getY();// - bm.getHeight() / 2;
         logTouchEvent();
-        setPlacing(true);
+        //setPlacing(true);
         return super.onTouchEvent(event);
     }
 

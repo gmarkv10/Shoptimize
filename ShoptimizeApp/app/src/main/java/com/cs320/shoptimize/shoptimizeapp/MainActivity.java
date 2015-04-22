@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -55,7 +56,7 @@ public class MainActivity extends ActionBarActivity {
 
     HashMap<String, DBItemList> shoppingLists;
     //List<Item> items = new ArrayList<Item>();
-    EditText addField;
+    AutoCompleteTextView addField;
     TextView storename;
     ListView lv;
     ArrayAdapter<Item> adapter;
@@ -63,6 +64,8 @@ public class MainActivity extends ActionBarActivity {
     private String current_Store; //tells which store's list to access by index
     static AmazonClientManager clientManager = null;
     SharedPreferences itemListData; //How I am storing the data
+    //TODO: populate inventory with db items
+    String[] inventory = {"Ice Cream", "Cream", "Carrots", "Mango", "Herring"};
 
 
 
@@ -88,7 +91,14 @@ public class MainActivity extends ActionBarActivity {
         storename = (TextView) findViewById(R.id.storename);
         items = shoppingLists.get(current_Store);
         storename.setText(current_Store);
-        addField = (EditText) findViewById(R.id.add_item_field);
+        addField = (AutoCompleteTextView) findViewById(R.id.add_item_field);
+
+        //AUTOCOMPLETE functionality
+        ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<String>(this,
+                                                                            android.R.layout.select_dialog_item,
+                                                                            inventory);
+        addField.setThreshold(1);
+        addField.setAdapter(autoCompleteAdapter);
 
         //AWS CONNECTION
         clientManager = AmazonClientManager.getInstance();
@@ -175,6 +185,7 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     public void run() {
                         items.addFPPointsforIntent();
+                        floorplan.putExtra("STORENAME", current_Store);
                         floorplan.putExtra("XPOINTS", items.getXs());
                         floorplan.putExtra("YPOINTS", items.getYs());
                         floorplan.putExtra("NAMES",   items.getNames());
@@ -331,26 +342,32 @@ to keep track of coupon files that could be updated by the user.
             coupText.setText(currItem.getCouponAsStr());
             final CheckBox coupCheck = (CheckBox) row.findViewById(R.id.couponCheck);
             coupCheck.setChecked(currItem.getCoupon());
-            coupCheck.setOnClickListener( new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    currItem.toggleCoupon();
-                    coupText.setText(currItem.getCouponAsStr());
-
-                }
-            });
-            TextView loc =  (TextView) row.findViewById(R.id.location);
-            loc.setText("Location: " + currItem.getLocation());
+            //currItem.toggleCoupon();
+            //coupText.setText(currItem.getCouponAsStr());
+            //TextView loc =  (TextView) row.findViewById(R.id.location);
+            //loc.setText("Location: " + currItem.getLocation());
 
             final ImageButton addCoupBtn = (ImageButton) row.findViewById(R.id.add_coupon_button);
             addCoupBtn.setOnClickListener(new View.OnClickListener() {
                                               @Override
                                               public void onClick(View v) {
                                                   dispatchTakePictureIntent(finalPosition);
+                                                  currItem.toggleCoupon();
+                                                  coupText.setText(currItem.getCouponAsStr());
                                               }
                                           }
 
             );
+            final ImageButton delItemBtn = (ImageButton) row.findViewById(R.id.btn_delete);
+            delItemBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    items.getItems().remove(currItem);
+                    Toast.makeText(getApplicationContext(), "Item Deleted", Toast.LENGTH_SHORT).show();
+                    adapter.notifyDataSetChanged();
+
+                }
+            });
             return row;
         }
     }
