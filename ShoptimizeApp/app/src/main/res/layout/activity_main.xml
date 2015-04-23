@@ -45,17 +45,18 @@
         android:layout_toStartOf="@+id/add_item_button"
         android:layout_toLeftOf="@+id/add_item_button" />
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_txt"
+        android:src="@drawable/ic_add_shopping_cart_black_24dp"
         android:id="@+id/add_item_button"
         android:layout_gravity="right"
         android:enabled="false"
         android:nestedScrollingEnabled="true"
-        android:layout_alignTop="@+id/add_item_field"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignBottom="@+id/add_item_field"
+        android:layout_alignRight="@+id/listView"
+        android:layout_alignEnd="@+id/listView" />
 
     <ListView
         android:layout_width="match_parent"
@@ -77,10 +78,11 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Store Trip"
+        android:src="@drawable/store_trip_background"
         android:id="@+id/button_floorplan"
         android:layout_alignTop="@+id/button_addLocs"
         android:layout_alignRight="@+id/listView"

@@ -1,5 +1,6 @@
 package com.cs320.shoptimize.shoptimizeapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,7 +42,7 @@ import android.support.v4.view.GestureDetectorCompat;
 import com.amazonaws.com.google.gson.Gson;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity{
 
     private GestureDetectorCompat gestureDetector;
 
@@ -126,14 +127,15 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onResume(){
+        
         super.onResume();
         if(itemListData.contains(current_Store)) { //Right now this part is doing the Retrieving
             Gson gson = new Gson();
             String json = itemListData.getString(current_Store,"");
             items = gson.fromJson(json, DBItemList.class);
         }
-        final Button tripBtn = (Button) findViewById(R.id.button_floorplan);
-        final Button addBtn = (Button) findViewById(R.id.add_item_button);
+        final ImageButton tripBtn = (ImageButton) findViewById(R.id.button_floorplan);
+        final ImageButton addBtn = (ImageButton) findViewById(R.id.add_item_button);
         final Button locBtn = (Button) findViewById(R.id.button_addLocs);
         addBtn.setOnClickListener(new View.OnClickListener(){
             @Override
