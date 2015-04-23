@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,7 @@ public class FloorplanActivity extends Activity {
         xpoints = getIntent().getExtras().getIntegerArrayList("XPOINTS");
         ypoints = getIntent().getExtras().getIntegerArrayList("YPOINTS");
         names   = getIntent().getExtras().getStringArrayList("NAMES");
+
         storeName = getIntent().getExtras().getString("STORENAME");
         fp.getXYCollection(xpoints, ypoints);
         nameField.setText(names.get(count));
@@ -60,9 +62,14 @@ public class FloorplanActivity extends Activity {
         nextBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                count++;
-                fp.setCoord(count);
-                nameField.setText(names.get(count));
+                if(count == names.size() -1 ){
+                    Toast.makeText(getApplicationContext(), "Last item! Show your coupons!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    count++;
+                    fp.setCoord(count);
+                    nameField.setText(names.get(count));
+                }
 
             }
         });
@@ -70,13 +77,14 @@ public class FloorplanActivity extends Activity {
         prevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                count--;
-                fp.setCoord(count);
-                nameField.setText(names.get(count));
-                //todo: uncomment this code an it will show how the store trip keeps adding ot itself!
-                /*for(String s : names){
-                    Log.v("Item ", s);
-                }*/
+                if(count == 0){
+                    Toast.makeText(getApplicationContext(), "You haven't even started!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    count--;
+                    fp.setCoord(count);
+                    nameField.setText(names.get(count));
+                }
             }
         });
 

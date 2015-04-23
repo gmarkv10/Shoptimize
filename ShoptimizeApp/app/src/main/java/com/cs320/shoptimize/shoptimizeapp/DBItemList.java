@@ -88,6 +88,9 @@ public class DBItemList {
     }
 
     private void routingAlgorithm(){
+        xs.clear();
+        ys.clear();
+        names.clear();
         while(preprocXY.size() > 0){
             int min = 100000; //max int
             int minIdx = 0;
