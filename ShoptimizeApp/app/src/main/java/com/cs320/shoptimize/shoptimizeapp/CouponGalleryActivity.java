@@ -73,7 +73,7 @@ public class CouponGalleryActivity extends Activity {
             File[] items = storeDir.listFiles(new FilenameFilter() {
                 @Override
                 public boolean accept(File dir, String filename) {
-                    return Pattern.matches(".\\.jpg", filename);
+                    return Pattern.matches("SHOPT_.*", filename);
                 }
             });
             Log.v("file", "i found " + items.length);

@@ -117,7 +117,6 @@ public class MainActivity extends ActionBarActivity{
     public void onPause() //Where we are saving
     {
         super.onPause();
-
         SharedPreferences.Editor itemListEditor = itemListData.edit();
         Gson gson = new Gson();
         String json = gson.toJson(items);
@@ -134,6 +133,7 @@ public class MainActivity extends ActionBarActivity{
             String json = itemListData.getString(current_Store,"");
             items = gson.fromJson(json, DBItemList.class);
         }
+
         final ImageButton tripBtn = (ImageButton) findViewById(R.id.button_floorplan);
         final ImageButton addBtn = (ImageButton) findViewById(R.id.add_item_button);
         final Button locBtn = (Button) findViewById(R.id.button_addLocs);
