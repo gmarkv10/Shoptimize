@@ -126,6 +126,7 @@ public class MainActivity extends ActionBarActivity{
 
     @Override
     protected void onResume(){
+        
         super.onResume();
         if(itemListData.contains(current_Store)) { //Right now this part is doing the Retrieving
             Gson gson = new Gson();
