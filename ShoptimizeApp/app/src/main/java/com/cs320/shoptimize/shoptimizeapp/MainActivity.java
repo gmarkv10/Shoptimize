@@ -132,8 +132,8 @@ public class MainActivity extends ActionBarActivity{
             String json = itemListData.getString(current_Store,"");
             items = gson.fromJson(json, DBItemList.class);
         }
-        final Button tripBtn = (Button) findViewById(R.id.button_floorplan);
-        final Button addBtn = (Button) findViewById(R.id.add_item_button);
+        final ImageButton tripBtn = (ImageButton) findViewById(R.id.button_floorplan);
+        final ImageButton addBtn = (ImageButton) findViewById(R.id.add_item_button);
         final Button locBtn = (Button) findViewById(R.id.button_addLocs);
         addBtn.setOnClickListener(new View.OnClickListener(){
             @Override
