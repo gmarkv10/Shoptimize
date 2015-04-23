@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -40,6 +41,11 @@ import java.util.List;
 import android.support.v4.view.GestureDetectorCompat;
 
 import com.amazonaws.com.google.gson.Gson;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
+import com.amazonaws.services.dynamodbv2.model.Condition;
+import com.amazonaws.services.dynamodbv2.model.ScanRequest;
+import com.amazonaws.services.dynamodbv2.model.ScanResult;
 
 
 public class MainActivity extends ActionBarActivity{
@@ -67,7 +73,7 @@ public class MainActivity extends ActionBarActivity{
     SharedPreferences itemListData; //How I am storing the data
     //TODO: populate inventory with db items
     String[] inventory = {"Ice Cream", "Cream", "Carrots", "Mango", "Herring"};
-
+    ScanResult inventoryResult;
 
 
     public MainActivity() throws Exception {
@@ -105,6 +111,9 @@ public class MainActivity extends ActionBarActivity{
         //AWS CONNECTION
         clientManager = AmazonClientManager.getInstance();
         clientManager.setContext(this);
+
+        //Populate the "inventory" array for autocomplete
+        new DatabaseScanner("TraderBruns_InventoryList", inventory).execute();
 
         //Populate the shoppinglist  TODO: items needs to be populated from memory
         lv = (ListView) findViewById(R.id.listView);
