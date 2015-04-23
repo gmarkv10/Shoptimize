@@ -1,5 +1,6 @@
 package com.cs320.shoptimize.shoptimizeapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,7 +42,7 @@ import android.support.v4.view.GestureDetectorCompat;
 import com.amazonaws.com.google.gson.Gson;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity{
 
     private GestureDetectorCompat gestureDetector;
 
