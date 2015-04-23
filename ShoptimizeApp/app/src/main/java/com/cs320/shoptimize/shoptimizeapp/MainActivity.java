@@ -82,6 +82,7 @@ public class MainActivity extends ActionBarActivity {
         try {
             shoppingLists.put("Trader Brun's", new DBItemList());
             shoppingLists.put("Stop & Shop", new DBItemList());
+            shoppingLists.put("Big Y", new DBItemList());
         }catch(Exception e){
             e.printStackTrace();
         }
