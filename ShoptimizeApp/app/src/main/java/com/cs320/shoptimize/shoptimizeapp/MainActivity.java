@@ -1,9 +1,11 @@
 package com.cs320.shoptimize.shoptimizeapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -39,9 +41,14 @@ import java.util.List;
 import android.support.v4.view.GestureDetectorCompat;
 
 import com.amazonaws.com.google.gson.Gson;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
+import com.amazonaws.services.dynamodbv2.model.Condition;
+import com.amazonaws.services.dynamodbv2.model.ScanRequest;
+import com.amazonaws.services.dynamodbv2.model.ScanResult;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity{
 
     private GestureDetectorCompat gestureDetector;
 
@@ -66,7 +73,7 @@ public class MainActivity extends ActionBarActivity {
     SharedPreferences itemListData; //How I am storing the data
     //TODO: populate inventory with db items
     String[] inventory = {"Ice Cream", "Cream", "Carrots", "Mango", "Herring"};
-
+    ScanResult inventoryResult;
 
 
     public MainActivity() throws Exception {
@@ -82,6 +89,7 @@ public class MainActivity extends ActionBarActivity {
         try {
             shoppingLists.put("Trader Brun's", new DBItemList());
             shoppingLists.put("Stop & Shop", new DBItemList());
+            shoppingLists.put("Big Y", new DBItemList());
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -104,6 +112,9 @@ public class MainActivity extends ActionBarActivity {
         clientManager = AmazonClientManager.getInstance();
         clientManager.setContext(this);
 
+        //Populate the "inventory" array for autocomplete
+        new DatabaseScanner("TraderBruns_InventoryList", inventory).execute();
+
         //Populate the shoppinglist  TODO: items needs to be populated from memory
         lv = (ListView) findViewById(R.id.listView);
         adapter = new ItemListAdapter(this, R.layout.listview_item, items.getItems() );
@@ -115,7 +126,6 @@ public class MainActivity extends ActionBarActivity {
     public void onPause() //Where we are saving
     {
         super.onPause();
-
         SharedPreferences.Editor itemListEditor = itemListData.edit();
         Gson gson = new Gson();
         String json = gson.toJson(items);
@@ -125,14 +135,16 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onResume(){
+        
         super.onResume();
         if(itemListData.contains(current_Store)) { //Right now this part is doing the Retrieving
             Gson gson = new Gson();
             String json = itemListData.getString(current_Store,"");
             items = gson.fromJson(json, DBItemList.class);
         }
-        final Button tripBtn = (Button) findViewById(R.id.button_floorplan);
-        final Button addBtn = (Button) findViewById(R.id.add_item_button);
+
+        final ImageButton tripBtn = (ImageButton) findViewById(R.id.button_floorplan);
+        final ImageButton addBtn = (ImageButton) findViewById(R.id.add_item_button);
         final Button locBtn = (Button) findViewById(R.id.button_addLocs);
         addBtn.setOnClickListener(new View.OnClickListener(){
             @Override
