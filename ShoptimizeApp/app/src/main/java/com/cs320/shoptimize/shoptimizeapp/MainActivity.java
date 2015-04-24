@@ -126,7 +126,7 @@ public class MainActivity extends ActionBarActivity{
 
     @Override
     protected void onResume(){
-        
+
         super.onResume();
         if(itemListData.contains(current_Store)) { //Right now this part is doing the Retrieving
             Gson gson = new Gson();
@@ -139,6 +139,9 @@ public class MainActivity extends ActionBarActivity{
         addBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                if(addField.getText().toString().trim().isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Enter an item, please.", Toast.LENGTH_SHORT).show();
+                }
 
                 String s = addField.getText().toString();
                 if(!items.contains(s)){
@@ -192,22 +195,6 @@ public class MainActivity extends ActionBarActivity{
                     }
                 }, 1000);
 
-
-            }
-        });
-        addField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                addBtn.setEnabled(!addField.getText().toString().trim().isEmpty());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
 
             }
         });
@@ -332,7 +319,6 @@ to keep track of coupon files that could be updated by the user.
             final int finalPosition = position;
             LayoutInflater inflater = MainActivity.this.getLayoutInflater();
             View row = inflater.inflate(R.layout.listview_item, parent, false);
-
             final Item currItem = items.getItems().get(position);
             TextView name = (TextView) row.findViewById(R.id.list_item);
             name.setText(currItem.getName());
@@ -340,11 +326,6 @@ to keep track of coupon files that could be updated by the user.
             coupText.setText(currItem.getCouponAsStr());
             final CheckBox coupCheck = (CheckBox) row.findViewById(R.id.couponCheck);
             coupCheck.setChecked(currItem.getCoupon());
-            //currItem.toggleCoupon();
-            //coupText.setText(currItem.getCouponAsStr());
-            //TextView loc =  (TextView) row.findViewById(R.id.location);
-            //loc.setText("Location: " + currItem.getLocation());
-
             final ImageButton addCoupBtn = (ImageButton) row.findViewById(R.id.add_coupon_button);
             addCoupBtn.setOnClickListener(new View.OnClickListener() {
                                               @Override

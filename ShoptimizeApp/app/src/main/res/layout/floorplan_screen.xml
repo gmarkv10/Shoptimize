@@ -10,28 +10,33 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"></com.cs320.shoptimize.shoptimizeapp.FPView>
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Previous"
         android:id="@+id/btn_prev"
+        android:src="@drawable/prev_btn"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btn_show"
+        android:src="@drawable/coupon_pay"
         android:layout_alignTop="@+id/btn_prev"
         android:text="Show coupons"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:longClickable="false"
+        android:tintMode="multiply"/>
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Next"
         android:id="@+id/btn_next"
+        android:src="@drawable/next_btn"
         android:focusableInTouchMode="true"
         android:layout_alignTop="@+id/btn_show"
         android:layout_alignParentRight="true"
@@ -58,20 +63,21 @@
         android:layout_toRightOf="@+id/label_item"
         android:layout_toEndOf="@+id/label_item" />
 
-    <Button
+    <ImageButton
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="(Re)place Item"
         android:id="@+id/btn_findItem"
+        android:src="@drawable/place_replace"
         android:layout_above="@+id/name_item"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DONE"
+        android:src="@drawable/done_placing"
         android:id="@+id/btn_done"
         android:clickable="false"
         android:visibility="invisible"
