@@ -53,6 +53,7 @@ public class StoreListActivity extends Activity {
             String json = storeListData.getString("storeList","");
             storeList = gson.fromJson(json, type);
         }
+        storeList.remove(3);
 
         adapter = new ItemListAdapter(this, R.layout.shop_item,storeList);
         listView.setAdapter(adapter);
@@ -131,7 +132,7 @@ public class StoreListActivity extends Activity {
 
     private void populateStoreList(){
         addStore("Trader Brun's",0001);
-        addStore("Stop & Shop", 0002);
+        addStore("Big Y Amherst", 0002);
     }
 
     private void addStore(String name, int store_ID){

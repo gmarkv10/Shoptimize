@@ -72,7 +72,7 @@ public class MainActivity extends ActionBarActivity{
     static AmazonClientManager clientManager = null;
     SharedPreferences itemListData; //How I am storing the data
     //TODO: populate inventory with db items
-    String[] inventory = {"Ice Cream", "Cream", "Carrots", "Mango", "Herring"};
+    String[] inventory = {"Ice Cream", "Cream", "Carrots", "Mango", "Herring", "Eggs"};
     ScanResult inventoryResult;
 
 
@@ -89,7 +89,7 @@ public class MainActivity extends ActionBarActivity{
         try {
             shoppingLists.put("Trader Brun's", new DBItemList());
             shoppingLists.put("Stop & Shop", new DBItemList());
-            shoppingLists.put("Big Y", new DBItemList());
+            shoppingLists.put("Big Y Amherst", new DBItemList());
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -203,7 +203,7 @@ public class MainActivity extends ActionBarActivity{
                         floorplan.putExtra("storeNAME", getIntent().getExtras().getString("storeNAME"));
                         startActivity(floorplan);
                     }
-                }, 1000);
+                }, 500);
 
 
             }

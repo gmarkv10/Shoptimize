@@ -29,14 +29,14 @@ public class FPView extends SurfaceView implements SurfaceHolder.Callback {
 
     public FPView(Context context){
         super(context);
-        bm = BitmapFactory.decodeResource(getResources(), R.drawable.tbs);
+        bm = BitmapFactory.decodeResource(getResources(), R.drawable.bigy);
         getHolder().addCallback(this);
         viewThread = new ViewThread(this);
     }
 
     public FPView(Context context, AttributeSet attributeSet){
         super(context, attributeSet);
-        bm = BitmapFactory.decodeResource(getResources(), R.drawable.tbs);
+        bm = BitmapFactory.decodeResource(getResources(), R.drawable.bigy);
         getHolder().addCallback(this);
         viewThread = new ViewThread(this);
     }
@@ -57,11 +57,11 @@ public class FPView extends SurfaceView implements SurfaceHolder.Callback {
         canvas.drawBitmap(bm, 0, 0, null);
         //Draw points
             for(int i = 0; i < xs.size(); i++) {
-                paint1.setColor(Color.GREEN);
+                paint1.setColor(Color.LTGRAY);
                 if (i == currentCoord) {
-                    canvas.drawCircle(xs.get(i), ys.get(i), 22, paint2);
+                    canvas.drawCircle(xs.get(i), ys.get(i), 16, paint2);
                 } else {
-                    canvas.drawCircle(xs.get(i), ys.get(i), 15, paint1);
+                    canvas.drawCircle(xs.get(i), ys.get(i), 12, paint1);
                 }
                 //DRAW CIRCLES BABY////////////////////////////////
 
