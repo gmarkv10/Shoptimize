@@ -75,8 +75,7 @@ public class MainActivity extends ActionBarActivity{
     static AmazonClientManager clientManager = null;
     SharedPreferences itemListData; //How I am storing the data
     //TODO: populate inventory with db items
-    String[] inventory = {"Ice Cream", "Cream", "Carrots", "Mango", "Herring", "Eggs"};
-    ScanResult inventoryResult;
+    ArrayList<String> inventory = new ArrayList<String>();
 
 
 
@@ -107,17 +106,15 @@ public class MainActivity extends ActionBarActivity{
 
         //AUTOCOMPLETE functionality
         ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<String>(this,
-                                                                            android.R.layout.select_dialog_item,
-                                                                            inventory);
-        addField.setThreshold(1);
-        addField.setAdapter(autoCompleteAdapter);
+                android.R.layout.select_dialog_item,
+                inventory);
 
         //AWS CONNECTION
         clientManager = AmazonClientManager.getInstance();
         clientManager.setContext(this);
 
-        //Populate the "inventory" array for autocomplete
-        new DatabaseScanner("TraderBruns_InventoryList", inventory).execute();
+        //Populate the "inventory" arrayList for autocomplete
+        new DatabaseScanner("TraderBruns_InventoryList", addField, autoCompleteAdapter).execute();
 
         //Populate the shoppinglist  TODO: items needs to be populated from memory
         lv = (ListView) findViewById(R.id.listView);

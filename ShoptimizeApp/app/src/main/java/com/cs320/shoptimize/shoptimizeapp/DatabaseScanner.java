@@ -1,6 +1,8 @@
 package com.cs320.shoptimize.shoptimizeapp;
 
 import android.os.AsyncTask;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
@@ -9,6 +11,7 @@ import com.amazonaws.services.dynamodbv2.model.Condition;
 import com.amazonaws.services.dynamodbv2.model.ScanRequest;
 import com.amazonaws.services.dynamodbv2.model.ScanResult;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -17,11 +20,13 @@ import java.util.HashMap;
 public class DatabaseScanner extends AsyncTask<Void, Void, ScanResult> {
 
     String inventoryListName;
-    String[] inventory;
+    AutoCompleteTextView addField;
+    ArrayAdapter<String> autoCompleteAdapter;
 
-    public DatabaseScanner (String inventoryListName, String[] inventory) {
+    public DatabaseScanner (String inventoryListName, AutoCompleteTextView addField, ArrayAdapter<String> autoCompleteAdapter) {
         this.inventoryListName = inventoryListName;
-        this.inventory = inventory;
+        this.addField = addField;
+        this.autoCompleteAdapter = autoCompleteAdapter;
     }
 
     @Override
@@ -40,14 +45,13 @@ public class DatabaseScanner extends AsyncTask<Void, Void, ScanResult> {
 
     protected void onPostExecute(ScanResult results) {
 
-        String[] newinventory = new String[results.getCount()];
-
         for (int i = 0; i < results.getCount(); i++) {
             String name = results.getItems().get(i).get("ItemName").toString();
             String trimmed = name.substring(4, name.length() - 2);
-            newinventory[i] = trimmed;
+            autoCompleteAdapter.add(trimmed);
         }
-        this.inventory = newinventory;
-    }
 
+        addField.setThreshold(1);
+        addField.setAdapter(autoCompleteAdapter);
+    }
 }
