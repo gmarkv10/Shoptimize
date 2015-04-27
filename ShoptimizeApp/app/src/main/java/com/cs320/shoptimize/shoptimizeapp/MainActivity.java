@@ -32,11 +32,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import android.support.v4.view.GestureDetectorCompat;
 
@@ -74,6 +77,7 @@ public class MainActivity extends ActionBarActivity{
     //TODO: populate inventory with db items
     String[] inventory = {"Ice Cream", "Cream", "Carrots", "Mango", "Herring", "Eggs"};
     ScanResult inventoryResult;
+
 
 
     public MainActivity() throws Exception {
@@ -245,19 +249,7 @@ these methods create (if it doesn't exist yet) and return a directory in the for
 to keep track of coupon files that could be updated by the user.
 */
     private File getCurrentDirectory(int position){
-        /*
-        current_Store = getIntent().getExtras().getString("storeNAME");
-        final Item currItem = items.getItems().get(position);
-        //replaceAll methods sanitize names to be suitable directory names
-        String storeDirName = current_Store.replaceAll("\\W+", "");
-        String itemDirName = currItem.getName().replaceAll("\\W+", "");
-        File storeDir = new File(getApplicationContext().getFilesDir().getPath() + "/" + storeDirName + "/" + itemDirName);
-        Log.v("directory", getApplicationContext().getFilesDir() + "/" + storeDirName + "/" + itemDirName);
-        if(!storeDir.exists()){
-            storeDir.mkdirs();
-        }
-        return storeDir;
-        */
+
         current_Store = getIntent().getExtras().getString("storeNAME");
         String storeDirName = current_Store.replaceAll("\\W+", "");
         File storeDir = new File(getApplicationContext().getFilesDir().getAbsolutePath() + "/" + storeDirName);
@@ -277,9 +269,6 @@ to keep track of coupon files that could be updated by the user.
         File storageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
         //File storageDir = getCurrentDirectory(position);
-        if(storageDir == null){
-            Toast.makeText(getApplicationContext(), "storageDir was null", Toast.LENGTH_SHORT).show();
-        }
         // new File(Environment.getExternalStorageDirectory(), name + ".jpg");
         File image1 = new File(storageDir, imageFileName + ".jpg");
         File image = File.createTempFile(
@@ -289,7 +278,9 @@ to keep track of coupon files that could be updated by the user.
         );
 
         // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        //mCurrentPhotoPath = image.getName();
+        Item currItem = items.getItems().get(position);
+        currItem.setFilename(image.getName());
         return image;
     }
 
@@ -303,7 +294,7 @@ to keep track of coupon files that could be updated by the user.
                 photoFile = createImageFile(position);
             } catch (IOException ex) {
                 // Error occurred while creating the File
-                Toast.makeText(getApplicationContext(), "photo file failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Failed to create image file", Toast.LENGTH_SHORT).show();
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
@@ -311,7 +302,7 @@ to keep track of coupon files that could be updated by the user.
                         Uri.fromFile(photoFile));
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             } else {
-                Toast.makeText(getApplicationContext(), "photoFile null", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Can't save photo", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -335,13 +326,49 @@ to keep track of coupon files that could be updated by the user.
             final TextView coupText = (TextView) row.findViewById(R.id.coupon);
             coupText.setText(currItem.getCouponAsStr());
             final CheckBox coupCheck = (CheckBox) row.findViewById(R.id.couponCheck);
-            coupCheck.setChecked(currItem.getCoupon());
+            coupCheck.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v){
+                    final Item currItem2 = items.getItems().get(finalPosition);
+                    if(currItem2.getCoupon()){
+                        coupCheck.setEnabled(true);
+                        coupCheck.setChecked(true);
+                        File storageDir = Environment.getExternalStoragePublicDirectory(
+                                Environment.DIRECTORY_PICTURES);
+                        File[] files = storageDir.listFiles(new FilenameFilter() {
+                            @Override
+                            public boolean accept(File dir, String filename) {
+                                return Pattern.matches("\\b"+ currItem2.getFname() + "\\b", filename);
+                            }
+                        });
+                        if(files.length == 1){
+                            files[0].delete();
+                            Toast.makeText(getApplicationContext(), "Coupon for " + currItem2.getName() + " deleted.", Toast.LENGTH_SHORT).show();
+                            currItem2.setFilename("none");
+                            coupCheck.setChecked(false);
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            Log.v("delCoupon", "something went wrong here");
+                        }
+
+                    } else {
+                        coupCheck.setEnabled(false);
+                        coupCheck.setChecked(false);
+                        Log.v("delCoupon", "no coupon to delete");
+                    }
+                }
+            });
+            //currItem.toggleCoupon();
+            //coupText.setText(currItem.getCouponAsStr());
+            //TextView loc =  (TextView) row.findViewById(R.id.location);
+            //loc.setText("Location: " + currItem.getLocation());
             final ImageButton addCoupBtn = (ImageButton) row.findViewById(R.id.add_coupon_button);
             addCoupBtn.setOnClickListener(new View.OnClickListener() {
                                               @Override
                                               public void onClick(View v) {
                                                   dispatchTakePictureIntent(finalPosition);
-                                                  currItem.toggleCoupon();
+                                                  coupCheck.setChecked(currItem.getCoupon());
+                                                  coupCheck.setEnabled(true);
+                                                  adapter.notifyDataSetChanged();
                                                   coupText.setText(currItem.getCouponAsStr());
                                               }
                                           }
@@ -351,6 +378,17 @@ to keep track of coupon files that could be updated by the user.
             delItemBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    File storageDir = Environment.getExternalStoragePublicDirectory(
+                            Environment.DIRECTORY_PICTURES);
+                    File[] files = storageDir.listFiles(new FilenameFilter() {
+                        @Override
+                        public boolean accept(File dir, String filename) {
+                            return Pattern.matches("\\b"+ currItem.getFname() + "\\b", filename);
+                        }
+                    });
+                    if(files.length == 1) {
+                        files[0].delete();
+                    }
                     items.getItems().remove(currItem);
                     Toast.makeText(getApplicationContext(), "Item Deleted", Toast.LENGTH_SHORT).show();
                     adapter.notifyDataSetChanged();

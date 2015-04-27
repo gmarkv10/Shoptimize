@@ -40,6 +40,8 @@ public class DBItemList {
         addItem("Peanut Butter", false);
     }
 
+
+
     public boolean contains(String s){
         for(Item i : items){
             if(i.getName().toLowerCase().equals(s.toLowerCase())){

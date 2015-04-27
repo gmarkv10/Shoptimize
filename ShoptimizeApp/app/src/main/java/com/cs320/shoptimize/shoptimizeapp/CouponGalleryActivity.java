@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -34,7 +36,9 @@ import java.util.regex.Pattern;
  */
 public class CouponGalleryActivity extends Activity {
 
-    List<Bitmap> coupons = null;
+    List<Bitmap> coupons = new ArrayList<Bitmap>();
+    List<File> couponFiles = null;
+    ArrayAdapter<Item> adapter;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -43,14 +47,26 @@ public class CouponGalleryActivity extends Activity {
         CouponPageAdapter adapter = new CouponPageAdapter();
         viewPager.setAdapter(adapter);
         coupons = this.getCouponBitmaps();
+
+    }
+
+    public void onResume(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+
     }
 
     private List<File> getCouponFiles(){
         List<File> files = new ArrayList<File>();
         String string1 = getIntent().getExtras().getString("storeNAME");
         String currentStore = string1.replaceAll("\\W+", "");
-        File storeDir = new File(getApplicationContext().getFilesDir().getAbsolutePath() + "/" + currentStore);
-        File[] items = storeDir.listFiles();
+        File storeDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File[] items = storeDir.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String filename) {
+                return Pattern.matches("SHOPT_.*", filename);
+            }
+        });
         for(File file : items){
             if(file.isFile()) {
                 files.add(file);
@@ -176,18 +192,9 @@ public class CouponGalleryActivity extends Activity {
 
     private class CouponPageAdapter extends PagerAdapter{
 
-        private int[] mImages = new int[] {
-                R.drawable.first,
-                R.drawable.second,
-                R.drawable.third,
-                R.drawable.fourth,
-                R.drawable.fifth,
-                R.drawable.sixth
-        };
-
         @Override
         public int getCount() {
-            return mImages.length;
+            return coupons.size();
         }
 
         @Override
@@ -199,13 +206,14 @@ public class CouponGalleryActivity extends Activity {
 
         public Object instantiateItem(ViewGroup container, int position){
 
-
+            final int fPos = position;
 
             Context context = getApplicationContext();
             LayoutInflater inflater = (LayoutInflater)context.getSystemService
                     (Context.LAYOUT_INFLATER_SERVICE);
             View itemView = inflater.inflate(R.layout.cgallery_item, container, false);
-            ImageView imageview = (ImageView) itemView.findViewById(R.id.imageView);
+            final ImageView imageview = (ImageView) itemView.findViewById(R.id.imageView);
+
 
             /*List<File> files = getCouponFiles();
             if(files == null){
