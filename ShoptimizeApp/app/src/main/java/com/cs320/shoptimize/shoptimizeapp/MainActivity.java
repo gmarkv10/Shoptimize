@@ -329,7 +329,7 @@ to keep track of coupon files that could be updated by the user.
             coupCheck.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v){
                     final Item currItem2 = items.getItems().get(finalPosition);
-                    if(currItem2.getCoupon()){
+                    if(currItem.getCoupon()){
                         coupCheck.setEnabled(true);
                         coupCheck.setChecked(true);
                         File storageDir = Environment.getExternalStoragePublicDirectory(
@@ -337,12 +337,12 @@ to keep track of coupon files that could be updated by the user.
                         File[] files = storageDir.listFiles(new FilenameFilter() {
                             @Override
                             public boolean accept(File dir, String filename) {
-                                return Pattern.matches("\\b"+ currItem2.getFname() + "\\b", filename);
+                                return Pattern.matches("\\b"+ currItem.getFname() + "\\b", filename);
                             }
                         });
                         if(files.length == 1){
                             files[0].delete();
-                            Toast.makeText(getApplicationContext(), "Coupon for " + currItem2.getName() + " deleted.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Coupon for " + currItem.getName() + " deleted.", Toast.LENGTH_SHORT).show();
                             currItem2.setFilename("none");
                             coupCheck.setChecked(false);
                             adapter.notifyDataSetChanged();
@@ -351,8 +351,6 @@ to keep track of coupon files that could be updated by the user.
                         }
 
                     } else {
-                        coupCheck.setEnabled(false);
-                        coupCheck.setChecked(false);
                         Log.v("delCoupon", "no coupon to delete");
                     }
                 }
@@ -366,8 +364,7 @@ to keep track of coupon files that could be updated by the user.
                                               @Override
                                               public void onClick(View v) {
                                                   dispatchTakePictureIntent(finalPosition);
-                                                  coupCheck.setChecked(currItem.getCoupon());
-                                                  coupCheck.setEnabled(true);
+                                                  coupCheck.setChecked(currItem.toggleCoupon());
                                                   adapter.notifyDataSetChanged();
                                                   coupText.setText(currItem.getCouponAsStr());
                                               }

@@ -53,7 +53,7 @@ public class StoreListActivity extends Activity {
             String json = storeListData.getString("storeList","");
             storeList = gson.fromJson(json, type);
         }
-        storeList.remove(3);
+        //storeList.remove(3);
 
         adapter = new ItemListAdapter(this, R.layout.shop_item,storeList);
         listView.setAdapter(adapter);
