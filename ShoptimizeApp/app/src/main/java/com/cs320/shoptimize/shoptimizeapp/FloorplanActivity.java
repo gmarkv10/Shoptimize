@@ -37,6 +37,7 @@ public class FloorplanActivity extends Activity {
     ArrayList<Integer> xpoints;
     String itemName;
     ArrayList<Item> foundItems;
+    ArrayList<String> fnames;
 
     @Override
     protected void onCreate(Bundle icicle){
@@ -49,7 +50,7 @@ public class FloorplanActivity extends Activity {
         xpoints = getIntent().getExtras().getIntegerArrayList("XPOINTS");
         ypoints = getIntent().getExtras().getIntegerArrayList("YPOINTS");
         names   = getIntent().getExtras().getStringArrayList("NAMES");
-
+        fnames = getIntent().getExtras().getStringArrayList("filenamesDB");
         storeName = getIntent().getExtras().getString("STORENAME");
         fp.getXYCollection(xpoints, ypoints);
         nameField.setText(names.get(count));
