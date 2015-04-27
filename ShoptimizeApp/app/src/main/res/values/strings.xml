@@ -9,6 +9,28 @@
     <string name="hint">Add an item to your list!</string>
     <string name="button_txt">Add Item</string>
 
+    <string name="tips"> TIPS FOR SHOPTIMIZE\n
+        Below is the list of stores you can keep lists for\n
+        Your lists keep track of items you buy!\n
+        We keep track items in our database\n
+        \n
+        If you have a coupon:\n
+        press the camera icon for that item\n
+        take a picture of the barcode to show in the store.\n
+        At the end of your store trip you can view all your coupons!\n
+        \n
+        When you arrive at the store:\n
+        Press the Shoptimize button at the bottom of that list\n
+        You will see a map with points of your items\n
+        Use the buttons to update the map as you make you way\n
+        Show your coupons at the end, see the savings!\n
+        \n
+        Thanks for choosing SHOPTIMIZE!
+
+
+
+    </string>
+
     <!-- MENU SCREEN STRINGS -->
     <string name="button_lists">Shopping Lists</string>
     <string name="button_man">Manual</string>

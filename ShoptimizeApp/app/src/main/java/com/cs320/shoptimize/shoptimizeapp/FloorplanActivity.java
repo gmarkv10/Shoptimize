@@ -5,11 +5,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,11 +26,11 @@ public class FloorplanActivity extends Activity {
     final Context context = this;
 
     FPView fp;
-    Button nextBtn;
-    Button prevBtn;
-    Button couponBtn;
-    Button findItemBtn;
-    Button doneBtn;
+    ImageButton nextBtn;
+    ImageButton prevBtn;
+    ImageButton couponBtn;
+    ImageButton findItemBtn;
+    ImageButton doneBtn;
     Button postBtn;
     TextView nameField;
     String storeName;
@@ -54,17 +57,18 @@ public class FloorplanActivity extends Activity {
         storeName = getIntent().getExtras().getString("STORENAME");
         fp.getXYCollection(xpoints, ypoints);
         nameField.setText(names.get(count));
-        nextBtn = (Button) findViewById(R.id.btn_next);
-        prevBtn = (Button) findViewById(R.id.btn_prev);
-        couponBtn = (Button) findViewById(R.id.btn_show);
-        findItemBtn = (Button) findViewById(R.id.btn_findItem);
+        nextBtn = (ImageButton) findViewById(R.id.btn_next);
+        prevBtn = (ImageButton) findViewById(R.id.btn_prev);
+        couponBtn = (ImageButton) findViewById(R.id.btn_show);
+        findItemBtn = (ImageButton) findViewById(R.id.btn_findItem);
         postBtn     = (Button) findViewById(R.id.btn_post);
-        doneBtn = (Button) findViewById(R.id.btn_done);
+        doneBtn = (ImageButton) findViewById(R.id.btn_done);
         nextBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(count == names.size() -1 ){
                     Toast.makeText(getApplicationContext(), "Last item! Show your coupons!", Toast.LENGTH_SHORT).show();
+                    couponBtn.setColorFilter(Color.argb(255, 255, 246, 67 ), PorterDuff.Mode.MULTIPLY);
                 }
                 else {
                     count++;
@@ -130,7 +134,8 @@ public class FloorplanActivity extends Activity {
                 }); //End of alert.setNegativeButton
                 AlertDialog alertDialog = alert.create();
                 alertDialog.show();
-                doneBtn.setVisibility(View.VISIBLE);
+                nameField.setText("Tap where the item is!");
+                //doneBtn.setVisibility(View.VISIBLE);
                 setButtonGroup(true);
                 fp.setPlacing(true);
 
@@ -145,6 +150,7 @@ public class FloorplanActivity extends Activity {
                 doneBtn.setVisibility(View.INVISIBLE);
                 setButtonGroup(false);
                 fp.setPlacing(false);
+                nameField.setText(names.get(count));
                 Log.v("END OF PLACE",foundItems.get(foundItems.size()-1).toString());
             }
         });
@@ -164,15 +170,17 @@ public class FloorplanActivity extends Activity {
         if(placing){
             //DONE:YES.  Next, coupon, prev, replace:disable.  Text: invisible
             doneBtn.setVisibility(View.VISIBLE);
-            findItemBtn.setEnabled(false);
+            findItemBtn.setVisibility(View.INVISIBLE);
             nextBtn.setEnabled(false);
             prevBtn.setEnabled(false);
             couponBtn.setEnabled(false);
             nameField.setVisibility(View.INVISIBLE);
+            doneBtn.setVisibility(View.VISIBLE);
 
         }
         else{
             //DONE: invisible.  Next, coupon, prev: enable, Text:visible
+            findItemBtn.setVisibility(View.VISIBLE);
             doneBtn.setVisibility(View.INVISIBLE);
             nextBtn.setEnabled(true);
             findItemBtn.setEnabled(true);

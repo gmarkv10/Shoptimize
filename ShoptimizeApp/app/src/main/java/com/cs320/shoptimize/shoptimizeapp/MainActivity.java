@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -43,6 +44,11 @@ import java.util.regex.Pattern;
 import android.support.v4.view.GestureDetectorCompat;
 
 import com.amazonaws.com.google.gson.Gson;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
+import com.amazonaws.services.dynamodbv2.model.Condition;
+import com.amazonaws.services.dynamodbv2.model.ScanRequest;
+import com.amazonaws.services.dynamodbv2.model.ScanResult;
 
 
 public class MainActivity extends ActionBarActivity{
@@ -70,7 +76,7 @@ public class MainActivity extends ActionBarActivity{
     SharedPreferences itemListData; //How I am storing the data
     //TODO: populate inventory with db items
     String[] inventory = {"Ice Cream", "Cream", "Carrots", "Mango", "Herring"};
-
+    ScanResult inventoryResult;
 
 
 
@@ -110,6 +116,9 @@ public class MainActivity extends ActionBarActivity{
         clientManager = AmazonClientManager.getInstance();
         clientManager.setContext(this);
 
+        //Populate the "inventory" array for autocomplete
+        new DatabaseScanner("TraderBruns_InventoryList", inventory).execute();
+
         //Populate the shoppinglist  TODO: items needs to be populated from memory
         lv = (ListView) findViewById(R.id.listView);
         adapter = new ItemListAdapter(this, R.layout.listview_item, items.getItems() );
@@ -130,7 +139,7 @@ public class MainActivity extends ActionBarActivity{
 
     @Override
     protected void onResume(){
-        
+
         super.onResume();
         if(itemListData.contains(current_Store)) { //Right now this part is doing the Retrieving
             Gson gson = new Gson();
@@ -144,6 +153,9 @@ public class MainActivity extends ActionBarActivity{
         addBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                if(addField.getText().toString().trim().isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Enter an item, please.", Toast.LENGTH_SHORT).show();
+                }
 
                 String s = addField.getText().toString();
                 if(!items.contains(s)){
@@ -197,22 +209,6 @@ public class MainActivity extends ActionBarActivity{
                     }
                 }, 1000);
 
-
-            }
-        });
-        addField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                addBtn.setEnabled(!addField.getText().toString().trim().isEmpty());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
 
             }
         });
@@ -330,7 +326,6 @@ to keep track of coupon files that could be updated by the user.
             final TextView coupText = (TextView) row.findViewById(R.id.coupon);
             coupText.setText(currItem.getCouponAsStr());
             final CheckBox coupCheck = (CheckBox) row.findViewById(R.id.couponCheck);
-
             coupCheck.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v){
                     final Item currItem2 = items.getItems().get(finalPosition);
@@ -366,7 +361,6 @@ to keep track of coupon files that could be updated by the user.
             //coupText.setText(currItem.getCouponAsStr());
             //TextView loc =  (TextView) row.findViewById(R.id.location);
             //loc.setText("Location: " + currItem.getLocation());
-
             final ImageButton addCoupBtn = (ImageButton) row.findViewById(R.id.add_coupon_button);
             addCoupBtn.setOnClickListener(new View.OnClickListener() {
                                               @Override
