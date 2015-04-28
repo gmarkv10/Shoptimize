@@ -120,7 +120,7 @@ public class MainActivity extends ActionBarActivity{
         lv = (ListView) findViewById(R.id.listView);
         adapter = new ItemListAdapter(this, R.layout.listview_item, items.getItems() );
         lv.setAdapter(adapter);
-        items.populateLocations(); //start populating passively
+        items.populateLocations(current_Store); //start populating passively
 
     }
     @Override
@@ -159,6 +159,7 @@ public class MainActivity extends ActionBarActivity{
                     items.addItem(addField.getText().toString(), false);
                     Toast.makeText(getApplicationContext(), "Item added", Toast.LENGTH_SHORT).show();
                     addField.setText("");
+                    items.populateLocations(current_Store);
                     adapter.notifyDataSetChanged();
                     //Log.v("COORD", items.getItems().get(0).getLocation());
                 }
@@ -172,7 +173,7 @@ public class MainActivity extends ActionBarActivity{
         locBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                items.populateLocations();
+                items.populateLocations(current_Store);
 
                 Handler handler = new Handler();
 
@@ -188,7 +189,7 @@ public class MainActivity extends ActionBarActivity{
         tripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                items.populateLocations();
+                items.populateLocations(current_Store);
                 final Intent floorplan = new Intent(getApplicationContext(), FloorplanActivity.class);
 
                 Handler handler = new Handler();
