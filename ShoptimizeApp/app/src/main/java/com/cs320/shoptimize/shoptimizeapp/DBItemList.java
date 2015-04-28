@@ -72,9 +72,12 @@ public class DBItemList {
 
     protected void addFPPointsforIntent(){
         for(Item i : items) {
+            while(i.getLocation() == null) {
+
+            }
             String s = i.getLocation();
             String name = i.getName();
-            if(s.charAt(0) != 'I') {  //check for validity
+            if(!(s.charAt(0) == 'I')) {  //check for validity
                 //s = s.substring(s.indexOf(' '), s.lastIndexOf(','));
                 //s = s.trim();
                 String[] xy = s.split(",");
