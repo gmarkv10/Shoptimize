@@ -168,15 +168,12 @@ public class FloorplanActivity extends Activity {
             }
         });
 
-        postBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for(Item i: foundItems){
-                    //new InventoryListPoster(storeName, i).execute();
-                    new InventoryListPoster("TraderBruns_InventoryList", i).execute();
-                }
-            }
-        });
+//        postBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                new InventoryListPoster("TraderBruns_InventoryList", foundItems, context).execute();
+//            }
+//        });
     }
 
     private void setButtonGroup(boolean placing){
@@ -205,9 +202,8 @@ public class FloorplanActivity extends Activity {
 
     @Override
     protected void onDestroy(){
+        new InventoryListPoster("TraderBruns_InventoryList", foundItems, context).execute();
         super.onDestroy();
-
-
     }
 
 }
