@@ -1,7 +1,9 @@
 package com.cs320.shoptimize.shoptimizeapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -55,6 +57,8 @@ public class MainActivity extends ActionBarActivity{
 
     private GestureDetectorCompat gestureDetector;
 
+    final Context context = this;
+
     //List<DBItemList> shoppingLists;// =  new ArrayList<DBItemList>();
     DBItemList items;
     //DBItemList items = new DBItemList();
@@ -92,14 +96,15 @@ public class MainActivity extends ActionBarActivity{
         //TODO:  replace with load from internal memory
         try {
             shoppingLists.put("Trader Brun's", new DBItemList());
-            shoppingLists.put("Stop & Shop", new DBItemList());
+            shoppingLists.put("Other (no locations)", new DBItemList());
             shoppingLists.put("Big Y Amherst", new DBItemList());
         }catch(Exception e){
             e.printStackTrace();
         }
 
         //Setup the shopping list with the right labels
-        current_Store = getIntent().getExtras().getString("storeNAME");  //intent from store list screen
+        current_Store = getIntent().getExtras().getString("storeNAME");
+        Log.v("PLS LOOK", current_Store);//intent from store list screen
         storename = (TextView) findViewById(R.id.storename);
         items = shoppingLists.get(current_Store);
         storename.setText(current_Store);
@@ -191,25 +196,38 @@ public class MainActivity extends ActionBarActivity{
         tripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                items.populateLocations();
-                final Intent floorplan = new Intent(getApplicationContext(), FloorplanActivity.class);
 
-                Handler handler = new Handler();
-                Toast.makeText(getApplicationContext(), "Loading Locations...", Toast.LENGTH_SHORT).show();
-                handler.postDelayed( new Runnable() {
-                    @Override
-                    public void run() {
-                        items.addFPPointsforIntent();
-                        floorplan.putExtra("STORENAME", current_Store);
-                        floorplan.putExtra("XPOINTS", items.getXs());
-                        floorplan.putExtra("YPOINTS", items.getYs());
-                        floorplan.putExtra("NAMES",   items.getNames());
-                        floorplan.putExtra("storeNAME", getIntent().getExtras().getString("storeNAME"));
-                        startActivity(floorplan);
-                    }
-                }, 500);
+                if(!current_Store.equals("Other (no locations)")){
+                    items.populateLocations();
+                    final Intent floorplan = new Intent(getApplicationContext(), FloorplanActivity.class);
 
+                    Handler handler = new Handler();
+                    Toast.makeText(getApplicationContext(), "Loading Locations...", Toast.LENGTH_SHORT).show();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            items.addFPPointsforIntent();
+                            floorplan.putExtra("STORENAME", current_Store);
+                            floorplan.putExtra("XPOINTS", items.getXs());
+                            floorplan.putExtra("YPOINTS", items.getYs());
+                            floorplan.putExtra("NAMES", items.getNames());
+                            floorplan.putExtra("storeNAME", getIntent().getExtras().getString("storeNAME"));
+                            startActivity(floorplan);
+                        }
+                    }, 500);
 
+                }
+                else{
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    alert.setTitle("This is your 'Other' list"); //Set Alert dialog title here
+                    alert.setMessage("Use it for lists for stores we don't currently keep data for!"); //Message here
+                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                        }
+                    });
+                    AlertDialog alertDialog = alert.create();
+                    alertDialog.show();
+                }
             }
         });
 
