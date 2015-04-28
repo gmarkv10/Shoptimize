@@ -62,6 +62,9 @@ public class DBItemList {
         if(storeName.contains("Stop")) {
             currentStore = "StopAndShop_InventoryList";
         }
+        if(storeName.contains("BigY")) {
+            currentStore = "BigY_InventoryList";
+        }
         for(Item i : items){
             if(i.getLocation() == null) {
                 new InventoryListQueryer(currentStore, i).execute();
