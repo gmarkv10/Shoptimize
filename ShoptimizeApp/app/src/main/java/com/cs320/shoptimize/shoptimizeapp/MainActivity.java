@@ -195,13 +195,12 @@ public class MainActivity extends ActionBarActivity{
             @Override
             public void onClick(View v) {
 				
-                items.populateLocations();
+                items.populateLocations(current_Store);
                 final Intent floorplan = new Intent(getApplicationContext(), FloorplanActivity.class);
 
 
                 if(!current_Store.equals("Other (no locations)")){
-                    items.populateLocations();
-                    final Intent floorplan = new Intent(getApplicationContext(), FloorplanActivity.class);
+
 
                     Handler handler = new Handler();
                     Toast.makeText(getApplicationContext(), "Loading Locations...", Toast.LENGTH_SHORT).show();
