@@ -10,6 +10,8 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -114,9 +116,19 @@ public class FloorplanActivity extends Activity {
                 AlertDialog.Builder alert = new AlertDialog.Builder(context);
                 alert.setTitle("Update an Item Location"); //Set Alert dialog title here
                 alert.setMessage("Type the name of the item you found"); //Message here
+                String[] nomenclature = new String[names.size()];
+                nomenclature = names.toArray(nomenclature);
 
                 // Set an EditText view to get user input
-                final EditText input = new EditText(context);
+                final AutoCompleteTextView input = new AutoCompleteTextView(context);
+                ArrayAdapter<String> autoComp = new ArrayAdapter<String>(context,
+                        android.R.layout.select_dialog_item,
+                        nomenclature);
+                input.setThreshold(1);
+                input.setAdapter(autoComp);
+
+
+
                 alert.setView(input);
 
                 alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -151,6 +163,7 @@ public class FloorplanActivity extends Activity {
                 setButtonGroup(false);
                 fp.setPlacing(false);
                 nameField.setText(names.get(count));
+                Toast.makeText(getApplicationContext(), "Thank you for crowdsourcing!", Toast.LENGTH_SHORT).show();
                 Log.v("END OF PLACE",foundItems.get(foundItems.size()-1).toString());
             }
         });
