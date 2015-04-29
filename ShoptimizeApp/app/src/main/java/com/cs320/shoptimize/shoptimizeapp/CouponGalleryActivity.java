@@ -122,12 +122,6 @@ public class CouponGalleryActivity extends Activity {
 
     private class CouponPageAdapter extends PagerAdapter{
 
-        private int[] mImages = new int[] {
-
-                R.drawable.second,
-
-        };
-
         @Override
         public int getCount() {
             int size = coupons.size();
