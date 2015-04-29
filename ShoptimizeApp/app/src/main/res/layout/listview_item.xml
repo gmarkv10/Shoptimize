@@ -59,7 +59,8 @@
         android:editable="false"
         android:layout_alignBottom="@+id/add_coupon_button"
         android:layout_toRightOf="@+id/add_coupon_button"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
+
 
 
     <ImageButton
