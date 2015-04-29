@@ -33,7 +33,6 @@ public class FloorplanActivity extends Activity {
     ImageButton couponBtn;
     ImageButton findItemBtn;
     ImageButton doneBtn;
-    Button postBtn;
     TextView nameField;
     String storeName;
     int count = 0;
@@ -65,7 +64,6 @@ public class FloorplanActivity extends Activity {
         prevBtn = (ImageButton) findViewById(R.id.btn_prev);
         couponBtn = (ImageButton) findViewById(R.id.btn_show);
         findItemBtn = (ImageButton) findViewById(R.id.btn_findItem);
-        postBtn     = (Button) findViewById(R.id.btn_post);
         doneBtn = (ImageButton) findViewById(R.id.btn_done);
         nextBtn.setOnClickListener( new View.OnClickListener() {
             @Override
