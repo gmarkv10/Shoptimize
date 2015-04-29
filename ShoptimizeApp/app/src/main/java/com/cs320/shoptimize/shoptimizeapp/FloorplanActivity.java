@@ -50,6 +50,7 @@ public class FloorplanActivity extends Activity {
         setContentView(R.layout.floorplan_screen);
 
         fp = (FPView) findViewById(R.id.floorplan_view);
+
         nameField = (TextView) findViewById(R.id.name_item);
         foundItems = new ArrayList<Item>();
         xpoints = getIntent().getExtras().getIntegerArrayList("XPOINTS");
@@ -57,6 +58,7 @@ public class FloorplanActivity extends Activity {
         names   = getIntent().getExtras().getStringArrayList("NAMES");
         fnames = getIntent().getExtras().getStringArrayList("filenamesDB");
         storeName = getIntent().getExtras().getString("STORENAME");
+        fp.setBitMap(storeName);
         fp.getXYCollection(xpoints, ypoints);
         nameField.setText(names.get(count));
         nextBtn = (ImageButton) findViewById(R.id.btn_next);
