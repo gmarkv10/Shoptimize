@@ -132,10 +132,15 @@ public class FloorplanActivity extends Activity {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //You will get as string input data in this variable.
                         // here we convert the input to a string and show in a toast.
-                            itemName = input.getEditableText().toString();
-
-                        //Toast.makeText(context, srt, Toast.LENGTH_LONG).show();
-
+                        itemName = input.getEditableText().toString();
+                        if(!itemName.isEmpty()) {
+                            nameField.setText("Tap where the item is!");
+                            //doneBtn.setVisibility(View.VISIBLE);
+                            setButtonGroup(true);
+                            fp.setPlacing(true);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Invalid item name", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -145,16 +150,6 @@ public class FloorplanActivity extends Activity {
                 }); //End of alert.setNegativeButton
                 AlertDialog alertDialog = alert.create();
                 alertDialog.show();
-                if(itemName.length() > 0) {
-
-                    nameField.setText("Tap where the item is!");
-                    //doneBtn.setVisibility(View.VISIBLE);
-                    setButtonGroup(true);
-                    fp.setPlacing(true);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Invalid item name", Toast.LENGTH_SHORT).show();
-
-                }
             }
         });
 
