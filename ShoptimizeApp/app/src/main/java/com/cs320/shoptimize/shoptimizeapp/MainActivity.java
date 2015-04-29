@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -106,6 +108,7 @@ public class MainActivity extends ActionBarActivity{
         Log.v("PLS LOOK", current_Store);//intent from store list screen
         storename = (TextView) findViewById(R.id.storename);
         items = shoppingLists.get(current_Store);
+        items.setContext(this);
         storename.setText(current_Store);
         addField = (AutoCompleteTextView) findViewById(R.id.add_item_field);
 
@@ -119,14 +122,14 @@ public class MainActivity extends ActionBarActivity{
         clientManager.setContext(this);
 
         //Populate the "inventory" arrayList for autocomplete
-        new DatabaseScanner(current_Store, addField, autoCompleteAdapter).execute();
+        new DatabaseScanner(current_Store, addField, autoCompleteAdapter, this).execute();
 
         //Populate the shoppinglist  TODO: items needs to be populated from memory
         lv = (ListView) findViewById(R.id.listView);
         adapter = new ItemListAdapter(this, R.layout.listview_item, items.getItems() );
         lv.setAdapter(adapter);
         if(!current_Store.equals("Other (no locations)" ))
-        items.populateLocations(current_Store); //start populating passively
+            items.populateLocations(current_Store); //start populating passively
 
     }
     @Override
@@ -195,48 +198,52 @@ public class MainActivity extends ActionBarActivity{
         tripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!current_Store.equals("Other (no locations)")) {
-                    if (items.getItems().isEmpty()) {
-                        Toast.makeText(getApplicationContext(), "You have no items in your list!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        final Intent floorplan = new Intent(getApplicationContext(), FloorplanActivity.class);
-                        Handler handler = new Handler();
-                        Toast.makeText(getApplicationContext(), "Loading Locations...", Toast.LENGTH_SHORT).show();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                items.addFPPointsforIntent();
-                                if (items.getXs().isEmpty()) {
-                                    Toast.makeText(getApplicationContext(), "We don't know where any of your items are!", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    floorplan.putExtra("STORENAME", current_Store);
-                                    floorplan.putExtra("XPOINTS", items.getXs());
-                                    floorplan.putExtra("YPOINTS", items.getYs());
-                                    floorplan.putExtra("NAMES", items.getNames());
-                                    floorplan.putExtra("storeNAME", getIntent().getExtras().getString("storeNAME"));
-                                    startActivity(floorplan);
+                if(!isNetworkAvailable()) {
+                    Toast.makeText(getApplicationContext(), "Could not connect to the database", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if (!current_Store.equals("Other (no locations)")) {
+                        if (items.getItems().isEmpty()) {
+                            Toast.makeText(getApplicationContext(), "You have no items in your list!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            final Intent floorplan = new Intent(getApplicationContext(), FloorplanActivity.class);
+                            Handler handler = new Handler();
+                            Toast.makeText(getApplicationContext(), "Loading Locations...", Toast.LENGTH_SHORT).show();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    items.addFPPointsforIntent();
+                                    if (items.getXs().isEmpty()) {
+                                        Toast.makeText(getApplicationContext(), "We don't know where any of your items are!", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        floorplan.putExtra("STORENAME", current_Store);
+                                        floorplan.putExtra("XPOINTS", items.getXs());
+                                        floorplan.putExtra("YPOINTS", items.getYs());
+                                        floorplan.putExtra("NAMES", items.getNames());
+                                        floorplan.putExtra("storeNAME", getIntent().getExtras().getString("storeNAME"));
+                                        startActivity(floorplan);
+                                    }
                                 }
+                            }, 500);
+
+                        }
+
+
+                    } else {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setTitle("This is your 'Other' list"); //Set Alert dialog title here
+                        alert.setMessage("Use it for lists for stores we don't currently keep data for!"); //Message here
+                        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
                             }
-                        }, 500);
+                        });
+                        AlertDialog alertDialog = alert.create();
+                        alertDialog.show();
 
                     }
 
 
-                } else {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                    alert.setTitle("This is your 'Other' list"); //Set Alert dialog title here
-                    alert.setMessage("Use it for lists for stores we don't currently keep data for!"); //Message here
-                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                        }
-                    });
-                    AlertDialog alertDialog = alert.create();
-                    alertDialog.show();
-
                 }
-
-
-
             }
         });
 
@@ -245,6 +252,12 @@ public class MainActivity extends ActionBarActivity{
         lv.setAdapter(adapter);
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -363,9 +376,9 @@ public class MainActivity extends ActionBarActivity{
                                               @Override
                                               public void onClick(View v) {
                                                   dispatchTakePictureIntent(finalPosition);
-                                      //            coupCheck.setChecked(currItem.toggleCoupon());
-                                                //  adapter.notifyDataSetChanged();
-                                     //             coupText.setText(currItem.getCouponAsStr());
+                                                  //            coupCheck.setChecked(currItem.toggleCoupon());
+                                                  //  adapter.notifyDataSetChanged();
+                                                  //             coupText.setText(currItem.getCouponAsStr());
                                               }
                                           }
             );
