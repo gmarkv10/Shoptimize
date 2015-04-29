@@ -51,12 +51,24 @@ public class DBItemList {
         return false;
     }
 
-    public void populateLocations(){
+    public void populateLocations(String storeName){
 
         int index = 0;
+        String currentStore = "TraderBruns_InventoryList";
         //attempted to load coords into ArrayLists here, but it got sticky.  Moved to helper
+        if(storeName.contains("Brun")) {
+
+        }
+        if(storeName.contains("Stop")) {
+            currentStore = "StopAndShop_InventoryList";
+        }
+        if(storeName.contains("Big")) {
+            currentStore = "BigY_InventoryList";
+        }
         for(Item i : items){
-            new InventoryListQueryer("TraderBruns_InventoryList", i).execute();
+            if(i.getLocation() == null) {
+                new InventoryListQueryer(currentStore, i).execute();
+            }
         }
     }
 
@@ -74,7 +86,7 @@ public class DBItemList {
         for(Item i : items) {
             String s = i.getLocation();
             String name = i.getName();
-            if(s.charAt(0) != 'I') {  //check for validity
+            if(!(s.charAt(0) == 'I')) {  //check for validity
                 //s = s.substring(s.indexOf(' '), s.lastIndexOf(','));
                 //s = s.trim();
                 String[] xy = s.split(",");

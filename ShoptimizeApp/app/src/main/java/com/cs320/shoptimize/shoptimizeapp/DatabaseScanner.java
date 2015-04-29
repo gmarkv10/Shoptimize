@@ -1,6 +1,7 @@
 package com.cs320.shoptimize.shoptimizeapp;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
@@ -31,6 +32,20 @@ public class DatabaseScanner extends AsyncTask<Void, Void, ScanResult> {
 
     @Override
     protected ScanResult doInBackground(Void... params) {
+
+        if(inventoryListName.contains("Trader")) {
+            inventoryListName = "TraderBruns_InventoryList";
+        }
+
+        if(inventoryListName.contains("Big")) {
+            inventoryListName = "BigY_InventoryList";
+        }
+
+        if(inventoryListName.contains("Stop") || inventoryListName.contains("Other")) {
+            inventoryListName = "StopAndShop_InventoryList";
+        }
+
+        Log.v("LISTSELECT", inventoryListName + " selected");
 
         AmazonDynamoDBClient ddb = MainActivity.clientManager.ddb();
 

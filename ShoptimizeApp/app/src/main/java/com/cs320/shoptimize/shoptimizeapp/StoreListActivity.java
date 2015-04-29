@@ -47,12 +47,12 @@ public class StoreListActivity extends Activity {
 
         listView = (ListView) findViewById(R.id.listView2);
         populateStoreList();
-        if(storeListData.contains("storeList")) { //Right now this part is doing the Retrieving
-            Gson gson = new Gson();
-            Type type = new TypeToken< List < Store >>() {}.getType();
-            String json = storeListData.getString("storeList","");
-            storeList = gson.fromJson(json, type);
-        }
+//        if(storeListData.contains("storeList")) { //Right now this part is doing the Retrieving
+//            Gson gson = new Gson();
+//            Type type = new TypeToken< List < Store >>() {}.getType();
+//            String json = storeListData.getString("storeList","");
+//            storeList = gson.fromJson(json, type);
+//        }
         //storeList.remove(3);
 
         adapter = new ItemListAdapter(this, R.layout.shop_item,storeList);
@@ -133,6 +133,7 @@ public class StoreListActivity extends Activity {
     private void populateStoreList(){
         addStore("Trader Brun's",0001);
         addStore("Big Y Amherst", 0002);
+        addStore("Other (no locations)", 0003);
     }
 
     private void addStore(String name, int store_ID){

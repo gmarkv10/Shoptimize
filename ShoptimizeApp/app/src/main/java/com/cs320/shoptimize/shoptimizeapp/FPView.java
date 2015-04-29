@@ -29,16 +29,27 @@ public class FPView extends SurfaceView implements SurfaceHolder.Callback {
 
     public FPView(Context context){
         super(context);
-        bm = BitmapFactory.decodeResource(getResources(), R.drawable.bigy);
+
         getHolder().addCallback(this);
         viewThread = new ViewThread(this);
     }
 
     public FPView(Context context, AttributeSet attributeSet){
         super(context, attributeSet);
-        bm = BitmapFactory.decodeResource(getResources(), R.drawable.bigy);
+
         getHolder().addCallback(this);
         viewThread = new ViewThread(this);
+    }
+
+    public void setBitMap(String storename){
+        switch (storename){
+            case "Big Y Amherst":
+                bm = BitmapFactory.decodeResource(getResources(), R.drawable.bigy);
+                break;
+            case "Trader Brun's":
+                bm = BitmapFactory.decodeResource(getResources(), R.drawable.tbs);
+
+        }
     }
 
     Paint paint1 = new Paint(Paint.ANTI_ALIAS_FLAG);
