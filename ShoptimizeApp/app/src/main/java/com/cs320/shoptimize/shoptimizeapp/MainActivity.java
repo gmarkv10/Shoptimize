@@ -125,6 +125,7 @@ public class MainActivity extends ActionBarActivity{
         lv = (ListView) findViewById(R.id.listView);
         adapter = new ItemListAdapter(this, R.layout.listview_item, items.getItems() );
         lv.setAdapter(adapter);
+        if(!current_Store.equals("Other (no locations)" ))
         items.populateLocations(current_Store); //start populating passively
 
     }
@@ -194,14 +195,11 @@ public class MainActivity extends ActionBarActivity{
         tripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                items.populateLocations(current_Store);
-                final Intent floorplan = new Intent(getApplicationContext(), FloorplanActivity.class);
-
-                if (items.getItems().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "You have no items in your list!", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (!current_Store.equals("Other (no locations)")) {
+                if (!current_Store.equals("Other (no locations)")) {
+                    if (items.getItems().isEmpty()) {
+                        Toast.makeText(getApplicationContext(), "You have no items in your list!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        final Intent floorplan = new Intent(getApplicationContext(), FloorplanActivity.class);
                         Handler handler = new Handler();
                         Toast.makeText(getApplicationContext(), "Loading Locations...", Toast.LENGTH_SHORT).show();
                         handler.postDelayed(new Runnable() {
@@ -221,18 +219,24 @@ public class MainActivity extends ActionBarActivity{
                             }
                         }, 500);
 
-                    } else {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                        alert.setTitle("This is your 'Other' list"); //Set Alert dialog title here
-                        alert.setMessage("Use it for lists for stores we don't currently keep data for!"); //Message here
-                        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                            }
-                        });
-                        AlertDialog alertDialog = alert.create();
-                        alertDialog.show();
                     }
+
+
+                } else {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    alert.setTitle("This is your 'Other' list"); //Set Alert dialog title here
+                    alert.setMessage("Use it for lists for stores we don't currently keep data for!"); //Message here
+                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                        }
+                    });
+                    AlertDialog alertDialog = alert.create();
+                    alertDialog.show();
+
                 }
+
+
+
             }
         });
 

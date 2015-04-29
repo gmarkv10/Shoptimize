@@ -41,7 +41,7 @@ public class DatabaseScanner extends AsyncTask<Void, Void, ScanResult> {
             inventoryListName = "BigY_InventoryList";
         }
 
-        if(inventoryListName.contains("Stop")) {
+        if(inventoryListName.contains("Stop") || inventoryListName.contains("Other")) {
             inventoryListName = "StopAndShop_InventoryList";
         }
 
