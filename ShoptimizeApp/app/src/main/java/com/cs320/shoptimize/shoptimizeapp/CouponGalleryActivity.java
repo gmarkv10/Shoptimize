@@ -144,8 +144,6 @@ public class CouponGalleryActivity extends Activity {
 
         public Object instantiateItem(ViewGroup container, int position){
 
-
-
             Context context = getApplicationContext();
             LayoutInflater inflater = (LayoutInflater)context.getSystemService
                     (Context.LAYOUT_INFLATER_SERVICE);

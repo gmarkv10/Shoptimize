@@ -281,6 +281,7 @@ public class MainActivity extends ActionBarActivity{
         );
         Item currItem = items.getItems().get(position);
         currItem.setFilename(image.getName());
+        adapter.notifyDataSetChanged();
         return image;
     }
 
@@ -301,6 +302,7 @@ public class MainActivity extends ActionBarActivity{
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                         Uri.fromFile(photoFile));
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+
             } else {
                 Log.v("what","what did you do");
             }
@@ -365,7 +367,7 @@ public class MainActivity extends ActionBarActivity{
                                                   dispatchTakePictureIntent(finalPosition);
                                       //            coupCheck.setChecked(currItem.toggleCoupon());
                                                 //  adapter.notifyDataSetChanged();
-                                     //             coupText.setText(currItem.getCouponAsStr());
+                                                  coupText.setText(currItem.getCouponAsStr());
                                               }
                                           }
             );
