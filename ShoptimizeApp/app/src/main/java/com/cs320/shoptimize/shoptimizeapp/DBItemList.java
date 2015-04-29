@@ -62,7 +62,7 @@ public class DBItemList {
         if(storeName.contains("Stop")) {
             currentStore = "StopAndShop_InventoryList";
         }
-        if(storeName.contains("BigY")) {
+        if(storeName.contains("Big")) {
             currentStore = "BigY_InventoryList";
         }
         for(Item i : items){

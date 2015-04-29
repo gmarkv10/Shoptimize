@@ -119,7 +119,7 @@ public class MainActivity extends ActionBarActivity{
         clientManager.setContext(this);
 
         //Populate the "inventory" arrayList for autocomplete
-        new DatabaseScanner("TraderBruns_InventoryList", addField, autoCompleteAdapter).execute();
+        new DatabaseScanner(current_Store, addField, autoCompleteAdapter).execute();
 
         //Populate the shoppinglist  TODO: items needs to be populated from memory
         lv = (ListView) findViewById(R.id.listView);
