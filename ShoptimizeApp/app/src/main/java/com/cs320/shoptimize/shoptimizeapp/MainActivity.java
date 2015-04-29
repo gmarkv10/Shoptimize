@@ -158,21 +158,21 @@ public class MainActivity extends ActionBarActivity{
                 if(addField.getText().toString().trim().isEmpty()){
                     Toast.makeText(getApplicationContext(), "Enter an item, please.", Toast.LENGTH_SHORT).show();
                 }
+                else {
+                    String s = addField.getText().toString();
 
-                String s = addField.getText().toString();
-                if(!items.contains(s)){
-                    items.addItem(addField.getText().toString(), false);
-                    Toast.makeText(getApplicationContext(), "Item added", Toast.LENGTH_SHORT).show();
-                    addField.setText("");
-                    items.populateLocations(current_Store);
-                    adapter.notifyDataSetChanged();
-                    //Log.v("COORD", items.getItems().get(0).getLocation());
+                    if (!items.contains(s)) {
+                        items.addItem(addField.getText().toString(), false);
+                        Toast.makeText(getApplicationContext(), "Item added", Toast.LENGTH_SHORT).show();
+                        addField.setText("");
+                        items.populateLocations(current_Store);
+                        adapter.notifyDataSetChanged();
+                        //Log.v("COORD", items.getItems().get(0).getLocation());
+                    } else {
+                        Toast.makeText(getApplicationContext(), "This item has already been added", Toast.LENGTH_SHORT).show();
+                        addField.setText("");
+                    }
                 }
-                else{
-                    Toast.makeText(getApplicationContext(), "This item has already been added", Toast.LENGTH_SHORT).show();
-                    addField.setText("");
-                }
-
             }
         });
         locBtn.setOnClickListener(new View.OnClickListener(){
