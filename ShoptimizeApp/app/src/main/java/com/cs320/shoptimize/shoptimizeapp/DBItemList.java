@@ -1,6 +1,9 @@
 package com.cs320.shoptimize.shoptimizeapp;
 
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -16,6 +19,7 @@ public class DBItemList {
 
     List<Item> items = new ArrayList<Item>();
     ScanResult result = null;
+    Context context;
 
     ArrayList<Integer>   xs          = new ArrayList<Integer>();
     ArrayList<Integer>   ys          = new ArrayList<Integer>();
@@ -40,7 +44,9 @@ public class DBItemList {
         addItem("Peanut Butter", false);
     }
 
-
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
     public boolean contains(String s){
         for(Item i : items){
@@ -52,22 +58,23 @@ public class DBItemList {
     }
 
     public void populateLocations(String storeName){
+        if(isNetworkAvailable()) {
+            int index = 0;
+            String currentStore = "TraderBruns_InventoryList";
+            //attempted to load coords into ArrayLists here, but it got sticky.  Moved to helper
+            if (storeName.contains("Brun")) {
 
-        int index = 0;
-        String currentStore = "TraderBruns_InventoryList";
-        //attempted to load coords into ArrayLists here, but it got sticky.  Moved to helper
-        if(storeName.contains("Brun")) {
-
-        }
-        if(storeName.contains("Stop")) {
-            currentStore = "StopAndShop_InventoryList";
-        }
-        if(storeName.contains("Big")) {
-            currentStore = "BigY_InventoryList";
-        }
-        for(Item i : items){
-            if(i.getLocation() == null) {
-                new InventoryListQueryer(currentStore, i).execute();
+            }
+            if (storeName.contains("Stop")) {
+                currentStore = "StopAndShop_InventoryList";
+            }
+            if (storeName.contains("Big")) {
+                currentStore = "BigY_InventoryList";
+            }
+            for (Item i : items) {
+                if (i.getLocation() == null) {
+                    new InventoryListQueryer(currentStore, i).execute();
+                }
             }
         }
     }
@@ -79,8 +86,6 @@ public class DBItemList {
 
     public ArrayList<String>  getNames() { return names; }
     //LOC OF FIRST﹕ {S: 50,50,}
-
-
 
     protected void addFPPointsforIntent(){
         for(Item i : items) {
@@ -123,6 +128,12 @@ public class DBItemList {
         }
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
     private class InventoryListQueryer extends AsyncTask<Void, Void, ScanResult> {
 
