@@ -28,8 +28,8 @@ public class StoreListActivityTest extends ActivityInstrumentationTestCase2<Stor
         mainActivityMonitor = getInstrumentation().addMonitor(MainActivity.class.getName(), null, false);
         activity = getActivity();
         solo = new Solo(getInstrumentation(), activity);
-        addStoreButton = solo.getView(R.id.but_addStore);
-        addStoreField = (EditText)solo.getView(R.id.txt_addStore);
+     //   addStoreButton = solo.getView(R.id.but_addStore);
+     //   addStoreField = (EditText)solo.getView(R.id.txt_addStore);
     }
 
     public void tearDown() throws Exception{
