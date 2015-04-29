@@ -294,6 +294,7 @@ public class MainActivity extends ActionBarActivity{
         );
         Item currItem = items.getItems().get(position);
         currItem.setFilename(image.getName());
+        currItem.toggleCoupon();
         adapter.notifyDataSetChanged();
         return image;
     }
