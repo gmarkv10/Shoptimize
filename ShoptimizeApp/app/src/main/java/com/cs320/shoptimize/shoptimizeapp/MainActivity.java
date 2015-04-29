@@ -194,40 +194,44 @@ public class MainActivity extends ActionBarActivity{
         tripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-				
+
                 items.populateLocations(current_Store);
                 final Intent floorplan = new Intent(getApplicationContext(), FloorplanActivity.class);
 
+                if (items.getItems().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "You have no items in your list!", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (!current_Store.equals("Other (no locations)")) {
+                        Handler handler = new Handler();
+                        Toast.makeText(getApplicationContext(), "Loading Locations...", Toast.LENGTH_SHORT).show();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                items.addFPPointsforIntent();
+                                if (items.getXs().isEmpty()) {
+                                    Toast.makeText(getApplicationContext(), "We don't know where any of your items are!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    floorplan.putExtra("STORENAME", current_Store);
+                                    floorplan.putExtra("XPOINTS", items.getXs());
+                                    floorplan.putExtra("YPOINTS", items.getYs());
+                                    floorplan.putExtra("NAMES", items.getNames());
+                                    floorplan.putExtra("storeNAME", getIntent().getExtras().getString("storeNAME"));
+                                    startActivity(floorplan);
+                                }
+                            }
+                        }, 500);
 
-                if(!current_Store.equals("Other (no locations)")){
-
-
-                    Handler handler = new Handler();
-                    Toast.makeText(getApplicationContext(), "Loading Locations...", Toast.LENGTH_SHORT).show();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            items.addFPPointsforIntent();
-                            floorplan.putExtra("STORENAME", current_Store);
-                            floorplan.putExtra("XPOINTS", items.getXs());
-                            floorplan.putExtra("YPOINTS", items.getYs());
-                            floorplan.putExtra("NAMES", items.getNames());
-                            floorplan.putExtra("storeNAME", getIntent().getExtras().getString("storeNAME"));
-                            startActivity(floorplan);
-                        }
-                    }, 500);
-
-                }
-                else{
-                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                    alert.setTitle("This is your 'Other' list"); //Set Alert dialog title here
-                    alert.setMessage("Use it for lists for stores we don't currently keep data for!"); //Message here
-                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                        }
-                    });
-                    AlertDialog alertDialog = alert.create();
-                    alertDialog.show();
+                    } else {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setTitle("This is your 'Other' list"); //Set Alert dialog title here
+                        alert.setMessage("Use it for lists for stores we don't currently keep data for!"); //Message here
+                        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        });
+                        AlertDialog alertDialog = alert.create();
+                        alertDialog.show();
+                    }
                 }
             }
         });
