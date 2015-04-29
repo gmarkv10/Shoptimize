@@ -100,11 +100,11 @@ public class StoreListActivity extends Activity {
     {
         super.onPause();
 
-        SharedPreferences.Editor storeListEditor = storeListData.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(storeList);
-        storeListEditor.putString("storeList",json);
-        storeListEditor.apply();
+//        SharedPreferences.Editor storeListEditor = storeListData.edit();
+//        Gson gson = new Gson();
+//        String json = gson.toJson(storeList);
+//        storeListEditor.putString("storeList",json);
+//        storeListEditor.apply();
     }
    // @Override
     //public void onResume() //Ultimately this is where it is stored, if we setup everything
