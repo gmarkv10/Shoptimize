@@ -133,6 +133,7 @@ public class StoreListActivity extends Activity {
     private void populateStoreList(){
         addStore("Trader Brun's",0001);
         addStore("Big Y Amherst", 0002);
+        
         addStore("Other (no locations)", 0003);
     }
 
