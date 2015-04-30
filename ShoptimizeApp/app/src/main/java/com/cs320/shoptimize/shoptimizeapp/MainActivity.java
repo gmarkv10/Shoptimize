@@ -108,7 +108,6 @@ public class MainActivity extends ActionBarActivity{
         Log.v("PLS LOOK", current_Store);//intent from store list screen
         storename = (TextView) findViewById(R.id.storename);
         items = shoppingLists.get(current_Store);
-        items.setContext(this);
         storename.setText(current_Store);
         addField = (AutoCompleteTextView) findViewById(R.id.add_item_field);
 

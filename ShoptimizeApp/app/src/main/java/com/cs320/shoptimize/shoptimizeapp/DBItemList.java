@@ -19,7 +19,6 @@ public class DBItemList {
 
     List<Item> items = new ArrayList<Item>();
     ScanResult result = null;
-    Context context;
 
     ArrayList<Integer>   xs          = new ArrayList<Integer>();
     ArrayList<Integer>   ys          = new ArrayList<Integer>();
@@ -42,10 +41,6 @@ public class DBItemList {
         addItem("Butter", false);
         addItem("Milk", false);
         addItem("Peanut Butter", false);
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
     }
 
     public boolean contains(String s){
@@ -126,13 +121,6 @@ public class DBItemList {
             preprocNAME.remove(minIdx);
             preprocXY.remove(minIdx);
         }
-    }
-
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     private class InventoryListQueryer extends AsyncTask<Void, Void, ScanResult> {
