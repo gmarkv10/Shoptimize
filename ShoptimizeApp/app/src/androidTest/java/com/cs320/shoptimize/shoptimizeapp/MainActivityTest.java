@@ -18,7 +18,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     private Solo solo;
     private EditText addItemField;
     private View addItemButton;
-    private View showLocationsButton;
     private View storeTripButton;
     private Instrumentation.ActivityMonitor floorplanMonitor;
     private DBItemList mockList;
@@ -44,14 +43,12 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         addItemField = (EditText)solo.getView(R.id.add_item_field);
         addItemButton = solo.getView(R.id.add_item_button);
         storeTripButton = solo.getView(R.id.button_floorplan);
-        showLocationsButton = solo.getView(R.id.button_addLocs);
     }
 
     public void tearDown() throws Exception{
         addItemField = null;
         addItemButton = null;
         storeTripButton = null;
-        showLocationsButton = null;
         mockList = null;
         solo.finishOpenedActivities();
     }
@@ -64,7 +61,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertTrue("Number of items in DBList is 0", (activity.items.getItems().size() != 0));
         assertNotNull("addItemField is null", addItemField);
         assertNotNull("addItemButton is null", addItemButton);
-        assertNotNull("showLocationsButton is null", showLocationsButton);
     }
 
     /**
@@ -123,22 +119,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     }
 
     /**
-     * This method tests whether or not the "Show Locations" button pulls item locations from
-     * the database..
-     **/
-    public void testShowLocationsButton_functionality(){
-        //locations should be null before pressing showLocationsButton
-        assertNull("Item location is not null", activity.items.items.get(0).getLocation());
-        //locations should be filled in after pressing showLocationsButton
-        solo.clickOnView(showLocationsButton);
-        getInstrumentation().waitForIdleSync();
-        try {
-            Thread.sleep(3000);
-        }catch(InterruptedException e){}
-        assertNotNull("Item location is null", activity.items.items.get(0).getLocation());
-    }
-
-    /**
      * This method tests the lifecycle of the activity. This test is focused on the
      * addItemField. addItemField should retain its input value after the activity is destroyed.
      **/
@@ -187,7 +167,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public void testUIVisibility(){
         assertTrue("addItemField is not visible", View.VISIBLE == addItemField.getVisibility());
         assertTrue("'Add Item' button is not visible", View.VISIBLE == addItemButton.getVisibility());
-        assertTrue("'Show Locations' button is not visible", View.VISIBLE == showLocationsButton.getVisibility());
         assertTrue("'Store Trip' button is not visible", View.VISIBLE == storeTripButton.getVisibility());
         assertTrue("'Shopping List' text is not visible", View.VISIBLE == solo.getView(R.id.textView).getVisibility());
         assertTrue("Store name text is not visible", View.VISIBLE == solo.getView(R.id.store_name).getVisibility());

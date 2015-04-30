@@ -58,7 +58,7 @@ public class DBItemList {
     }
 
     public void populateLocations(String storeName){
-        if(isNetworkAvailable()) {
+
             int index = 0;
             String currentStore = "TraderBruns_InventoryList";
             //attempted to load coords into ArrayLists here, but it got sticky.  Moved to helper
@@ -76,7 +76,7 @@ public class DBItemList {
                     new InventoryListQueryer(currentStore, i).execute();
                 }
             }
-        }
+
     }
 
 

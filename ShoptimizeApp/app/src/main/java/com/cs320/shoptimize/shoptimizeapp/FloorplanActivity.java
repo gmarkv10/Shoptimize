@@ -33,7 +33,6 @@ public class FloorplanActivity extends Activity {
     ImageButton couponBtn;
     ImageButton findItemBtn;
     ImageButton doneBtn;
-    Button postBtn;
     TextView nameField;
     String storeName;
     int count = 0;
@@ -114,7 +113,6 @@ public class FloorplanActivity extends Activity {
         findItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 AlertDialog.Builder alert = new AlertDialog.Builder(context);
                 alert.setTitle("Update an Item Location"); //Set Alert dialog title here
                 alert.setMessage("Type the name of the item you found"); //Message here
@@ -129,8 +127,6 @@ public class FloorplanActivity extends Activity {
                 input.setThreshold(1);
                 input.setAdapter(autoComp);
 
-
-
                 alert.setView(input);
 
                 alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -138,7 +134,14 @@ public class FloorplanActivity extends Activity {
                         //You will get as string input data in this variable.
                         // here we convert the input to a string and show in a toast.
                         itemName = input.getEditableText().toString();
-                        //Toast.makeText(context, srt, Toast.LENGTH_LONG).show();
+                        if(!itemName.isEmpty()) {
+                            nameField.setText("Tap where the item is!");
+                            //doneBtn.setVisibility(View.VISIBLE);
+                            setButtonGroup(true);
+                            fp.setPlacing(true);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Invalid item name", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -148,12 +151,6 @@ public class FloorplanActivity extends Activity {
                 }); //End of alert.setNegativeButton
                 AlertDialog alertDialog = alert.create();
                 alertDialog.show();
-                nameField.setText("Tap where the item is!");
-                //doneBtn.setVisibility(View.VISIBLE);
-                setButtonGroup(true);
-                fp.setPlacing(true);
-
-
             }
         });
 
