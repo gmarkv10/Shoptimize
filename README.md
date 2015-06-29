@@ -3,6 +3,7 @@
 Shoptimize is an application designed to make your trips to the grocery store as easy and efficient as possible. We expect to do this by allowing users to create and edit multiple shopping lists for each and every store that they plan to go to, store and manage coupons, and find the locations of each item in their list is in the store to minimize time spent and reduce impulse purchases. 
 
 **Installation**
+
 Navigate to http://www-edlab.cs.umass.edu/~pfarlow/ on an Android device (either physical or emulated) and to download and install Shoptimize.
 
 **Source Control and Build Instructions**
