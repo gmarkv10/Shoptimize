@@ -4,7 +4,7 @@ Shoptimize is an application designed to make your trips to the grocery store as
 
 **Installation**
 
-Navigate to http://www-edlab.cs.umass.edu/~pfarlow/ on an Android device (either physical or emulated) and to download and install Shoptimize.
+Navigate to http://www-edlab.cs.umass.edu/~pfarlow/ on an Android device (either physical or emulated) to download and install Shoptimize.
 
 **Source Control and Build Instructions**
 
